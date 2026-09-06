@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+*.pdf
+private/
+data/nkjv.json
+data/nkjv*.json
+supabase/.env
+mybible_manual_github_deploy.zip

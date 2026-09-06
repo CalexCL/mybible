@@ -1,0 +1,9 @@
+{
+  "name":"中文研读圣经 · Chinese Study Bible",
+  "short_name":"研读圣经",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f7f3e9",
+  "theme_color":"#7b5a2f",
+  "icons":[]
+}
