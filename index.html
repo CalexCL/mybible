@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>ä¸­æ–‡ç ”è¯»åœ£ç» Â· Chinese Study Bible</title>
+  <title>中文研读圣经 · Chinese Study Bible</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#8f5b19" />
@@ -19,25 +19,25 @@
 <body>
   <div id="appShell">
     <header class="topbar">
-      <button id="mobileNavBtn" class="icon-btn mobile-only" title="ä¹¦å·å¯¼èˆª">â˜°</button>
+      <button id="mobileNavBtn" class="icon-btn mobile-only" title="书卷导航">☰</button>
       <div class="brand" data-nav="reader" tabindex="0">
-        <div class="brand-mark">âœ¦</div>
+        <div class="brand-mark">✦</div>
         <div>
-          <div class="brand-title">ä¸­æ–‡ç ”è¯»åœ£ç»</div>
-          <div class="brand-sub">Chinese Study Bible Â· Protestant Study Edition</div>
+          <div class="brand-title">中文研读圣经</div>
+          <div class="brand-sub">Chinese Study Bible · Protestant Study Edition</div>
         </div>
       </div>
       <nav class="topnav" aria-label="Main navigation">
-        <button class="nav-btn active" data-page="reader">ðŸ“– åœ£ç»</button>
-        <button class="nav-btn" data-page="explore">âœ¦ æŽ¢ç´¢</button>
-        <button class="nav-btn" data-page="timeline">â³ æ—¶é—´çº¿</button>
-        <button class="nav-btn" data-page="mybible">â™¡ æˆ‘çš„</button>
-        <button class="nav-btn" data-page="sources">âœ“ æ¥æº</button>
+        <button class="nav-btn active" data-page="reader">📖 圣经</button>
+        <button class="nav-btn" data-page="explore">✦ 探索</button>
+        <button class="nav-btn" data-page="timeline">⏳ 时间线</button>
+        <button class="nav-btn" data-page="mybible">♡ 我的</button>
+        <button class="nav-btn" data-page="sources">✓ 来源</button>
       </nav>
       <div class="top-actions">
-        <button id="searchBtn" class="icon-btn" title="Search">âŒ•</button>
-        <button id="themeBtn" class="icon-btn" title="Theme">â—</button>
-        <button id="fontMinus" class="icon-btn font-btn" title="Smaller text">Aâˆ’</button>
+        <button id="searchBtn" class="icon-btn" title="Search">⌕</button>
+        <button id="themeBtn" class="icon-btn" title="Theme">◐</button>
+        <button id="fontMinus" class="icon-btn font-btn" title="Smaller text">A−</button>
         <button id="fontPlus" class="icon-btn font-btn" title="Larger text">A+</button>
       </div>
     </header>
@@ -45,11 +45,11 @@
     <div class="layout">
       <aside id="bookSidebar" class="sidebar">
         <div class="sidebar-head">
-          <div class="sidebar-title">66 å·åœ£ç»</div>
+          <div class="sidebar-title">66 卷圣经</div>
           <div class="testament-switch">
-            <button class="testament-btn active" data-testament="ALL">å…¨éƒ¨</button>
-            <button class="testament-btn" data-testament="OT">æ—§çº¦</button>
-            <button class="testament-btn" data-testament="NT">æ–°çº¦</button>
+            <button class="testament-btn active" data-testament="ALL">全部</button>
+            <button class="testament-btn" data-testament="OT">旧约</button>
+            <button class="testament-btn" data-testament="NT">新约</button>
           </div>
         </div>
         <div id="bookList" class="book-list" aria-label="Bible books"></div>
@@ -60,30 +60,30 @@
           <div class="reader-toolbar sticky-panel">
             <div class="passage-selectors">
               <label>
-                <span>ä¹¦å· Book</span>
+                <span>书卷 Book</span>
                 <select id="bookSelect"></select>
               </label>
               <label>
-                <span>ç«  Chapter</span>
+                <span>章 Chapter</span>
                 <select id="chapterSelect"></select>
               </label>
             </div>
             <div class="reader-modes" role="group" aria-label="Translation mode">
-              <button class="mode-btn active" data-mode="parallel">ä¸­è‹±å¯¹ç…§</button>
-              <button class="mode-btn" data-mode="zh">ä¸­æ–‡ CUVS</button>
+              <button class="mode-btn active" data-mode="parallel">中英对照</button>
+              <button class="mode-btn" data-mode="zh">中文 CUVS</button>
               <button class="mode-btn" data-mode="en">NKJV</button>
             </div>
             <div class="chapter-nav">
-              <button id="prevChapter" class="quiet-btn">â† ä¸Šä¸€ç« </button>
-              <button id="nextChapter" class="quiet-btn">ä¸‹ä¸€ç«  â†’</button>
+              <button id="prevChapter" class="quiet-btn">← 上一章</button>
+              <button id="nextChapter" class="quiet-btn">下一章 →</button>
             </div>
           </div>
 
           <div class="reader-heading">
             <div>
-              <div id="testamentKicker" class="kicker">æ—§çº¦ Â· OLD TESTAMENT</div>
-              <h1 id="passageTitle">åˆ›ä¸–è®° Genesis 1</h1>
-              <p id="chapterStatus" class="muted">æ­£åœ¨å‡†å¤‡ç»æ–‡â€¦</p>
+              <div id="testamentKicker" class="kicker">旧约 · OLD TESTAMENT</div>
+              <h1 id="passageTitle">创世记 Genesis 1</h1>
+              <p id="chapterStatus" class="muted">正在准备经文…</p>
             </div>
             <div class="legend-pills">
               <span class="source-pill scripture">SCRIPTURE</span>
@@ -100,18 +100,18 @@
           <div class="page-hero gradient-hero">
             <div>
               <div class="kicker">CONNECTED SCRIPTURE</div>
-              <h1>æŽ¢ç´¢æ•´æœ¬åœ£ç»</h1>
-              <p>ä»Žç»æ–‡è¿›å…¥åå­—ã€ç¥žè¿¹ã€æ¯”å–»ã€é¢„è¨€ã€äººç‰©ã€åœ°ç‚¹ã€åœ£çº¦ä¸ŽåŽŸæ–‡ã€‚æ¯ä¸€ä¸ªèµ„æ–™å±‚éƒ½ä¿ç•™æ¥æºæ ‡è¯†ã€‚</p>
+              <h1>探索整本圣经</h1>
+              <p>从经文进入名字、神迹、比喻、预言、人物、地点、圣约与原文。每一个资料层都保留来源标识。</p>
             </div>
-            <div class="hero-orbit" aria-hidden="true"><span>×™×”×•×”</span><span>Î»ÏŒÎ³Î¿Ï‚</span><span>âœ¦</span></div>
+            <div class="hero-orbit" aria-hidden="true"><span>יהוה</span><span>λόγος</span><span>✦</span></div>
           </div>
           <div id="exploreCategories" class="category-grid"></div>
           <div class="section-head">
             <div>
               <div class="kicker">FEATURED COLLECTION</div>
-              <h2 id="collectionTitle">ç¥žçš„åå­—ä¸Žç§°å·</h2>
+              <h2 id="collectionTitle">神的名字与称号</h2>
             </div>
-            <label class="search-inline">âŒ• <input id="collectionFilter" placeholder="ç­›é€‰å½“å‰èµ„æ–™â€¦" /></label>
+            <label class="search-inline">⌕ <input id="collectionFilter" placeholder="筛选当前资料…" /></label>
           </div>
           <div id="collectionGrid" class="collection-grid"></div>
         </section>
@@ -119,20 +119,20 @@
         <section id="timelinePage" class="page">
           <div class="page-hero timeline-hero">
             <div>
-              <div class="kicker">GENESIS â†’ REVELATION</div>
-              <h1>åœ£ç»äº‹ä»¶æ—¶é—´çº¿</h1>
-              <p>æ—¥æœŸæœ‰äº‰è®®æ—¶æ˜Žç¡®æ ‡ç¤ºï¼Œä¸æŠŠæŽ¨æµ‹å†™æˆç»æ–‡æœ¬èº«ã€‚</p>
+              <div class="kicker">GENESIS → REVELATION</div>
+              <h1>圣经事件时间线</h1>
+              <p>日期有争议时明确标示，不把推测写成经文本身。</p>
             </div>
           </div>
           <div class="timeline-controls">
-            <button class="chip active" data-era="ALL">å…¨éƒ¨æ—¶æœŸ</button>
-            <button class="chip" data-era="Primeval">å¤ªå¤</button>
-            <button class="chip" data-era="Patriarchs">åˆ—ç¥–</button>
-            <button class="chip" data-era="Exodus">å‡ºåŸƒåŠ</button>
-            <button class="chip" data-era="United Kingdom">è”åˆçŽ‹å›½</button>
-            <button class="chip" data-era="Exile">è¢«æŽ³</button>
-            <button class="chip" data-era="Jesus">è€¶ç¨£</button>
-            <button class="chip" data-era="Early Church">åˆä»£æ•™ä¼š</button>
+            <button class="chip active" data-era="ALL">全部时期</button>
+            <button class="chip" data-era="Primeval">太古</button>
+            <button class="chip" data-era="Patriarchs">列祖</button>
+            <button class="chip" data-era="Exodus">出埃及</button>
+            <button class="chip" data-era="United Kingdom">联合王国</button>
+            <button class="chip" data-era="Exile">被掳</button>
+            <button class="chip" data-era="Jesus">耶稣</button>
+            <button class="chip" data-era="Early Church">初代教会</button>
           </div>
           <div id="timelineList" class="timeline-list"></div>
         </section>
@@ -141,14 +141,14 @@
           <div class="page-hero my-hero">
             <div>
               <div class="kicker">PRIVATE STUDY LAYER</div>
-              <h1>æˆ‘çš„åœ£ç»</h1>
-              <p>æ”¶è—ã€äº®è‰²æ ‡è®°ä¸Žç ”è¯»ç¬”è®°ç›®å‰ä¿å­˜åœ¨æœ¬æœºï¼›æœªæ¥å¯åˆ‡æ¢åˆ° Supabase äº‘ç«¯åŒæ­¥ã€‚</p>
+              <h1>我的圣经</h1>
+              <p>收藏、亮色标记与研读笔记目前保存在本机；未来可切换到 Supabase 云端同步。</p>
             </div>
           </div>
           <div class="my-grid">
-            <div class="panel-card"><div class="card-icon">ðŸ”–</div><h3>ä¹¦ç­¾</h3><div id="bookmarkList" class="personal-list"></div></div>
-            <div class="panel-card"><div class="card-icon">ðŸ“</div><h3>ç¬”è®°</h3><div id="noteList" class="personal-list"></div></div>
-            <div class="panel-card"><div class="card-icon">ðŸ–</div><h3>äº®è‰²æ ‡è®°</h3><div id="highlightList" class="personal-list"></div></div>
+            <div class="panel-card"><div class="card-icon">🔖</div><h3>书签</h3><div id="bookmarkList" class="personal-list"></div></div>
+            <div class="panel-card"><div class="card-icon">📝</div><h3>笔记</h3><div id="noteList" class="personal-list"></div></div>
+            <div class="panel-card"><div class="card-icon">🖍</div><h3>亮色标记</h3><div id="highlightList" class="personal-list"></div></div>
           </div>
         </section>
 
@@ -156,24 +156,24 @@
           <div class="page-hero source-hero">
             <div>
               <div class="kicker">SOURCE INTEGRITY</div>
-              <h1>èµ„æ–™æ¥æºæ”¿ç­–</h1>
-              <p>æœ¬é¡¹ç›®åªå…è®¸ç»æ ¸å®žçš„ä¸»æµæ–°æ•™ï¼ç¦éŸ³æ´¾åœ£ç»ç ”è¯»æ¥æºè¿›å…¥ç¥žå­¦ä¸Žç»æ–‡å‚è€ƒå±‚ã€‚</p>
+              <h1>资料来源政策</h1>
+              <p>本项目只允许经核实的主流新教／福音派圣经研读来源进入神学与经文参考层。</p>
             </div>
-            <div class="shield">âœ“</div>
+            <div class="shield">✓</div>
           </div>
           <div class="policy-banner">
-            <strong>ä¸¥æ ¼æŽ’é™¤ï¼š</strong> Jehovah's Witnessesã€Mormon/LDSã€Roman Catholic doctrinal/commentary sourcesã€cult-affiliated materialï¼Œä»¥åŠæ— æ³•æ ¸å®žå®—æ´¾èƒŒæ™¯çš„ç¥žå­¦èµ„æ–™ã€‚
+            <strong>严格排除：</strong> Jehovah's Witnesses、Mormon/LDS、Roman Catholic doctrinal/commentary sources、cult-affiliated material，以及无法核实宗派背景的神学资料。
           </div>
           <div id="sourceCards" class="source-grid"></div>
           <div class="panel-card policy-detail">
-            <h2>èµ„æ–™åˆ†å±‚è§„åˆ™</h2>
+            <h2>资料分层规则</h2>
             <div class="layer-grid">
-              <div><span class="source-pill scripture">SCRIPTURE</span><p>ç»æ–‡æœ¬èº«ã€‚ç»ä¸è®©æ³¨é‡Šæ”¹å†™æˆ–æ··å…¥ç»æ–‡ã€‚</p></div>
-              <div><span class="source-pill language">ORIGINAL LANGUAGE</span><p>å¸Œä¼¯æ¥æ–‡ã€äºšå…°æ–‡ã€å¸Œè…Šæ–‡ã€è¯å½¢ä¸Žè¯ä¹‰èµ„æ–™ã€‚</p></div>
-              <div><span class="source-pill crossref">CROSS REFERENCE</span><p>ç»æ–‡è§£é‡Šç»æ–‡çš„ä¸²ç èµ„æ–™ã€‚</p></div>
-              <div><span class="source-pill historical">HISTORICAL</span><p>åœ°ç†ã€è€ƒå¤ã€å¹´ä»£èƒŒæ™¯ï¼›ä¸ä½œä¸ºç¥žå­¦æƒå¨ã€‚</p></div>
-              <div><span class="source-pill commentary">COMMENTARY</span><p>è§£é‡Šå±‚å¿…é¡»å…·åã€æ ‡æ¥æºï¼Œä¸å†’å……ç»æ–‡ã€‚</p></div>
-              <div><span class="source-pill user">USER</span><p>ä¸ªäººç¬”è®°ã€ä¹¦ç­¾ã€ç¥·å‘Šä¸Žæ ‡è®°ã€‚</p></div>
+              <div><span class="source-pill scripture">SCRIPTURE</span><p>经文本身。绝不让注释改写或混入经文。</p></div>
+              <div><span class="source-pill language">ORIGINAL LANGUAGE</span><p>希伯来文、亚兰文、希腊文、词形与词义资料。</p></div>
+              <div><span class="source-pill crossref">CROSS REFERENCE</span><p>经文解释经文的串珠资料。</p></div>
+              <div><span class="source-pill historical">HISTORICAL</span><p>地理、考古、年代背景；不作为神学权威。</p></div>
+              <div><span class="source-pill commentary">COMMENTARY</span><p>解释层必须具名、标来源，不冒充经文。</p></div>
+              <div><span class="source-pill user">USER</span><p>个人笔记、书签、祷告与标记。</p></div>
             </div>
           </div>
         </section>
@@ -183,15 +183,15 @@
         <div class="drawer-head">
           <div>
             <div class="kicker">VERSE STUDY</div>
-            <h2 id="studyRef">åˆ›ä¸–è®° 1:1</h2>
+            <h2 id="studyRef">创世记 1:1</h2>
           </div>
-          <button id="closeDrawer" class="icon-btn">Ã—</button>
+          <button id="closeDrawer" class="icon-btn">×</button>
         </div>
         <div class="drawer-tabs">
-          <button class="drawer-tab active" data-tab="study">ç ”è¯»</button>
-          <button class="drawer-tab" data-tab="original">åŽŸæ–‡</button>
-          <button class="drawer-tab" data-tab="crossrefs">ä¸²ç </button>
-          <button class="drawer-tab" data-tab="notes">ç¬”è®°</button>
+          <button class="drawer-tab active" data-tab="study">研读</button>
+          <button class="drawer-tab" data-tab="original">原文</button>
+          <button class="drawer-tab" data-tab="crossrefs">串珠</button>
+          <button class="drawer-tab" data-tab="notes">笔记</button>
         </div>
         <div id="drawerBody" class="drawer-body"></div>
       </aside>
@@ -201,11 +201,11 @@
   <div id="searchModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Search Bible">
     <div class="modal-card search-card">
       <div class="modal-head">
-        <div><div class="kicker">SEARCH</div><h2>æŸ¥è€ƒåœ£ç»</h2></div>
-        <button id="closeSearch" class="icon-btn">Ã—</button>
+        <div><div class="kicker">SEARCH</div><h2>查考圣经</h2></div>
+        <button id="closeSearch" class="icon-btn">×</button>
       </div>
-      <div class="search-box"><span>âŒ•</span><input id="globalSearch" autofocus placeholder="ä¾‹å¦‚ï¼šJohn 3:16ã€çº¦ç¿°ç¦éŸ³ 3:16ã€graceã€faithâ€¦" /></div>
-      <div class="search-tips">å¯ç›´æŽ¥è¾“å…¥ç»æ–‡åœ°å€ï¼›æ”¯æŒç»æ–‡åœ°å€ä¸Žä¸­æ–‡ CUVS æœ¬æœºæœç´¢ã€‚NKJV å…¨æ–‡æœç´¢ä¼šåœ¨å–å¾—å…¬å¼€ç”µå­å‘è¡Œè®¸å¯æˆ–æŽ¥å…¥æŽˆæƒæ•°æ®æºåŽå¯ç”¨ã€‚</div>
+      <div class="search-box"><span>⌕</span><input id="globalSearch" autofocus placeholder="例如：John 3:16、约翰福音 3:16、grace、faith…" /></div>
+      <div class="search-tips">可直接输入经文地址；支持经文地址与中文 CUVS 本机搜索。NKJV 全文搜索会在取得公开电子发行许可或接入授权数据源后启用。</div>
       <div id="searchResults" class="search-results"></div>
     </div>
   </div>
@@ -218,4 +218,3 @@
   <script src="pwa.js" defer></script>
 </body>
 </html>
-
