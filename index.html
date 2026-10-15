@@ -151,6 +151,24 @@
             <div class="panel-card"><div class="card-icon">🔖</div><h3>书签</h3><div id="bookmarkList" class="personal-list"></div></div>
             <div class="panel-card"><div class="card-icon">📝</div><h3>笔记</h3><div id="noteList" class="personal-list"></div></div>
             <div class="panel-card"><div class="card-icon">🖍</div><h3>亮色标记</h3><div id="highlightList" class="personal-list"></div></div>
+            <div id="prayerJournalPanel" class="panel-card personal-module-card">
+              <div class="card-icon">🙏</div>
+              <div class="module-head">
+                <div><h3>祷告日记 · Prayer Journal</h3><p class="muted">记录祷告、经文与回应。</p></div>
+                <button id="newPrayerBtn" class="quiet-btn" type="button">＋ 新祷告</button>
+              </div>
+              <div id="prayerList" class="personal-list"></div>
+            </div>
+
+            <div id="savedStudiesPanel" class="panel-card personal-module-card">
+              <div class="card-icon">📚</div>
+              <div class="module-head">
+                <div><h3>研读收藏 · Saved Studies</h3><p class="muted">保存主题、经文与研读笔记。</p></div>
+                <button id="newStudyBtn" class="quiet-btn" type="button">＋ 新研读</button>
+              </div>
+              <div id="savedStudyList" class="personal-list"></div>
+            </div>
+
             <div class="panel-card display-settings-card">
               <div class="card-icon">Aa</div>
               <h3>显示设置 · Display</h3>
@@ -225,6 +243,33 @@
       <div class="search-box"><span>⌕</span><input id="globalSearch" autofocus placeholder="例如：John 3:16、约翰福音 3:16、grace、faith…" /></div>
       <div class="search-tips">可直接输入经文地址；支持经文地址与中文 CUVS 本机搜索。NKJV 全文搜索会在取得公开电子发行许可或接入授权数据源后启用。</div>
       <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <div id="prayerModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Prayer Journal">
+    <div class="modal-card personal-editor-card">
+      <div class="modal-head"><div><div class="kicker">PRAYER JOURNAL</div><h2 id="prayerEditorTitle">新祷告 · New Prayer</h2></div><button id="closePrayerModal" class="icon-btn">×</button></div>
+      <form id="prayerForm" class="personal-editor-form">
+        <input type="hidden" id="prayerId" />
+        <label>标题 · Title<input id="prayerTitle" required /></label>
+        <label>内容 · Prayer<textarea id="prayerBody" rows="7" required></textarea></label>
+        <label>关联经文 · Linked Verse<input id="prayerVerse" placeholder="例如 John 3:16 / 约翰福音 3:16" /></label>
+        <label>状态 · Status<select id="prayerStatus"><option value="praying">祷告中 · Praying</option><option value="waiting">等候中 · Waiting</option><option value="answered">已蒙应允 · Answered</option><option value="archived">已归档 · Archived</option></select></label>
+        <div class="editor-actions"><button class="primary-btn" type="submit">保存 · Save</button><button id="deletePrayerBtn" class="quiet-btn danger-btn hidden" type="button">删除 · Delete</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="studyModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Saved Study">
+    <div class="modal-card personal-editor-card">
+      <div class="modal-head"><div><div class="kicker">SAVED STUDY</div><h2 id="studyEditorTitle">新研读 · New Study</h2></div><button id="closeStudyModal" class="icon-btn">×</button></div>
+      <form id="studyForm" class="personal-editor-form">
+        <input type="hidden" id="studyId" />
+        <label>主题 · Title<input id="studyTitle" required /></label>
+        <label>说明 · Description<textarea id="studyDescription" rows="4"></textarea></label>
+        <label>经文 / 内容 · Scripture & Notes<textarea id="studyContent" rows="8" placeholder="可记录经文、观察、主题与应用。"></textarea></label>
+        <div class="editor-actions"><button class="primary-btn" type="submit">保存 · Save</button><button id="deleteStudyBtn" class="quiet-btn danger-btn hidden" type="button">删除 · Delete</button></div>
+      </form>
     </div>
   </div>
 
