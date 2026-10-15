@@ -161,3 +161,9 @@ a{color:var(--blue)}
 
 /* Reciprocal Scripture cross-reference treatment */
 .reverse-ref{border-style:dashed;color:var(--purple)}
+
+/* External verse-specific study links */
+.external-study-card{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--border);background:var(--surface-2);border-radius:13px;padding:13px}
+.external-study-card p{margin:4px 0 0;line-height:1.45;font-size:calc(11px * var(--ui-scale))}
+.external-study-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;white-space:nowrap}
+@media(max-width:850px){.external-study-card{align-items:stretch;flex-direction:column}.external-study-link{width:100%}}
