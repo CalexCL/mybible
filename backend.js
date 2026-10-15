@@ -41,18 +41,9 @@
     }
 
     async init() {
-      if (!this.options.enabled || !this.options.url || !this.options.anonKey) {
-        throw new Error('Supabase is not configured.');
-      }
-      if (!window.supabase?.createClient) {
-        throw new Error('Supabase JS client is not loaded. Add the official browser client before enabling the Supabase provider.');
-      }
-      this.client = window.supabase.createClient(this.options.url, this.options.anonKey, {
-        db: { schema: this.options.schema || 'public' }
-      });
-      const { data } = await this.client.auth.getUser();
-      this.user = data?.user || null;
-      if (!this.user) throw new Error('Supabase is enabled but no authenticated user is available.');
+      this.client = window.MyBibleAuth?.client || null;
+      this.user = window.MyBibleAuth?.user || null;
+      if (!this.client || !this.user) throw new Error('No authenticated Supabase session.');
       return { provider: this.name, authenticated: true, userId: this.user.id };
     }
 
@@ -102,14 +93,14 @@
   }
 
   async function createBackend() {
-    if (cfg.provider === 'supabase' && cfg.supabase?.enabled) {
-      try {
-        const b = new SupabaseStudyBackend(cfg.supabase);
+    try {
+      if (window.MyBibleAuth?.user) {
+        const b = new SupabaseStudyBackend(cfg.supabase || {});
         await b.init();
         return b;
-      } catch (error) {
-        console.warn('[MyBible] Supabase unavailable; falling back to local storage:', error.message);
       }
+    } catch (error) {
+      console.warn('[MyBible] Supabase unavailable; falling back to local storage:', error.message);
     }
     const local = new LocalStudyBackend();
     await local.init();
