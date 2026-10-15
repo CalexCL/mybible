@@ -152,6 +152,21 @@
     if(state.preferences?.font_scale) localStorage.setItem('csb.fontScale',String(state.preferences.font_scale));
   }
 
+  function ensureMobileEntry(){
+    const hero=document.querySelector('#mybiblePage .my-hero > div:first-child');
+    if(!hero) return null;
+    let btn=document.querySelector('#mybibleLoginBtn');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.id='mybibleLoginBtn';
+      btn.type='button';
+      btn.className='auth-entry-btn';
+      btn.addEventListener('click',()=>open(state.user?'profile':'login'));
+      hero.appendChild(btn);
+    }
+    return btn;
+  }
+
   function updateAccountButton(){
     let b=document.querySelector('#accountBtn');
     if(!b){
@@ -159,11 +174,14 @@
       b=document.createElement('button'); b.id='accountBtn'; b.className='icon-btn account-btn'; b.type='button';
       host.appendChild(b); b.onclick=()=>open(state.user?'profile':'login');
     }
+    const mobile=ensureMobileEntry();
     if(state.user){
       const n=state.profile?.display_name || state.user.user_metadata?.display_name || 'Reader';
       b.textContent=(n.trim()[0]||'R').toUpperCase(); b.classList.add('signed-in'); b.title=n+' · Cloud Sync';
+      if(mobile){ mobile.textContent='我的帐户 · My Account'; mobile.classList.add('signed-in'); }
     }else{
       b.textContent='♙'; b.classList.remove('signed-in'); b.title='Sign In · 登录';
+      if(mobile){ mobile.textContent='登录 / 注册 · Sign In / Sign Up'; mobile.classList.remove('signed-in'); }
     }
   }
 
