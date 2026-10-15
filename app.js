@@ -7,7 +7,7 @@
   const $ = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const STORAGE = {
-    theme: 'csb.theme', font: 'csb.fontScale', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position'
+    theme: 'csb.theme', font: 'csb.fontScale', uiScale:'csb.uiScale', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position'
   };
   const themes = ['light','dark','sepia','oled'];
   const themeLabels = {light:'☀️ Light',dark:'🌙 Dark',sepia:'📜 Sepia',oled:'⚫ OLED'};
@@ -101,7 +101,7 @@
     $('#closeDrawer').addEventListener('click',()=>$('#studyDrawer').classList.remove('open'));
     $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>{state.selectedTab=b.dataset.tab; $$('.drawer-tab').forEach(x=>x.classList.toggle('active',x===b)); renderDrawer();}));
     $('#themeBtn').addEventListener('click',cycleTheme);
-    $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08));
+    $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
     $('#globalSearch').addEventListener('input',debounce(runSearch,170));
     $('#collectionFilter').addEventListener('input',()=>renderCollection());
@@ -116,9 +116,28 @@
     if(page==='mybible')renderPersonal();
   }
 
+  function applyUIScale(){
+    const raw=Number(localStorage.getItem(STORAGE.uiScale)||1);
+    const scale=Math.min(1.5,Math.max(.85,raw||1));
+    document.documentElement.style.setProperty('--ui-scale',scale.toFixed(2));
+    const label=$('#uiFontReset'); if(label) label.textContent=Math.round(scale*100)+'%';
+  }
+  function changeUIScale(delta){
+    const current=Number(localStorage.getItem(STORAGE.uiScale)||1);
+    const nextScale=Math.min(1.5,Math.max(.85,current+delta));
+    localStorage.setItem(STORAGE.uiScale,nextScale.toFixed(2));
+    applyUIScale();
+    window.MyBibleAuth?.savePreferences?.({ui_scale:nextScale});
+  }
+  function resetUIScale(){
+    localStorage.setItem(STORAGE.uiScale,'1');
+    applyUIScale();
+    window.MyBibleAuth?.savePreferences?.({ui_scale:1});
+  }
   function applyStoredAppearance(){
     const theme=localStorage.getItem(STORAGE.theme)||'light'; document.documentElement.dataset.theme=themes.includes(theme)?theme:'light';
     const font=Number(localStorage.getItem(STORAGE.font)||1); document.documentElement.style.setProperty('--font-scale',String(Math.min(1.5,Math.max(.82,font))));
+    applyUIScale();
   }
   function cycleTheme(){ const cur=document.documentElement.dataset.theme||'light'; const next=themes[(themes.indexOf(cur)+1)%themes.length]; document.documentElement.dataset.theme=next; localStorage.setItem(STORAGE.theme,next); window.MyBibleAuth?.savePreferences?.({theme:next}); toast(themeLabels[next]); }
   function changeFont(delta){ const root=document.documentElement; const v=Number(getComputedStyle(root).getPropertyValue('--font-scale'))||1; const nv=Math.min(1.5,Math.max(.82,v+delta)); root.style.setProperty('--font-scale',nv.toFixed(2)); localStorage.setItem(STORAGE.font,nv.toFixed(2)); window.MyBibleAuth?.savePreferences?.({font_scale:nv}); }
