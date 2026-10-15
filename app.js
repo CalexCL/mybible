@@ -58,6 +58,7 @@
   function currentEnglishChapter(){ return CONFIG.scripture?.nkjv?.enabled ? (state.nkjv[state.bookIndex]?.chapters?.[state.chapter-1]?.verses || []) : []; }
 
   async function init(){
+    await (window.MyBibleAuthReady || Promise.resolve());
     applyStoredAppearance();
     await loadPersonal();
     const nkjvPromise = CONFIG.scripture?.nkjv?.enabled && CONFIG.scripture?.nkjv?.dataUrl
@@ -119,8 +120,8 @@
     const theme=localStorage.getItem(STORAGE.theme)||'light'; document.documentElement.dataset.theme=themes.includes(theme)?theme:'light';
     const font=Number(localStorage.getItem(STORAGE.font)||1); document.documentElement.style.setProperty('--font-scale',String(Math.min(1.5,Math.max(.82,font))));
   }
-  function cycleTheme(){ const cur=document.documentElement.dataset.theme||'light'; const next=themes[(themes.indexOf(cur)+1)%themes.length]; document.documentElement.dataset.theme=next; localStorage.setItem(STORAGE.theme,next); toast(themeLabels[next]); }
-  function changeFont(delta){ const root=document.documentElement; const v=Number(getComputedStyle(root).getPropertyValue('--font-scale'))||1; const nv=Math.min(1.5,Math.max(.82,v+delta)); root.style.setProperty('--font-scale',nv.toFixed(2)); localStorage.setItem(STORAGE.font,nv.toFixed(2)); }
+  function cycleTheme(){ const cur=document.documentElement.dataset.theme||'light'; const next=themes[(themes.indexOf(cur)+1)%themes.length]; document.documentElement.dataset.theme=next; localStorage.setItem(STORAGE.theme,next); window.MyBibleAuth?.savePreferences?.({theme:next}); toast(themeLabels[next]); }
+  function changeFont(delta){ const root=document.documentElement; const v=Number(getComputedStyle(root).getPropertyValue('--font-scale'))||1; const nv=Math.min(1.5,Math.max(.82,v+delta)); root.style.setProperty('--font-scale',nv.toFixed(2)); localStorage.setItem(STORAGE.font,nv.toFixed(2)); window.MyBibleAuth?.savePreferences?.({font_scale:nv}); }
 
   function renderBookNavigation(){
     const list=$('#bookList'); list.innerHTML=''; let last='';
@@ -136,7 +137,11 @@
     const bs=$('#bookSelect'); bs.innerHTML=state.books.map((b,i)=>`<option value="${i}" ${i===state.bookIndex?'selected':''}>${b.chinese} · ${b.english}</option>`).join(''); syncChapterSelect();
   }
   function syncChapterSelect(){ const b=currentBook(); $('#chapterSelect').innerHTML=Array.from({length:b.chapters},(_,i)=>`<option value="${i+1}" ${i+1===state.chapter?'selected':''}>${i+1}</option>`).join(''); $('#bookSelect').value=String(state.bookIndex); }
-  function savePosition(){ localStorage.setItem(STORAGE.position,JSON.stringify({bookIndex:state.bookIndex,chapter:state.chapter,mode:state.mode})); }
+  function savePosition(){
+    localStorage.setItem(STORAGE.position,JSON.stringify({bookIndex:state.bookIndex,chapter:state.chapter,mode:state.mode}));
+    const b=currentBook();
+    if(b) window.MyBibleAuth?.saveReadingPosition?.({book_osis:b.osis,chapter:state.chapter,last_verse:state.selectedVerse||1,mode:state.mode});
+  }
   function setMode(mode,render=true){ if((mode==='en'||mode==='parallel')&&!CONFIG.scripture?.nkjv?.enabled){toast('NKJV 公开版暂未启用：等待合法授权数据源');return;} state.mode=mode; $$('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode)); savePosition(); if(render)renderReader(); }
   async function moveChapter(dir){
     let bi=state.bookIndex,ch=state.chapter+dir;
