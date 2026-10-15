@@ -269,6 +269,26 @@
     if(target.chapter===endCh)return target.verse<=endV;
     return true;
   }
+  function collectCrossReferences(){
+    const index=state.study?.crossReferences||{};
+    const found=new Map();
+    const add=(ref,direction)=>{
+      const clean=normalizeRefText(ref);
+      if(!clean)return;
+      const prev=found.get(clean);
+      if(!prev || (prev.direction==='reverse'&&direction==='direct')) found.set(clean,{ref:clean,direction});
+    };
+    Object.entries(index).forEach(([source,targets])=>{
+      if(refTouchesSelection(source)){
+        (targets||[]).forEach(t=>add(t,'direct'));
+      }
+      (targets||[]).forEach(t=>{
+        if(refTouchesSelection(t)) add(source,'reverse');
+      });
+    });
+    return [...found.values()];
+  }
+
   function itemTouchesSelection(item){
     const refs=[];
     if(item.ref)refs.push(...String(item.ref).split(';'));
@@ -297,7 +317,7 @@
     return groups;
   }
   function renderDrawer(){
-    const body=$('#drawerBody'), ref=state.selectedRef, texts=getSelectedTexts(), refs=state.study.crossReferences[ref]||[], words=state.study.originalWords[ref]||[];
+    const body=$('#drawerBody'), ref=state.selectedRef, texts=getSelectedTexts(), crossRefs=collectCrossReferences(), refs=crossRefs.map(x=>x.ref), words=state.study.originalWords[ref]||[];
     if(state.selectedTab==='study'){
       body.innerHTML=`<div class="study-verse">${texts.zh?`<div>${escapeHTML(texts.zh)}</div>`:''}${texts.en?`<div class="muted" style="margin-top:8px;font-size:14px">${escapeHTML(texts.en)}</div>`:''}</div>
       <div class="study-section"><h3>快捷研读</h3><div class="tool-row"><button class="tool-btn ${personal.bookmarks[ref]?'active':''}" id="drawerBookmark">🔖 书签</button><button class="tool-btn ${personal.highlights[ref]?'active':''}" id="drawerHighlight">🖍 标记</button><button class="tool-btn" id="drawerCross">↗ ${refs.length||'TSK'} 串珠</button><button class="tool-btn" id="drawerConnections">◎ 关联</button><button class="tool-btn" id="drawerOriginal">אΩ 原文</button></div></div>
@@ -307,8 +327,14 @@
     } else if(state.selectedTab==='original'){
       body.innerHTML=words.length?words.map(w=>`<div class="word-card"><div class="word-original">${escapeHTML(w.original)}</div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="source-foot">Source layer: ${escapeHTML(w.source)} / Tyndale House reference framework</div></div>`).join('')+`<div class="study-section"><a target="_blank" rel="noopener" href="https://www.stepbible.org/">在 STEP Bible 继续原文研读 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。<br><br><a target="_blank" rel="noopener" href="https://www.stepbible.org/">打开 STEP Bible 原文研读 ↗</a><p>完整 Hebrew / Aramaic / Greek 词形资料将在下一数据导入阶段接入。</p></div>`;
     } else if(state.selectedTab==='crossrefs'){
-      body.innerHTML=refs.length?`<div class="study-section"><h3>TSK-backed starter references</h3><div class="ref-chips">${refs.map(r=>`<button class="ref-chip drawer-ref" data-ref="${escapeHTML(r)}">${escapeHTML(r)}</button>`).join('')}</div></div><div class="source-foot">Local starter set is derived from Scripture-to-Scripture TSK-style references. Exhaustive TSK import is the next cross-reference data phase.</div>`:`<div class="empty-state">本节尚未写入本机串珠索引。完整 TSK 数据接口已列入下一数据阶段。<br><br><a target="_blank" rel="noopener" href="https://www.thetreasuryofscriptureknowledge.com/">打开 Treasury of Scripture Knowledge ↗</a></div>`;
-      $$('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+      const direct=crossRefs.filter(x=>x.direction==='direct');
+      const reverse=crossRefs.filter(x=>x.direction==='reverse');
+      body.innerHTML=crossRefs.length?
+        (direct.length?`<div class="study-section"><h3>直接串珠 · Direct</h3><div class="ref-chips">${direct.map(x=>`<button class="ref-chip drawer-ref" data-ref="${escapeHTML(x.ref)}">${escapeHTML(x.ref)}</button>`).join('')}</div></div>`:'')+
+        (reverse.length?`<div class="study-section"><h3>反向关联 · Linked From</h3><div class="ref-chips">${reverse.map(x=>`<button class="ref-chip drawer-ref reverse-ref" data-ref="${escapeHTML(x.ref)}">${escapeHTML(x.ref)}</button>`).join('')}</div></div>`:'')+
+        '<div class="source-foot">TSK starter network · 现在同时显示直接串珠与反向经文连接。完整 TSK 导入将在后续数据阶段继续扩充。</div>':
+        '<div class="empty-state">本节尚未写入本机串珠索引。完整 TSK 数据接口已列入下一数据阶段。<br><br><a target="_blank" rel="noopener" href="https://www.thetreasuryofscriptureknowledge.com/">打开 Treasury of Scripture Knowledge ↗</a></div>';
+      $('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
 
     } else if(state.selectedTab==='connections'){
       const groups=collectVerseConnections();
