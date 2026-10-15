@@ -224,8 +224,8 @@
     if(action==='highlight'){ e.stopPropagation(); toggleHighlight(ref,row); return; }
     state.selectedVerse=verse;state.selectedRef=ref; $$('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
   }
-  function toggleBookmark(ref){ if(personal.bookmarks[ref])delete personal.bookmarks[ref];else personal.bookmarks[ref]={created:Date.now()};savePersonal();toast(personal.bookmarks[ref]?'已加入书签':'已移除书签'); }
-  function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
+  function toggleBookmark(ref){ if(personal.bookmarks[ref])delete personal.bookmarks[ref];else personal.bookmarks[ref]={created:Date.now()};savePersonal();renderPersonal();toast(personal.bookmarks[ref]?'已加入书签':'已移除书签'); }
+  function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
 
   function openDrawer(){ $('#studyRef').textContent=displayRef(state.bookIndex,state.chapter,state.selectedVerse); $('#studyDrawer').classList.add('open'); renderDrawer(); }
   function getSelectedTexts(){
@@ -248,7 +248,7 @@
       $$('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     } else if(state.selectedTab==='notes'){
       body.innerHTML=`<div class="study-section"><h3>我的笔记 · ${escapeHTML(ref)}</h3><textarea id="noteArea" class="note-area" placeholder="写下观察、问题、祷告或研读笔记…">${escapeHTML(personal.notes[ref]?.text||'')}</textarea></div><button id="saveNote" class="primary-btn">保存笔记</button><div class="source-foot">USER layer · 当前使用 ${backend?.name==='supabase'?'Supabase 云端同步':'浏览器本机储存'}。</div>`;
-      $('#saveNote').addEventListener('click',()=>{const text=$('#noteArea').value.trim();if(text)personal.notes[ref]={text,updated:Date.now()};else delete personal.notes[ref];savePersonal();toast('笔记已保存');});
+      $('#saveNote').addEventListener('click',()=>{const text=$('#noteArea').value.trim();if(text)personal.notes[ref]={text,updated:Date.now()};else delete personal.notes[ref];savePersonal();renderPersonal();toast('笔记已保存');});
     }
   }
   function switchDrawerTab(tab){state.selectedTab=tab;$$('.drawer-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderDrawer();}
@@ -298,7 +298,92 @@
     $('#sourceCards').innerHTML=state.study.sourceRegistry.map(s=>`<article class="source-card"><span class="source-pill ${s.type==='SCRIPTURE'?'scripture':s.type.includes('LANGUAGE')?'language':s.type.includes('CROSS')?'crossref':'historical'}">${escapeHTML(s.type)}</span><h3>${escapeHTML(s.name)}</h3><p>${escapeHTML(s.use)}</p><div class="card-meta">${escapeHTML(s.policy)}</div></article>`).join('');
   }
 
+  async function renderDashboard(){
+    const el=$('#myDashboard'); if(!el)return;
+    const auth=window.MyBibleAuth;
+    const user=auth?.user||null;
+    const profile=auth?.profile||null;
+    const sync=backend?.name==='supabase';
+    const current=currentBook();
+    const counts={
+      bookmarks:Object.keys(personal.bookmarks||{}).length,
+      notes:Object.keys(personal.notes||{}).length,
+      highlights:Object.keys(personal.highlights||{}).length
+    };
+
+    if(!user){
+      el.innerHTML=`
+        <section class="dashboard-welcome guest">
+          <div>
+            <div class="kicker">PERSONAL BIBLE</div>
+            <h2>你的研读空间 · Your Study Space</h2>
+            <p>现在以访客模式使用。本机内容会保留；登录后可启用 Supabase 云端同步与跨设备保存。</p>
+          </div>
+          <button id="dashboardSignIn" class="primary-btn" type="button">登录 / 注册 · Sign In / Sign Up</button>
+        </section>
+        <div class="dashboard-stats">
+          <div class="dashboard-stat"><strong>${counts.bookmarks}</strong><span>书签 · Bookmarks</span></div>
+          <div class="dashboard-stat"><strong>${counts.notes}</strong><span>笔记 · Notes</span></div>
+          <div class="dashboard-stat"><strong>${counts.highlights}</strong><span>标记 · Highlights</span></div>
+          <div class="dashboard-stat"><strong>Local</strong><span>储存模式 · Storage</span></div>
+        </div>`;
+      $('#dashboardSignIn')?.addEventListener('click',()=>auth?.open?.('login'));
+      return;
+    }
+
+    let cloud={authenticated:true,readingCount:0,lastReading:null};
+    try{ cloud=await auth?.getDashboardData?.() || cloud; }catch(err){ console.warn('[MyBible] dashboard data failed:',err); }
+
+    const last=cloud.lastReading;
+    const lastBook=last?.book_osis || auth?.preferences?.last_book || current?.osis || '';
+    const lastChapter=last?.chapter || auth?.preferences?.last_chapter || state.chapter;
+    const lastVerse=last?.last_verse || 1;
+    const name=profile?.display_name || user.user_metadata?.display_name || 'Reader';
+    const lastText=lastBook ? `${lastBook} ${lastChapter}:${lastVerse}` : '—';
+    const updated=last?.last_read_at ? new Date(last.last_read_at).toLocaleString() : '—';
+
+    el.innerHTML=`
+      <section class="dashboard-welcome signed-in">
+        <div>
+          <div class="kicker">MYBIBLE CLOUD</div>
+          <h2>欢迎回来，${escapeHTML(name)}</h2>
+          <p><span class="dashboard-sync-dot"></span>${sync?'Supabase 云端同步已启用':'本机模式'} · 你的个人研读资料受到 RLS 保护。</p>
+        </div>
+        <div class="dashboard-actions">
+          <button id="dashboardContinue" class="primary-btn" type="button">继续阅读 · Continue</button>
+          <button id="dashboardAccount" class="quiet-btn" type="button">帐户 · Account</button>
+        </div>
+      </section>
+      <div class="dashboard-stats">
+        <div class="dashboard-stat"><strong>${counts.bookmarks}</strong><span>书签 · Bookmarks</span></div>
+        <div class="dashboard-stat"><strong>${counts.notes}</strong><span>笔记 · Notes</span></div>
+        <div class="dashboard-stat"><strong>${counts.highlights}</strong><span>标记 · Highlights</span></div>
+        <div class="dashboard-stat"><strong>${cloud.readingCount||0}</strong><span>已读章节 · Reading</span></div>
+      </div>
+      <div class="dashboard-reading">
+        <div>
+          <div class="kicker">LAST READING</div>
+          <strong>${escapeHTML(lastText)}</strong>
+          <div class="muted">最近阅读 · ${escapeHTML(updated)}</div>
+        </div>
+        <div class="dashboard-cloud-badge">☁ ${sync?'Cloud Sync':'Local'}</div>
+      </div>`;
+
+    $('#dashboardAccount')?.addEventListener('click',()=>auth?.open?.('profile'));
+    $('#dashboardContinue')?.addEventListener('click',async()=>{
+      if(lastBook){
+        const bi=state.books.findIndex(b=>b.osis===lastBook);
+        if(bi>=0){
+          await navigateTo(bi,Number(lastChapter)||1,Number(lastVerse)||1);
+          return;
+        }
+      }
+      showPage('reader');
+    });
+  }
+
   function renderPersonal(){
+    renderDashboard();
     renderPersonalList('#bookmarkList',personal.bookmarks,'bookmark'); renderPersonalList('#noteList',personal.notes,'note'); renderPersonalList('#highlightList',personal.highlights,'highlight');
   }
   function renderPersonalList(sel,obj,type){
