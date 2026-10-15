@@ -247,6 +247,56 @@
     const row=$(`.verse-row[data-verse="${state.selectedVerse}"]`); let zh=row?.querySelector('.zh-cell')?.textContent||''; zh=zh.replace(/^\d+/,'').replace(/🔖|🖍|✦/g,'').trim();
     return {zh,en};
   }
+
+  function normalizeRefText(v=''){return String(v||'').replace(/[–—]/g,'-').replace(/\\s+/g,' ').trim();}
+  function selectedBookChapterVerse(){
+    return {book:currentBook()?.english||'',chapter:Number(state.chapter)||1,verse:Number(state.selectedVerse)||1};
+  }
+  function refTouchesSelection(refText){
+    const target=selectedBookChapterVerse();
+    const s=normalizeRefText(refText);
+    if(!s||!target.book)return false;
+    const escaped=target.book.replace(/[.*+?^()|[\\]\\\\]/g,'\\\\  function renderDrawer(){');
+    const re=new RegExp('^'+escaped+'\\\\s+(\\\\d+)(?::(\\\\d+))?(?:-(?:(\\\\d+):)?(\\\\d+))?','i');
+    const m=s.match(re);
+    if(!m)return false;
+    const startCh=Number(m[1]), startV=m[2]?Number(m[2]):1;
+    const endCh=m[3]?Number(m[3]):startCh;
+    const endV=m[4]?Number(m[4]):(m[2]?startV:999);
+    if(target.chapter<startCh||target.chapter>endCh)return false;
+    if(startCh===endCh)return target.verse>=startV&&target.verse<=endV;
+    if(target.chapter===startCh)return target.verse>=startV;
+    if(target.chapter===endCh)return target.verse<=endV;
+    return true;
+  }
+  function itemTouchesSelection(item){
+    const refs=[];
+    if(item.ref)refs.push(...String(item.ref).split(';'));
+    if(item.refs)refs.push(...item.refs);
+    if(item.prophecy)refs.push(item.prophecy);
+    if(item.fulfillment)refs.push(...String(item.fulfillment).split(';'));
+    if(item.first)refs.push(item.first);
+    return refs.some(refTouchesSelection);
+  }
+  function collectVerseConnections(){
+    const s=state.study||{};
+    const groups=[];
+    const add=(label,icon,items,titleFn,subFn,refsFn)=>{
+      const matches=(items||[]).filter(itemTouchesSelection).slice(0,8);
+      if(matches.length)groups.push({label,icon,matches,titleFn,subFn,refsFn});
+    };
+    add('神的名字','👑',s.namesOfGod,x=>x.zh+' · '+x.name,x=>x.meaning,x=>x.refs||[x.first]);
+    add('神迹','✦',s.godMiracles,x=>x.titleZh+' · '+x.titleEn,x=>x.category,x=>String(x.ref||'').split(';'));
+    add('耶稣神迹','✝',s.jesusMiracles,x=>x.titleZh+' · '+x.titleEn,x=>(x.category||'')+(x.place?' · '+x.place:''),x=>x.refs||[]);
+    add('比喻','💬',s.parables,x=>x.titleZh+' · '+x.titleEn,x=>x.theme,x=>x.refs||[]);
+    add('预言与应验','🔗',s.prophecies,x=>x.topic,x=>x.evidence,x=>[x.prophecy,...String(x.fulfillment||'').split(';')]);
+    add('圣约','🤝',s.covenants,x=>x.nameZh+' · '+x.nameEn,x=>x.parties,x=>String(x.ref||'').split(';'));
+    add('人物','👥',s.people,x=>x.zh+' · '+x.name,x=>x.role,x=>x.refs||[]);
+    add('地点','🗺',s.places,x=>x.zh+' · '+x.name,x=>x.note,x=>x.refs||[]);
+    add('时间线','⏳',s.timeline,x=>x.titleZh+' · '+x.titleEn,x=>x.date,x=>String(x.ref||'').split(';'));
+    return groups;
+  }
+
   function renderDrawer(){
     const body=$('#drawerBody'), ref=state.selectedRef, texts=getSelectedTexts(), refs=state.study.crossReferences[ref]||[], words=state.study.originalWords[ref]||[];
     if(state.selectedTab==='study'){
@@ -260,6 +310,11 @@
     } else if(state.selectedTab==='crossrefs'){
       body.innerHTML=refs.length?`<div class="study-section"><h3>TSK-backed starter references</h3><div class="ref-chips">${refs.map(r=>`<button class="ref-chip drawer-ref" data-ref="${escapeHTML(r)}">${escapeHTML(r)}</button>`).join('')}</div></div><div class="source-foot">Local starter set is derived from Scripture-to-Scripture TSK-style references. Exhaustive TSK import is the next cross-reference data phase.</div>`:`<div class="empty-state">本节尚未写入本机串珠索引。完整 TSK 数据接口已列入下一数据阶段。<br><br><a target="_blank" rel="noopener" href="https://www.thetreasuryofscriptureknowledge.com/">打开 Treasury of Scripture Knowledge ↗</a></div>`;
       $$('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+
+    } else if(state.selectedTab==='connections'){
+      const groups=collectVerseConnections();
+      body.innerHTML=groups.length?groups.map(g=>'<div class="connection-group"><div class="connection-group-title">'+g.icon+' '+escapeHTML(g.label)+'</div>'+g.matches.map(x=>'<article class="connection-card"><h4>'+escapeHTML(g.titleFn(x))+'</h4>'+(g.subFn(x)?'<p>'+escapeHTML(g.subFn(x))+'</p>':'')+'<div class="ref-chips">'+(g.refsFn(x)||[]).filter(Boolean).map(refChip).join('')+'</div></article>').join('')+'</div>').join('')+'<div class="source-foot">关联资料来自 MyBible 已审核的 study data 层；不改写经文本身。</div>':'<div class="empty-state">这一节目前没有已建立的知识图谱关联。后续数据阶段会继续扩充人物、地点、事件、神迹、预言、圣约等连接。</div>';
+      $('.ref-chip',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     } else if(state.selectedTab==='notes'){
       body.innerHTML=`<div class="study-section"><h3>我的笔记 · ${escapeHTML(ref)}</h3><textarea id="noteArea" class="note-area" placeholder="写下观察、问题、祷告或研读笔记…">${escapeHTML(personal.notes[ref]?.text||'')}</textarea></div><button id="saveNote" class="primary-btn">保存笔记</button><div class="source-foot">USER layer · 当前使用 ${backend?.name==='supabase'?'Supabase 云端同步':'浏览器本机储存'}。</div>`;
       $('#saveNote').addEventListener('click',()=>{const text=$('#noteArea').value.trim();if(text)personal.notes[ref]={text,updated:Date.now()};else delete personal.notes[ref];savePersonal();renderPersonal();toast('笔记已保存');});
