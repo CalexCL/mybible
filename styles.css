@@ -99,3 +99,27 @@ a{color:var(--blue)}
   .ui-font-controls{width:100%}
   .ui-font-controls .quiet-btn{flex:1;min-height:42px}
 }
+
+/* MyBible personal dashboard */
+.my-dashboard{display:grid;gap:14px;margin:0 0 18px}
+.dashboard-welcome{display:flex;justify-content:space-between;align-items:center;gap:18px;border:1px solid var(--border);background:linear-gradient(135deg,color-mix(in srgb,var(--green) 8%,var(--surface)),var(--surface));border-radius:20px;padding:20px;box-shadow:var(--soft-shadow)}
+.dashboard-welcome h2{margin:4px 0 6px;font-family:Georgia,"Noto Serif SC",serif;font-size:calc(24px * var(--ui-scale))}
+.dashboard-welcome p{margin:0;color:var(--muted);line-height:1.5;font-size:calc(12px * var(--ui-scale))}
+.dashboard-actions{display:flex;gap:8px;flex:0 0 auto}
+.dashboard-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.dashboard-stat{border:1px solid var(--border);background:var(--surface);border-radius:15px;padding:14px 15px;box-shadow:0 2px 0 rgba(0,0,0,.01);display:flex;flex-direction:column;gap:4px}
+.dashboard-stat strong{font-size:calc(22px * var(--ui-scale));font-family:Georgia,"Noto Serif SC",serif;color:var(--accent)}
+.dashboard-stat span{font-size:calc(10px * var(--ui-scale));color:var(--muted);font-weight:700}
+.dashboard-reading{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--border);border-radius:15px;background:var(--surface);padding:14px 16px}
+.dashboard-reading strong{display:block;margin:4px 0;font-size:calc(16px * var(--ui-scale))}
+.dashboard-reading .muted{font-size:calc(10px * var(--ui-scale))}
+.dashboard-cloud-badge{border:1px solid color-mix(in srgb,var(--green) 40%,var(--border));background:color-mix(in srgb,var(--green) 9%,var(--surface));color:var(--green);border-radius:999px;padding:7px 10px;font-size:calc(10px * var(--ui-scale));font-weight:900;white-space:nowrap}
+.dashboard-sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 12%,transparent)}
+@media(max-width:850px){
+  .dashboard-welcome{align-items:flex-start;flex-direction:column;padding:17px}
+  .dashboard-actions{width:100%}
+  .dashboard-actions button{flex:1;min-height:42px}
+  .dashboard-stats{grid-template-columns:repeat(2,1fr)}
+  .dashboard-stat{padding:13px}
+  .dashboard-reading{align-items:flex-start;flex-direction:column}
+}
