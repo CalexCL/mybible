@@ -150,6 +150,7 @@
     if(!u.error) state.preferences=u.data||null;
     if(state.preferences?.theme) localStorage.setItem('csb.theme',state.preferences.theme);
     if(state.preferences?.font_scale) localStorage.setItem('csb.fontScale',String(state.preferences.font_scale));
+    if(state.preferences?.ui_scale) localStorage.setItem('csb.uiScale',String(state.preferences.ui_scale));
   }
 
   function ensureMobileEntry(){
@@ -188,7 +189,7 @@
   async function savePreferences(partial={}){
     if(!state.user) return;
     const row={user_id:state.user.id,theme:partial.theme||localStorage.getItem('csb.theme')||'light',
-      font_scale:Number(partial.font_scale||localStorage.getItem('csb.fontScale')||1),updated_at:new Date().toISOString()};
+      font_scale:Number(partial.font_scale||localStorage.getItem('csb.fontScale')||1),ui_scale:Number(partial.ui_scale||localStorage.getItem('csb.uiScale')||1),updated_at:new Date().toISOString()};
     if(partial.last_book!==undefined) row.last_book=partial.last_book;
     if(partial.last_chapter!==undefined) row.last_chapter=partial.last_chapter;
     if(partial.last_mode!==undefined) row.last_mode=partial.last_mode;
