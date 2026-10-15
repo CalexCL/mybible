@@ -223,6 +223,79 @@
     };
   }
 
+  async function getPrayerEntries(){
+    if(!state.user || !state.client) return [];
+    const {data,error}=await state.client
+      .from('prayer_entries')
+      .select('id,title,body,linked_verse_ref,status,created_at,updated_at')
+      .eq('user_id',state.user.id)
+      .order('updated_at',{ascending:false});
+    if(error) throw error;
+    return data||[];
+  }
+
+  async function savePrayerEntry(entry={}){
+    if(!state.user || !state.client) throw new Error('Sign in required.');
+    const payload={
+      user_id:state.user.id,
+      title:String(entry.title||'').trim(),
+      body:String(entry.body||'').trim(),
+      linked_verse_ref:String(entry.linked_verse_ref||'').trim()||null,
+      status:['praying','waiting','answered','archived'].includes(entry.status)?entry.status:'praying',
+      updated_at:new Date().toISOString()
+    };
+    if(entry.id){
+      const {data,error}=await state.client.from('prayer_entries').update(payload).eq('id',entry.id).eq('user_id',state.user.id).select().single();
+      if(error) throw error;
+      return data;
+    }
+    const {data,error}=await state.client.from('prayer_entries').insert(payload).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deletePrayerEntry(id){
+    if(!state.user || !state.client) throw new Error('Sign in required.');
+    const {error}=await state.client.from('prayer_entries').delete().eq('id',id).eq('user_id',state.user.id);
+    if(error) throw error;
+  }
+
+  async function getSavedStudies(){
+    if(!state.user || !state.client) return [];
+    const {data,error}=await state.client
+      .from('saved_studies')
+      .select('id,title,description,content,created_at,updated_at')
+      .eq('user_id',state.user.id)
+      .order('updated_at',{ascending:false});
+    if(error) throw error;
+    return data||[];
+  }
+
+  async function saveStudy(entry={}){
+    if(!state.user || !state.client) throw new Error('Sign in required.');
+    const payload={
+      user_id:state.user.id,
+      title:String(entry.title||'').trim()||'Untitled Study',
+      description:String(entry.description||'').trim(),
+      content:entry.content && typeof entry.content==='object'?entry.content:{},
+      updated_at:new Date().toISOString()
+    };
+    if(entry.id){
+      const {data,error}=await state.client.from('saved_studies').update(payload).eq('id',entry.id).eq('user_id',state.user.id).select().single();
+      if(error) throw error;
+      return data;
+    }
+    const {data,error}=await state.client.from('saved_studies').insert(payload).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteStudy(id){
+    if(!state.user || !state.client) throw new Error('Sign in required.');
+    const {error}=await state.client.from('saved_studies').delete().eq('id',id).eq('user_id',state.user.id);
+    if(error) throw error;
+  }
+
   async function init(){
     if(!cfg.url || !apiKey || !window.supabase?.createClient) return;
     state.client=window.supabase.createClient(cfg.url,apiKey,{db:{schema:cfg.schema||'public'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -243,7 +316,9 @@
     get user(){return state.user;},
     get profile(){return state.profile;},
     get preferences(){return state.preferences;},
-    open,savePreferences,saveReadingPosition,getDashboardData
+    open,savePreferences,saveReadingPosition,getDashboardData,
+    getPrayerEntries,savePrayerEntry,deletePrayerEntry,
+    getSavedStudies,saveStudy,deleteStudy
   };
   window.MyBibleAuthReady=init().catch(err=>console.warn('[MyBible] auth init failed:',err));
 })();
