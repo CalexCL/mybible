@@ -158,3 +158,6 @@ a{color:var(--blue)}
   .drawer-tabs::-webkit-scrollbar{display:none}
   .drawer-tab{flex:0 0 auto}
 }
+
+/* Reciprocal Scripture cross-reference treatment */
+.reverse-ref{border-style:dashed;color:var(--purple)}
