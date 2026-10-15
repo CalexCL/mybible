@@ -56,11 +56,29 @@
         this.client.from('bible_highlights').select('verse_ref,color,created_at').eq('user_id', uid)
       ]);
       for (const result of [notes, bookmarks, highlights]) if (result.error) throw result.error;
-      return {
+      const cloud = {
         notes: Object.fromEntries((notes.data || []).map(r => [r.verse_ref, { text: r.note_text, updated: Date.parse(r.updated_at) || Date.now() }])),
         bookmarks: Object.fromEntries((bookmarks.data || []).map(r => [r.verse_ref, { created: Date.parse(r.created_at) || Date.now() }])),
         highlights: Object.fromEntries((highlights.data || []).map(r => [r.verse_ref, { color: r.color || 'gold', created: Date.parse(r.created_at) || Date.now() }]))
       };
+
+      const migrationKey = 'mybible.cloudMigrated.' + uid;
+      const local = {
+        notes: safeParse(localStorage.getItem(KEYS.notes), {}),
+        bookmarks: safeParse(localStorage.getItem(KEYS.bookmarks), {}),
+        highlights: safeParse(localStorage.getItem(KEYS.highlights), {})
+      };
+      const cloudHasData = Object.values(cloud).some(group => Object.keys(group || {}).length);
+      const localHasData = Object.values(local).some(group => Object.keys(group || {}).length);
+
+      if (!localStorage.getItem(migrationKey) && !cloudHasData && localHasData) {
+        await this.saveStudyData(local);
+        localStorage.setItem(migrationKey, '1');
+        return local;
+      }
+
+      localStorage.setItem(migrationKey, '1');
+      return cloud;
     }
 
     async saveStudyData(data) {
