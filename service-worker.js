@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mybible-shell-v2';
+const CACHE_NAME = 'mybible-shell-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,8 @@ const APP_SHELL = [
   './app.js',
   './config.js',
   './backend.js',
+  './auth.js',
+  './auth.css',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
