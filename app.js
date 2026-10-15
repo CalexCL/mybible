@@ -296,47 +296,6 @@
     add('时间线','⏳',s.timeline,x=>x.titleZh+' · '+x.titleEn,x=>x.date,x=>String(x.ref||'').split(';'));
     return groups;
   }
-  function renderDrawer(){');
-    const re=new RegExp('^'+escaped+'\\\\s+(\\\\d+)(?::(\\\\d+))?(?:-(?:(\\\\d+):)?(\\\\d+))?','i');
-    const m=s.match(re);
-    if(!m)return false;
-    const startCh=Number(m[1]), startV=m[2]?Number(m[2]):1;
-    const endCh=m[3]?Number(m[3]):startCh;
-    const endV=m[4]?Number(m[4]):(m[2]?startV:999);
-    if(target.chapter<startCh||target.chapter>endCh)return false;
-    if(startCh===endCh)return target.verse>=startV&&target.verse<=endV;
-    if(target.chapter===startCh)return target.verse>=startV;
-    if(target.chapter===endCh)return target.verse<=endV;
-    return true;
-  }
-  function itemTouchesSelection(item){
-    const refs=[];
-    if(item.ref)refs.push(...String(item.ref).split(';'));
-    if(item.refs)refs.push(...item.refs);
-    if(item.prophecy)refs.push(item.prophecy);
-    if(item.fulfillment)refs.push(...String(item.fulfillment).split(';'));
-    if(item.first)refs.push(item.first);
-    return refs.some(refTouchesSelection);
-  }
-  function collectVerseConnections(){
-    const s=state.study||{};
-    const groups=[];
-    const add=(label,icon,items,titleFn,subFn,refsFn)=>{
-      const matches=(items||[]).filter(itemTouchesSelection).slice(0,8);
-      if(matches.length)groups.push({label,icon,matches,titleFn,subFn,refsFn});
-    };
-    add('神的名字','👑',s.namesOfGod,x=>x.zh+' · '+x.name,x=>x.meaning,x=>x.refs||[x.first]);
-    add('神迹','✦',s.godMiracles,x=>x.titleZh+' · '+x.titleEn,x=>x.category,x=>String(x.ref||'').split(';'));
-    add('耶稣神迹','✝',s.jesusMiracles,x=>x.titleZh+' · '+x.titleEn,x=>(x.category||'')+(x.place?' · '+x.place:''),x=>x.refs||[]);
-    add('比喻','💬',s.parables,x=>x.titleZh+' · '+x.titleEn,x=>x.theme,x=>x.refs||[]);
-    add('预言与应验','🔗',s.prophecies,x=>x.topic,x=>x.evidence,x=>[x.prophecy,...String(x.fulfillment||'').split(';')]);
-    add('圣约','🤝',s.covenants,x=>x.nameZh+' · '+x.nameEn,x=>x.parties,x=>String(x.ref||'').split(';'));
-    add('人物','👥',s.people,x=>x.zh+' · '+x.name,x=>x.role,x=>x.refs||[]);
-    add('地点','🗺',s.places,x=>x.zh+' · '+x.name,x=>x.note,x=>x.refs||[]);
-    add('时间线','⏳',s.timeline,x=>x.titleZh+' · '+x.titleEn,x=>x.date,x=>String(x.ref||'').split(';'));
-    return groups;
-  }
-
   function renderDrawer(){
     const body=$('#drawerBody'), ref=state.selectedRef, texts=getSelectedTexts(), refs=state.study.crossReferences[ref]||[], words=state.study.originalWords[ref]||[];
     if(state.selectedTab==='study'){
