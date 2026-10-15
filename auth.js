@@ -205,6 +205,24 @@
     },{onConflict:'user_id,book_osis,chapter'});
   }
 
+  async function getDashboardData(){
+    if(!state.user || !state.client) return {authenticated:false,readingCount:0,lastReading:null};
+    const {data,error}=await state.client
+      .from('reading_progress')
+      .select('book_osis,chapter,last_verse,completed,last_read_at')
+      .eq('user_id',state.user.id)
+      .order('last_read_at',{ascending:false});
+    if(error){
+      console.warn('[MyBible] dashboard reading-progress query failed:',error.message);
+      return {authenticated:true,readingCount:0,lastReading:null};
+    }
+    return {
+      authenticated:true,
+      readingCount:(data||[]).length,
+      lastReading:(data||[])[0]||null
+    };
+  }
+
   async function init(){
     if(!cfg.url || !apiKey || !window.supabase?.createClient) return;
     state.client=window.supabase.createClient(cfg.url,apiKey,{db:{schema:cfg.schema||'public'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -225,7 +243,7 @@
     get user(){return state.user;},
     get profile(){return state.profile;},
     get preferences(){return state.preferences;},
-    open,savePreferences,saveReadingPosition
+    open,savePreferences,saveReadingPosition,getDashboardData
   };
   window.MyBibleAuthReady=init().catch(err=>console.warn('[MyBible] auth init failed:',err));
 })();
