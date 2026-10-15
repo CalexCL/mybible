@@ -86,7 +86,7 @@
     state.mode=['parallel','zh','en'].includes(pos.mode)?pos.mode:'parallel';
     if(!CONFIG.scripture?.nkjv?.enabled && state.mode!=='zh') state.mode='zh';
     bindUI();
-    configureTranslationAvailability(); renderBookNavigation(); populateSelectors(); renderExploreCategories(); renderSources(); renderTimeline(); renderPersonal();
+    configureTranslationAvailability(); renderBookNavigation(); populateSelectors(); renderStudyCoverage(); renderExploreCategories(); renderSources(); renderTimeline(); renderPersonal();
     setMode(state.mode,false); await renderReader();
   }
 
@@ -365,6 +365,32 @@
     }
   }
   function switchDrawerTab(tab){state.selectedTab=tab;$$('.drawer-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderDrawer();}
+
+  function renderStudyCoverage(){
+    const el=$('#studyCoverage'); if(!el||!state.study)return;
+    const metrics=[
+      {key:'crossReferences',icon:'↗',label:'串珠',sub:'Cross References',count:Object.keys(state.study.crossReferences||{}).length},
+      {key:'originalWords',icon:'אΩ',label:'原文',sub:'Original Language',count:Object.keys(state.study.originalWords||{}).length},
+      {key:'people',icon:'👥',label:'人物',sub:'People',count:(state.study.people||[]).length},
+      {key:'places',icon:'🗺',label:'地点',sub:'Places',count:(state.study.places||[]).length},
+      {key:'timeline',icon:'⏳',label:'事件',sub:'Timeline',count:(state.study.timeline||[]).length},
+      {key:'jesusMiracles',icon:'✝',label:'耶稣神迹',sub:'Jesus Miracles',count:(state.study.jesusMiracles||[]).length}
+    ];
+    el.innerHTML='<div class="coverage-head"><div><div class="kicker">BIBLE INTELLIGENCE COVERAGE</div><h2>研读资料覆盖</h2><p>当前为已审核的基础资料层；数字代表已建立的索引入口，不代表整本圣经已穷尽完成。</p></div></div>'+
+      '<div class="coverage-grid">'+metrics.map(m=>'<button class="coverage-card" data-coverage="'+m.key+'"><span class="coverage-icon">'+m.icon+'</span><strong>'+m.count+'</strong><span>'+m.label+'</span><small>'+m.sub+'</small></button>').join('')+'</div>';
+    $('.coverage-card',el).forEach(btn=>btn.addEventListener('click',()=>{
+      const key=btn.dataset.coverage;
+      if(collectionInfo[key]){
+        state.collection=key;
+        $('.category-card').forEach(x=>x.classList.toggle('active',x.dataset.collection===key));
+        $('#collectionFilter').value='';
+        renderCollection();
+        $('#collectionTitle')?.scrollIntoView({behavior:'smooth',block:'center'});
+      }else if(key==='timeline'){
+        showPage('timeline');
+      }
+    }));
+  }
 
   function renderExploreCategories(){
     $('#exploreCategories').innerHTML=Object.entries(collectionInfo).map(([key,c])=>`<button class="category-card ${key===state.collection?'active':''}" data-collection="${key}"><div class="category-icon">${c.icon}</div><div class="category-title">${c.title}</div><div class="category-sub">${c.sub}</div></button>`).join('');
