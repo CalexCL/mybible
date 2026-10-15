@@ -105,6 +105,20 @@
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
     $('#globalSearch').addEventListener('input',debounce(runSearch,170));
     $('#collectionFilter').addEventListener('input',()=>renderCollection());
+    $('#newPrayerBtn')?.addEventListener('click',()=>openPrayerEditor());
+    $('#newStudyBtn')?.addEventListener('click',()=>openStudyEditor());
+    $('#closePrayerModal')?.addEventListener('click',closePrayerEditor);
+    $('#closeStudyModal')?.addEventListener('click',closeStudyEditor);
+    $('#prayerForm')?.addEventListener('submit',savePrayerFromForm);
+    $('#studyForm')?.addEventListener('submit',saveStudyFromForm);
+    $('#deletePrayerBtn')?.addEventListener('click',async()=>{
+      const id=$('#prayerId').value;if(!id)return;
+      await window.MyBibleAuth.deletePrayerEntry(id);closePrayerEditor();await renderPrayerJournal();toast('祷告记录已删除');
+    });
+    $('#deleteStudyBtn')?.addEventListener('click',async()=>{
+      const id=$('#studyId').value;if(!id)return;
+      await window.MyBibleAuth.deleteStudy(id);closeStudyEditor();await renderSavedStudies();toast('研读已删除');
+    });
     $$('.chip[data-era]').forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era; $$('.chip[data-era]').forEach(x=>x.classList.toggle('active',x===b)); renderTimeline();}));
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
@@ -382,9 +396,107 @@
     });
   }
 
-  function renderPersonal(){
+  async function renderPrayerJournal(){
+    const list=$('#prayerList'); if(!list)return;
+    const auth=window.MyBibleAuth;
+    if(!auth?.user){
+      list.innerHTML='<div class="empty-state">登录后可使用云端祷告日记。</div>';
+      $('#newPrayerBtn')?.setAttribute('disabled','disabled');
+      return;
+    }
+    $('#newPrayerBtn')?.removeAttribute('disabled');
+    try{
+      const rows=await auth.getPrayerEntries();
+      if(!rows.length){list.innerHTML='<div class="empty-state">还没有祷告记录。</div>';return;}
+      list.innerHTML=rows.slice(0,30).map(r=>`<div class="personal-item prayer-item" data-id="${r.id}">
+        <button class="personal-title" data-prayer-id="${r.id}">${escapeHTML(r.title||'Prayer')}</button>
+        <div class="personal-meta">${escapeHTML(r.status)}${r.linked_verse_ref?' · '+escapeHTML(r.linked_verse_ref):''}</div>
+        <div class="muted personal-preview">${escapeHTML((r.body||'').slice(0,110))}${(r.body||'').length>110?'…':''}</div>
+      </div>`).join('');
+      $('[data-prayer-id]',list).forEach(b=>b.addEventListener('click',()=>openPrayerEditor(rows.find(r=>r.id===b.dataset.prayerId))));
+    }catch(err){list.innerHTML='<div class="empty-state">祷告日记暂时无法载入。</div>';console.warn(err);}
+  }
+
+  async function renderSavedStudies(){
+    const list=$('#savedStudyList'); if(!list)return;
+    const auth=window.MyBibleAuth;
+    if(!auth?.user){
+      list.innerHTML='<div class="empty-state">登录后可保存个人研读。</div>';
+      $('#newStudyBtn')?.setAttribute('disabled','disabled');
+      return;
+    }
+    $('#newStudyBtn')?.removeAttribute('disabled');
+    try{
+      const rows=await auth.getSavedStudies();
+      if(!rows.length){list.innerHTML='<div class="empty-state">还没有保存的研读。</div>';return;}
+      list.innerHTML=rows.slice(0,30).map(r=>`<div class="personal-item study-item" data-id="${r.id}">
+        <button class="personal-title" data-study-id="${r.id}">${escapeHTML(r.title||'Study')}</button>
+        <div class="muted personal-preview">${escapeHTML((r.description||'').slice(0,120))}${(r.description||'').length>120?'…':''}</div>
+      </div>`).join('');
+      $('[data-study-id]',list).forEach(b=>b.addEventListener('click',()=>openStudyEditor(rows.find(r=>r.id===b.dataset.studyId))));
+    }catch(err){list.innerHTML='<div class="empty-state">研读收藏暂时无法载入。</div>';console.warn(err);}
+  }
+
+  function openPrayerEditor(row=null){
+    const auth=window.MyBibleAuth;
+    if(!auth?.user){auth?.open?.('login');return;}
+    $('#prayerId').value=row?.id||'';
+    $('#prayerTitle').value=row?.title||'';
+    $('#prayerBody').value=row?.body||'';
+    $('#prayerVerse').value=row?.linked_verse_ref||state.selectedRef||'';
+    $('#prayerStatus').value=row?.status||'praying';
+    $('#prayerEditorTitle').textContent=row?'编辑祷告 · Edit Prayer':'新祷告 · New Prayer';
+    $('#deletePrayerBtn').classList.toggle('hidden',!row);
+    $('#prayerModal').classList.remove('hidden');
+  }
+  function closePrayerEditor(){ $('#prayerModal').classList.add('hidden'); }
+
+  function openStudyEditor(row=null){
+    const auth=window.MyBibleAuth;
+    if(!auth?.user){auth?.open?.('login');return;}
+    $('#studyId').value=row?.id||'';
+    $('#studyTitle').value=row?.title||'';
+    $('#studyDescription').value=row?.description||'';
+    $('#studyContent').value=row?.content?.text||'';
+    $('#studyEditorTitle').textContent=row?'编辑研读 · Edit Study':'新研读 · New Study';
+    $('#deleteStudyBtn').classList.toggle('hidden',!row);
+    $('#studyModal').classList.remove('hidden');
+  }
+  function closeStudyEditor(){ $('#studyModal').classList.add('hidden'); }
+
+  async function savePrayerFromForm(e){
+    e.preventDefault();
+    try{
+      await window.MyBibleAuth.savePrayerEntry({
+        id:$('#prayerId').value||null,
+        title:$('#prayerTitle').value,
+        body:$('#prayerBody').value,
+        linked_verse_ref:$('#prayerVerse').value,
+        status:$('#prayerStatus').value
+      });
+      closePrayerEditor(); await renderPrayerJournal(); toast('祷告日记已保存');
+    }catch(err){toast('保存失败');console.warn(err);}
+  }
+
+  async function saveStudyFromForm(e){
+    e.preventDefault();
+    try{
+      await window.MyBibleAuth.saveStudy({
+        id:$('#studyId').value||null,
+        title:$('#studyTitle').value,
+        description:$('#studyDescription').value,
+        content:{text:$('#studyContent').value}
+      });
+      closeStudyEditor(); await renderSavedStudies(); toast('研读已保存');
+    }catch(err){toast('保存失败');console.warn(err);}
+  }
+
+  async function renderPersonal(){
     renderDashboard();
-    renderPersonalList('#bookmarkList',personal.bookmarks,'bookmark'); renderPersonalList('#noteList',personal.notes,'note'); renderPersonalList('#highlightList',personal.highlights,'highlight');
+    renderPersonalList('#bookmarkList',personal.bookmarks,'bookmark');
+    renderPersonalList('#noteList',personal.notes,'note');
+    renderPersonalList('#highlightList',personal.highlights,'highlight');
+    await Promise.all([renderPrayerJournal(),renderSavedStudies()]);
   }
   function renderPersonalList(sel,obj,type){
     const el=$(sel), entries=Object.entries(obj).sort((a,b)=>(b[1].updated||b[1].created||0)-(a[1].updated||a[1].created||0)); if(!entries.length){el.innerHTML='<div class="empty-state">还没有内容。点击经文即可加入。</div>';return;}
