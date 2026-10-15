@@ -68,7 +68,19 @@
       fetchJSON('data/books.json'), nkjvPromise, fetchJSON(CONFIG.scripture?.cuvs?.localDataUrl || 'data/cuvs_local.json'), fetchJSON('data/study.json')
     ]);
     state.books=books; state.nkjv=nkjv; state.cuvsLocal=cuvsLocal; state.study=study;
-    const pos=loadJSON(STORAGE.position,{bookIndex:0,chapter:1,mode:'parallel'});
+    let pos=loadJSON(STORAGE.position,{bookIndex:0,chapter:1,mode:'parallel'});
+    const cloudPrefs=window.MyBibleAuth?.preferences||null;
+    if(cloudPrefs?.last_book){
+      const cloudBookIndex=state.books.findIndex(b=>b.osis===cloudPrefs.last_book);
+      if(cloudBookIndex>=0){
+        pos={
+          bookIndex:cloudBookIndex,
+          chapter:Number(cloudPrefs.last_chapter)||1,
+          mode:cloudPrefs.last_mode||pos.mode||'parallel'
+        };
+        localStorage.setItem(STORAGE.position,JSON.stringify(pos));
+      }
+    }
     state.bookIndex=Math.min(Math.max(+pos.bookIndex||0,0),65);
     state.chapter=Math.min(Math.max(+pos.chapter||1,1),state.books[state.bookIndex].chapters);
     state.mode=['parallel','zh','en'].includes(pos.mode)?pos.mode:'parallel';
@@ -242,6 +254,12 @@
   function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
 
   function openDrawer(){ $('#studyRef').textContent=displayRef(state.bookIndex,state.chapter,state.selectedVerse); $('#studyDrawer').classList.add('open'); renderDrawer(); }
+  function stepBibleUrl(book=currentBook(),chapter=state.chapter,verse=state.selectedVerse){
+    if(!book)return 'https://www.stepbible.org/';
+    const ref=book.osis+'.'+Number(chapter||1)+'.'+Number(verse||1);
+    return 'https://www.stepbible.org/?q='+encodeURIComponent('version=ESV@reference='+ref);
+  }
+
   function getSelectedTexts(){
     const en=currentEnglishChapter().find(v=>+v.verse===state.selectedVerse)?.text||'';
     const row=$(`.verse-row[data-verse="${state.selectedVerse}"]`); let zh=row?.querySelector('.zh-cell')?.textContent||''; zh=zh.replace(/^\d+/,'').replace(/🔖|🖍|✦/g,'').trim();
@@ -325,7 +343,8 @@
       <div class="source-foot">SCRIPTURE 与 STUDY DATA 严格分层。研读资料不会修改经文。</div>`;
       $('#drawerBookmark')?.addEventListener('click',()=>{toggleBookmark(ref);renderDrawer();}); $('#drawerHighlight')?.addEventListener('click',()=>{toggleHighlight(ref,$(`.verse-row[data-verse="${state.selectedVerse}"]`));renderDrawer();}); $('#drawerCross')?.addEventListener('click',()=>switchDrawerTab('crossrefs')); $('#drawerConnections')?.addEventListener('click',()=>switchDrawerTab('connections')); $('#drawerOriginal')?.addEventListener('click',()=>switchDrawerTab('original'));
     } else if(state.selectedTab==='original'){
-      body.innerHTML=words.length?words.map(w=>`<div class="word-card"><div class="word-original">${escapeHTML(w.original)}</div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="source-foot">Source layer: ${escapeHTML(w.source)} / Tyndale House reference framework</div></div>`).join('')+`<div class="study-section"><a target="_blank" rel="noopener" href="https://www.stepbible.org/">在 STEP Bible 继续原文研读 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。<br><br><a target="_blank" rel="noopener" href="https://www.stepbible.org/">打开 STEP Bible 原文研读 ↗</a><p>完整 Hebrew / Aramaic / Greek 词形资料将在下一数据导入阶段接入。</p></div>`;
+      const stepUrl=stepBibleUrl();
+      body.innerHTML=words.length?words.map(w=>`<div class="word-card"><div class="word-original">${escapeHTML(w.original)}</div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="source-foot">Source layer: ${escapeHTML(w.source)} / Tyndale House reference framework</div></div>`).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
     } else if(state.selectedTab==='crossrefs'){
       const direct=crossRefs.filter(x=>x.direction==='direct');
       const reverse=crossRefs.filter(x=>x.direction==='reverse');
