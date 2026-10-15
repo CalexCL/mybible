@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="light dark" />
   <title>中文研读圣经 · Chinese Study Bible</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="auth.css" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#8f5b19" />
   <meta name="application-name" content="MyBible" />
@@ -142,7 +143,7 @@
             <div>
               <div class="kicker">PRIVATE STUDY LAYER</div>
               <h1>我的圣经</h1>
-              <p>收藏、亮色标记与研读笔记目前保存在本机；未来可切换到 Supabase 云端同步。</p>
+              <p>访客模式保存在本机；登录后自动启用 Supabase 云端同步，跨设备保存书签、笔记、亮色标记与阅读进度。</p>
             </div>
           </div>
           <div class="my-grid">
@@ -212,7 +213,9 @@
 
   <div id="toast" class="toast hidden"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
+  <script src="auth.js" defer></script>
   <script src="backend.js"></script>
   <script src="app.js" defer></script>
   <script src="pwa.js" defer></script>
