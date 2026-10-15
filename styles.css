@@ -1,4 +1,5 @@
 :root{
+  --ui-scale:1;
   --font-scale:1;
   --bg:#f5f1e8;
   --surface:#fffdf8;
@@ -63,3 +64,38 @@ a{color:var(--blue)}
 @media(max-width:1100px){.category-grid{grid-template-columns:repeat(3,1fr)}.collection-grid{grid-template-columns:repeat(2,1fr)}.brand{min-width:205px}.brand-sub{display:none}.topnav .nav-btn{font-size:12px;padding:8px}.layout{grid-template-columns:220px minmax(0,1fr)}}
 @media(max-width:850px){body{overflow:auto}.mobile-only{display:grid!important}.topbar{height:64px;padding:0 10px;gap:8px;position:sticky;top:0}.brand{min-width:0;flex:1}.brand-mark{width:34px;height:34px}.brand-title{font-size:14px}.topnav{position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--surface);border-top:1px solid var(--border);z-index:60;justify-content:space-around}.topnav .nav-btn{display:flex;flex-direction:column;align-items:center;font-size:10px;padding:6px 8px}.top-actions .font-btn{display:none}.layout{display:block;height:auto}.sidebar{position:fixed;top:64px;bottom:62px;left:0;width:270px;transform:translateX(-105%);transition:transform .2s;z-index:55;box-shadow:20px 0 50px rgba(0,0,0,.2)}.sidebar.open{transform:none}.main-content{overflow:visible;padding-bottom:68px}.page{padding:0 14px 50px}.reader-toolbar{top:64px;align-items:center;flex-wrap:wrap;padding:9px 0}.passage-selectors{width:100%}.passage-selectors label:first-child{flex:1}.passage-selectors select{width:100%;min-width:0}.reader-modes{order:3}.chapter-nav{order:4}.reader-heading{padding-top:24px;align-items:start}.reader-heading h1,.page-hero h1{font-size:27px}.legend-pills{display:none}.verse-row{grid-template-columns:1fr}.verse-cell + .verse-cell{border-left:0;border-top:1px dashed var(--border);padding-left:9px}.verse-cell{padding:15px 10px}.category-grid{grid-template-columns:repeat(2,1fr)}.collection-grid{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column;gap:8px}.search-inline,.search-inline input{width:100%}.page-hero{padding:22px}.hero-orbit{display:none}.timeline-item{grid-template-columns:1fr;gap:5px}.timeline-ref{justify-self:start}.my-grid,.source-grid,.layer-grid{grid-template-columns:1fr}.study-drawer{top:64px;bottom:62px}.place-list{grid-template-columns:1fr}.atlas{height:350px}.source-hero .shield{display:none}}
 @media(max-width:480px){.top-actions #searchBtn{display:none}.category-grid{grid-template-columns:1fr 1fr}.category-card{min-height:100px;padding:13px}.reader-modes{width:100%}.mode-btn{flex:1}.chapter-nav{width:100%;justify-content:space-between}.reader-heading h1{font-size:24px}}
+
+/* Adjustable interface/menu font scale. Scripture reader text uses --font-scale separately. */
+.brand-title{font-size:calc(16px * var(--ui-scale))}
+.brand-sub{font-size:calc(10px * var(--ui-scale))}
+.nav-btn{font-size:calc(15px * var(--ui-scale))}
+.sidebar-title{font-size:calc(13px * var(--ui-scale))}
+.testament-btn{font-size:calc(12px * var(--ui-scale))}
+.book-section-label{font-size:calc(10px * var(--ui-scale))}
+.book-item .zh{font-size:calc(13px * var(--ui-scale))}
+.book-item .en,.book-num{font-size:calc(10px * var(--ui-scale))}
+.passage-selectors label{font-size:calc(9px * var(--ui-scale))}
+.passage-selectors select,.mode-btn,.quiet-btn{font-size:calc(12px * var(--ui-scale))}
+.category-title{font-size:calc(15px * var(--ui-scale))}
+.category-sub{font-size:calc(11px * var(--ui-scale))}
+.chip,.timeline-date,.drawer-tab,.tool-btn,.personal-item,.source-card p,.collection-card p{font-size:calc(12px * var(--ui-scale))}
+.kicker,.card-meta,.source-foot,.search-tips,.ref-chip,.timeline-ref{font-size:calc(10px * var(--ui-scale))}
+.display-settings-card{grid-column:1/-1}
+.display-setting-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.display-setting-row strong{font-size:calc(14px * var(--ui-scale))}
+.display-setting-row .muted,.display-setting-note{font-size:calc(11px * var(--ui-scale))}
+.ui-font-controls{display:flex;align-items:center;gap:7px;flex:0 0 auto}
+.ui-font-controls .quiet-btn{min-width:46px}
+.ui-font-value{font-weight:900;color:var(--accent);min-width:62px!important}
+@media(max-width:850px){
+  .topnav .nav-btn{font-size:calc(11px * var(--ui-scale));line-height:1.15}
+  .brand-title{font-size:calc(14px * var(--ui-scale))}
+  .book-item .zh{font-size:calc(14px * var(--ui-scale))}
+  .book-item .en{font-size:calc(11px * var(--ui-scale))}
+  .testament-btn{font-size:calc(12px * var(--ui-scale))}
+  .passage-selectors label{font-size:calc(10px * var(--ui-scale))}
+  .passage-selectors select,.mode-btn,.quiet-btn{font-size:calc(13px * var(--ui-scale))}
+  .display-setting-row{align-items:flex-start;flex-direction:column}
+  .ui-font-controls{width:100%}
+  .ui-font-controls .quiet-btn{flex:1;min-height:42px}
+}
