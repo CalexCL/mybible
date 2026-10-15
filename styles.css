@@ -123,3 +123,25 @@ a{color:var(--blue)}
   .dashboard-stat{padding:13px}
   .dashboard-reading{align-items:flex-start;flex-direction:column}
 }
+
+/* Prayer Journal & Saved Studies */
+.personal-module-card{grid-column:span 3}
+.module-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.module-head h3{margin:0 0 4px}
+.module-head p{margin:0;font-size:calc(11px * var(--ui-scale))}
+.personal-title{font-size:calc(13px * var(--ui-scale));font-weight:800}
+.personal-meta{font-size:calc(10px * var(--ui-scale));color:var(--accent);margin-top:3px}
+.personal-preview{font-size:calc(11px * var(--ui-scale));margin-top:4px;line-height:1.45}
+.personal-editor-card{width:min(680px,92vw)}
+.personal-editor-form{display:grid;gap:14px;padding:0 20px 20px}
+.personal-editor-form label{display:grid;gap:6px;font-size:calc(11px * var(--ui-scale));font-weight:800;color:var(--muted)}
+.personal-editor-form input,.personal-editor-form textarea,.personal-editor-form select{width:100%;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:11px;padding:10px 11px;outline:none;font:inherit}
+.personal-editor-form textarea{resize:vertical;line-height:1.5}
+.editor-actions{display:flex;gap:8px;justify-content:flex-end}
+.danger-btn{color:var(--red);border-color:color-mix(in srgb,var(--red) 45%,var(--border))}
+@media(max-width:850px){
+  .personal-module-card{grid-column:1}
+  .module-head{flex-direction:column}
+  .module-head .quiet-btn{width:100%;min-height:42px}
+  .personal-editor-form{padding:0 14px 16px}
+}
