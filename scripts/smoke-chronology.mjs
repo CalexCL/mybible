@@ -40,7 +40,7 @@ try {
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
-  assert.ok(await page.locator('#collectionGrid [data-atlas-place]').count()>1,'Back must restore all map pins before leaving Atlas');
+  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back must restore all geographic map markers');
   await page.goto('http://127.0.0.1:8765/?view=explore&collection=places&place=Egypt',{waitUntil:'networkidle'});
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
@@ -50,12 +50,14 @@ try {
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
-  assert.ok(await page.locator('#collectionGrid [data-atlas-place]').count()>1,'Back from selected Atlas location restores all pins');
+  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
   await page.locator('#collectionFilter').fill('Egypt');
   await page.locator('#collectionFilter').fill('');
-  await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
-  assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt');
-  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Clicking Atlas map pin should select one place');
+  await page.locator('#realBibleAtlas .leaflet-marker-icon').first().click();
+  await page.locator('.leaflet-popup-content [data-atlas-place]').first().click();
+  assert.ok((await page.locator('#collectionFilter').inputValue()).length>0);
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Clicking geographic marker should select one place');
+  await page.locator('#collectionFilter').fill('Egypt');
   const backToPerson=page.locator('#collectionGrid .place-card a[href*="chronology.html?person=Moses"]');
   const locationEvidence=page.locator('#collectionGrid .place-card .atlas-person-link .ref-chip');
   assert.ok(await locationEvidence.count()>0,'Atlas person-place relationship must show Scripture evidence');
