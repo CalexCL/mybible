@@ -271,7 +271,7 @@
     list.innerHTML=html;
     list.onclick=handleVerseClick;
     const nkjvLabel=state.mode==='parallel'?' + KJV':'';
-    const sourceText=state.mode==='en'?'KJV':zhResult.source==='structured-online'?`CUVS · structured public-domain transport${nkjvLabel}`:zhResult.source==='structured-cache'?`CUVS · cached structured text${nkjvLabel}`:`CUVS · uploaded PDF fallback${nkjvLabel}`;
+    const sourceText=state.mode==='en'?'KJV · midvash/bible-data public-domain edition':zhResult.source==='structured-online'?`CUVS · structured public-domain transport${nkjvLabel}`:zhResult.source==='structured-cache'?`CUVS · cached structured text${nkjvLabel}`:`CUVS · uploaded PDF fallback${nkjvLabel}`;
     $('#chapterStatus').textContent=`${sourceText} · 点击任一节打开研读面板`; if(state.mode!=='zh'&&enResult.source==='unavailable'){notice.innerHTML='<strong>KJV 经文未能载入：</strong>请检查网络后重试，不会把缺失的英文经文当作 NKJV。';notice.classList.remove('hidden');}
   }
 
