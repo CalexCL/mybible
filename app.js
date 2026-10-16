@@ -157,11 +157,11 @@
   const safePreviousDocument=(()=>{try{const url=new URL(document.referrer);return url.origin===location.origin&&url.pathname!==location.pathname?url.href:null;}catch{return null;}})();
   function updateBackButton(){
     const b=$('#backNavigationBtn');
-    if(b)b.hidden=viewHistory.length===0&&!safePreviousDocument;
+    if(b)b.hidden=false;
   }
   function restorePreviousView(){
     const prior=viewHistory.pop();
-    if(!prior){if(safePreviousDocument){location.href=safePreviousDocument;return;}updateBackButton();return;}
+    if(!prior){if(safePreviousDocument){location.href=safePreviousDocument;return;}if(history.length>1&&document.referrer){history.back();return;}if(document.querySelector('#readerPage.active')){showPage('explore',false);}else{showPage('reader',false);}updateBackButton();return;}
     state.collection=prior.collection;
     state.timelineEra=prior.timelineEra;
     $('#collectionFilter').value=prior.filter;
@@ -181,6 +181,7 @@
     $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     $('#mainContent').scrollTop=0; $('#bookSidebar').classList.remove('open');
     if(page==='mybible')renderPersonal();
+    updateBackButton();
   }
 
   function applyUIScale(){
