@@ -38,6 +38,10 @@ try {
   await page.locator('#collectionGrid .place-card').first().waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
+  await page.locator('#collectionFilter').fill('');
+  await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt');
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Clicking Atlas map pin should select one place');
   const backToPerson=page.locator('#collectionGrid .place-card a[href*="chronology.html?person=Moses"]');
   const locationEvidence=page.locator('#collectionGrid .place-card .atlas-person-link .ref-chip');
   assert.ok(await locationEvidence.count()>0,'Atlas person-place relationship must show Scripture evidence');
