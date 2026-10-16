@@ -696,7 +696,6 @@
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${mapped.map(p=>`<button class="map-pin" style="left:${Number(p.x)}%;top:${Number(p.y)}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
     $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
-    if(key==='originalWords')bindOriginalCollectionAudio(grid);
   }
 
   function renderTimeline(){
