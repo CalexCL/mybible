@@ -595,7 +595,7 @@
 
   function renderExploreCategories(){
     $('#exploreCategories').innerHTML=Object.entries(collectionInfo).map(([key,c])=>`<button class="category-card ${key===state.collection?'active':''}" data-collection="${key}"><div class="category-icon">${c.icon}</div><div class="category-title">${c.title}</div><div class="category-sub">${c.sub}</div></button>`).join('');
-    $$('.category-card').forEach(b=>b.addEventListener('click',()=>{state.collection=b.dataset.collection;$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
+    $('.category-card').forEach(b=>b.addEventListener('click',()=>{if(state.collection!==b.dataset.collection){viewHistory.push({page:'explore',collection:state.collection,timelineEra:state.timelineEra,filter:$('#collectionFilter').value});updateBackButton();}state.collection=b.dataset.collection;$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
   }
 
   function originalStudyItems(){
