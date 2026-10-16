@@ -643,11 +643,11 @@
 
 
   function bindOriginalCollectionAudio(grid){
-    $('[data-lex-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$('[data-lex-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const lex=state.study.greekLexicon?.[normalizeStrongId(btn.dataset.lexAudio)];
       if(lex)playOriginalWord({original:lex.lemma,transliteration:lex.transliteration,language:'Greek'},btn);
     }));
-    $('[data-linked-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$('[data-linked-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const parts=String(btn.dataset.linkedAudio||'').split('|');
       playOriginalWord({strong:parts[1],original:parts[2],transliteration:parts[3],language:parts[4]},btn);
     }));
