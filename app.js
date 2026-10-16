@@ -538,10 +538,10 @@
 
   function renderCollectionTools(items=[]){
     const tools=$('#collectionTools'); if(!tools)return;
-    if(state.collection!=='originalWords'){tools.innerHTML='';return;}
+    if(state.collection!=='originalWords'){stopOriginalAudio();tools.innerHTML='';return;}
     const langCounts={Greek:0,Hebrew:0,Aramaic:0};
     items.forEach(x=>{
-      const lang=String(x.language||x.itemType==='lexicon'?'Greek':'');
+      const lang=x.itemType==='lexicon'?'Greek':String(x.language||'');
       if(langCounts[lang]!==undefined)langCounts[lang]++;
     });
     const visible=state.originalLangFilter==='ALL'?items:items.filter(x=>{
