@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mybible-shell-v56';
+const CACHE_NAME = 'mybible-shell-v57';
 const APP_SHELL = [
   './',
   './index.html',
@@ -63,16 +63,31 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(
-    caches.match(req).then(cached => {
-      const network = fetch(req).then(resp => {
-        if (resp && resp.ok) {
+  // The chronology dataset is versioned and may receive corrections.
+  // Prefer a fresh response when online while retaining the offline copy.
+  if (url.pathname.endsWith('/data/people_chronology.json')) {
+    event.respondWith(
+      fetch(req).then(resp => {
+        if (resp.ok) {
           const copy = resp.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(req, copy)));
         }
         return resp;
-      }).catch(() => cached);
-      return cached || network;
+      }).catch(async () => (await caches.match(req)) || Response.error())
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(resp => {
+        if (resp.ok) {
+          const copy = resp.clone();
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(req, copy)));
+        }
+        return resp;
+      });
     })
   );
 });
