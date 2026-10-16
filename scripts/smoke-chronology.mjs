@@ -39,6 +39,8 @@ try {
   assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
   const backToPerson=page.locator('#collectionGrid .place-card a[href*="chronology.html?person=Moses"]');
+  const locationEvidence=page.locator('#collectionGrid .place-card .atlas-person-link .ref-chip');
+  assert.ok(await locationEvidence.count()>0,'Atlas person-place relationship must show Scripture evidence');
   await backToPerson.waitFor();
   await backToPerson.click();
   await page.locator('#detail').getByText('Moses',{exact:false}).waitFor();
