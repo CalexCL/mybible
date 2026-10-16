@@ -271,3 +271,12 @@ a{color:var(--blue)}
 /* Keep Back visible while reading long Atlas and collection cards */
 #backNavigationBtn{position:fixed;right:16px;bottom:78px;z-index:120;background:var(--surface);border:2px solid var(--accent);box-shadow:0 4px 18px rgba(0,0,0,.18);border-radius:50%;width:48px;height:48px}
 @media(min-width:851px){#backNavigationBtn{bottom:20px;right:22px}}
+
+/* Selected biblical place: prioritize its readable evidence instead of empty schematic space. */
+.atlas-focused .atlas{height:150px;max-width:100%;}
+.atlas-focused .map-pin{left:50%!important;top:45%!important;min-height:44px;min-width:96px;cursor:pointer}
+.atlas-focused .map-water,.atlas-focused .map-river{display:none}
+.atlas-focused .place-list{display:grid;grid-template-columns:minmax(0,1fr)}
+.atlas-focused .place-card{width:100%;max-width:760px;padding:18px;line-height:1.55}
+.atlas-focused .place-card h4{font-size:calc(18px * var(--ui-scale));margin-bottom:7px}
+@media(max-width:850px){.atlas-focused .atlas{height:125px}.atlas-focused .place-card{padding:14px}}
