@@ -509,7 +509,7 @@
     const el=$('#studyCoverage'); if(!el||!state.study)return;
     const metrics=[
       {key:'crossReferences',icon:'↗',label:'串珠',sub:'Cross References',count:Object.keys(state.study.crossReferences||{}).length},
-      {key:'originalWords',icon:'אΩ',label:'原文',sub:'Original Language',count:Object.keys(state.study.originalWords||{}).length},
+      {key:'originalWords',icon:'אΩ',label:'原文',sub:'Original Language',count:Object.keys(state.study.greekLexicon||{}).length+Object.values(state.study.originalWords||{}).flat().filter(w=>String(w.language||'').toLowerCase().includes('hebrew')).length},
       {key:'people',icon:'👥',label:'人物',sub:'People',count:(state.study.people||[]).length},
       {key:'places',icon:'🗺',label:'地点',sub:'Places',count:(state.study.places||[]).length},
       {key:'timeline',icon:'⏳',label:'事件',sub:'Timeline',count:(state.study.timeline||[]).length},
@@ -540,7 +540,12 @@
     const key=state.collection, info=collectionInfo[key], filter=$('#collectionFilter').value.trim().toLowerCase(); $('#collectionTitle').textContent=info.title; const grid=$('#collectionGrid');
     if(key==='places'){ renderPlaces(grid,filter); return; }
     let items=[];
-    if(key==='originalWords') items=Object.entries(state.study.originalWords).flatMap(([ref,arr])=>arr.map(x=>({...x,ref})));
+    if(key==='originalWords'){
+      const linked=Object.entries(state.study.originalWords||{}).flatMap(([ref,arr])=>arr.map(x=>({...x,ref,itemType:'verse-word'})));
+      const linkedStrong=new Set(linked.map(x=>normalizeStrongId(x.strong)).filter(Boolean));
+      const lexicon=Object.values(state.study.greekLexicon||{}).filter(x=>!linkedStrong.has(normalizeStrongId(x.strong))).map(x=>({...x,itemType:'lexicon'}));
+      items=[...linked,...lexicon];
+    }
     else if(key==='crossReferences') items=Object.entries(state.study.crossReferences).map(([ref,refs])=>({ref,refs,titleZh:ref,titleEn:`${refs.length} connected passages`}));
     else items=state.study[key]||[];
     if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
@@ -554,7 +559,10 @@
     if(key==='covenants')return `<article class="collection-card"><div class="card-meta">COVENANT</div><h3>${escapeHTML(x.nameZh)} · ${escapeHTML(x.nameEn)}</h3><p><strong>Parties:</strong> ${escapeHTML(x.parties)}<br><strong>Sign:</strong> ${escapeHTML(x.sign)}</p><div class="ref-chips">${splitRefs(x.ref).map(refChip).join('')}</div></article>`;
     if(key==='prophecies')return `<article class="collection-card"><div class="card-meta">PROPHECY → FULFILLMENT</div><h3>${escapeHTML(x.topic)}</h3><p>${escapeHTML(x.evidence)}</p><div class="ref-chips">${refChip(x.prophecy)}${splitRefs(x.fulfillment).map(refChip).join('')}</div></article>`;
     if(key==='people')return `<article class="collection-card"><div class="card-meta">PERSON</div><h3>${escapeHTML(x.zh)} · ${escapeHTML(x.name)}</h3><p>${escapeHTML(x.role)}</p><div class="ref-chips">${x.refs.map(refChip).join('')}</div></article>`;
-    if(key==='originalWords')return `<article class="collection-card"><div class="card-meta">${escapeHTML(x.language)} · ${escapeHTML(x.ref)}</div><div class="original">${escapeHTML(x.original)}</div><h3>${escapeHTML(x.transliteration)} ${x.strong?`· ${escapeHTML(x.strong)}`:''}</h3><p>${escapeHTML(x.glossZh)} · ${escapeHTML(x.glossEn)}</p><div class="ref-chips">${refChip(x.ref)}</div></article>`;
+    if(key==='originalWords'){
+      if(x.itemType==='lexicon')return `<article class="collection-card original-lexicon-card"><div class="card-meta">STEPBible TBESG · ${escapeHTML(x.pos||'Greek')}</div><div class="collection-original-row"><div class="original">${escapeHTML(x.lemma)}</div><button class="word-audio-btn collection-audio-btn" type="button" data-lex-audio="${escapeHTML(x.strong)}" title="播放发音 · Play pronunciation">🔊</button></div><h3>${escapeHTML(x.transliteration)} · ${escapeHTML(x.strong)}</h3><p>${escapeHTML(x.briefZh)} · ${escapeHTML(x.briefEn)}</p><div class="source-foot">STEPBible TBESG · CC BY 4.0 · 中文简释为 MyBible 翻译</div></article>`;
+      return `<article class="collection-card"><div class="card-meta">${escapeHTML(x.language)} · ${escapeHTML(x.ref)}</div><div class="collection-original-row"><div class="original">${escapeHTML(x.original)}</div><button class="word-audio-btn collection-audio-btn" type="button" data-linked-audio="${escapeHTML(x.ref)}|${escapeHTML(x.strong||'')}|${escapeHTML(x.original||'')}|${escapeHTML(x.transliteration||'')}|${escapeHTML(x.language||'')}" title="播放发音 · Play pronunciation">🔊</button></div><h3>${escapeHTML(x.transliteration)} ${x.strong?`· ${escapeHTML(x.strong)}`:''}</h3><p>${escapeHTML(x.glossZh)} · ${escapeHTML(x.glossEn)}</p><div class="ref-chips">${refChip(x.ref)}</div></article>`;
+    }
     const title=x.titleZh||x.titleEn||x.ref, en=x.titleEn||'', refs=x.refs||splitRefs(x.ref||'');
     return `<article class="collection-card"><div class="card-meta">${escapeHTML(x.category||x.theme||'BIBLE STUDY')}</div><h3>${escapeHTML(title)}${en&&en!==title?` · ${escapeHTML(en)}`:''}</h3>${x.place?`<p>📍 ${escapeHTML(x.place)}</p>`:''}${x.theme?`<p>${escapeHTML(x.theme)}</p>`:''}<div class="ref-chips">${refs.map(refChip).join('')}</div></article>`;
   }
@@ -565,7 +573,15 @@
     let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${mapped.map(p=>`<button class="map-pin" style="left:${Number(p.x)}%;top:${Number(p.y)}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
-    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $('[data-lex-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+      const lex=state.study.greekLexicon?.[normalizeStrongId(btn.dataset.lexAudio)];
+      if(lex)playOriginalWord({original:lex.lemma,transliteration:lex.transliteration,language:'Greek'},btn);
+    }));
+    $('[data-linked-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+      const parts=String(btn.dataset.linkedAudio||'').split('|');
+      playOriginalWord({strong:parts[1],original:parts[2],transliteration:parts[3],language:parts[4]},btn);
+    }));
   }
 
   function renderTimeline(){
