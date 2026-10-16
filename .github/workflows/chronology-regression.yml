@@ -9,6 +9,10 @@ on:
       - 'service-worker.js'
       - 'scripts/test-chronology.mjs'
       - 'scripts/smoke-chronology.mjs'
+      - 'scripts/smoke-bilingual.mjs'
+      - 'app.js'
+      - 'config.js'
+      - 'index.html'
       - '.github/workflows/chronology-regression.yml'
   pull_request:
     paths:
@@ -43,3 +47,4 @@ jobs:
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/mybible-test-server.log 2>&1 &
           node scripts/smoke-chronology.mjs
+          node scripts/smoke-bilingual.mjs
