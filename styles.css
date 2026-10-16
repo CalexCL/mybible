@@ -204,3 +204,13 @@ a{color:var(--blue)}
   .audio-rate-controls{width:100%}
   .audio-rate-btn{flex:1;min-height:38px}
 }
+
+/* Pronunciation sequence controls */
+.original-audio-actions{display:grid;gap:8px;justify-items:end}
+.audio-sequence-controls{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#playIndexedWords.playing{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+@media(max-width:850px){
+  .original-audio-actions{width:100%;justify-items:stretch}
+  .audio-sequence-controls{width:100%}
+  .audio-sequence-controls .quiet-btn{flex:1;min-height:40px}
+}
