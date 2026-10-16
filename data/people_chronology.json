@@ -1,12 +1,13 @@
 {
   "meta": {
-    "version": "0.3.0",
+    "version": "0.3.1",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
     "sourcePolicy": "Protestant Scripture / CUV Genesis 5, 7, 9 and 11 only",
     "floodYear": 1656,
-    "note": "Patriarch births from Abraham onward are conditional on the model placing Abraham's birth 130 years after Terah's birth, inferred by comparing Genesis 11:32, 12:4 and Acts 7:4. This is a harmonization, not a directly stated Abraham birth date. Joseph age at Jacob arrival derived using Genesis 41:46, 41:53-54, 45:6; Jacob age 130 in Genesis 47:9."
+    "note": "Patriarch births from Abraham onward are conditional on the model placing Abraham's birth 130 years after Terah's birth, inferred by comparing Genesis 11:32, 12:4 and Acts 7:4. This is a harmonization, not a directly stated Abraham birth date. Joseph age at Jacob arrival derived using Genesis 41:46, 41:53-54, 45:6; Jacob age 130 in Genesis 47:9. Sarah's 90 years at Isaac's birth compared with Abraham's 100 (Genesis 17:17; 21:5) places her ten relative years after Abraham.",
+    "corrections": "Sarah was 10 years younger than Abraham (Genesis 17:17), not older. Relative birth 2018 and end 2145 are harmonization-derived."
   },
   "people": [
     {
@@ -212,12 +213,12 @@
     {
       "name": "Sarah",
       "zh": "撒拉",
-      "birth": 1998,
+      "birth": 2018,
       "life": 127,
-      "end": 2125,
+      "end": 2145,
       "ref": "Genesis 17:17; 23:1",
       "endType": "Died",
-      "certainty": "conditional-exodus-12:40-reading"
+      "certainty": "lifespan-scripture;relative-dates-derived-from-Abraham-model"
     },
     {
       "name": "Isaac",
@@ -442,6 +443,13 @@
       "age": 365,
       "label": "被神接去 · Taken by God",
       "ref": "Genesis 5:23-24",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Sarah",
+      "age": 90,
+      "label": "以撒出生 · Isaac born",
+      "ref": "Genesis 17:17; 21:5",
       "certainty": "scripture-age"
     }
   ]
