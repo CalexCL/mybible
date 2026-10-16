@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mybible-shell-v55';
+const CACHE_NAME = 'mybible-shell-v56';
 const APP_SHELL = [
   './',
   './index.html',
@@ -43,13 +43,22 @@ self.addEventListener('fetch', event => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
-        .then(resp => {
+      fetch(req).then(resp => {
+        if (resp.ok) {
           const copy = resp.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
-          return resp;
-        })
-        .catch(() => caches.match(req).then(r => r || (url.pathname.endsWith('/chronology.html') ? Response.error() : caches.match('./index.html'))))
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(req, copy)));
+        }
+        return resp;
+      }).catch(async () => {
+        const cached = await caches.match(req, { ignoreSearch: true });
+        if (cached) return cached;
+        if (url.pathname.endsWith('/chronology.html')) {
+          const fallback = await caches.match('./chronology.html');
+          if (fallback) return fallback;
+          return Response.error();
+        }
+        return (await caches.match('./index.html')) || Response.error();
+      })
     );
     return;
   }
