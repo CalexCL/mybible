@@ -794,8 +794,6 @@
         const coords=stops.map(stop=>verifiedGeo[stop.place]);
         if(coords.length>1)map.fitBounds(L.latLngBounds(coords).pad(.3));
         else map.setView(coords[0],7);
-        const all=map._layers;
-        geographic.forEach(p=>{});
         L.popup().setLatLng(coords[0]).setContent('<strong>'+escapeHTML(journey.titleEn)+'</strong><br>'+stops.map((st,i)=>(i+1)+'. '+escapeHTML(st.place)).join('<br>')+'<br><small>Recorded stops only — no inferred route</small>').openOn(map);
         grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       }));
