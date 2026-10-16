@@ -38,6 +38,8 @@ for (const p of data.undatedPeople) {
   for (const e of p.events || []) assert.ok(e.ref && Number.isFinite(e.age) && e.age >= 0 && (p.life === null || e.age <= p.life), 'Invalid age event: ' + p.name);
   for (const e of p.directEvents || []) assert.ok(e.ref && e.relation === 'named-person-in-scripture-event', 'Invalid direct event: ' + p.name);
   for (const e of p.timelineConnections || []) assert.ok(e.ref && e.relation === 'period-context-only', 'Invalid period event: ' + p.name);
+  const directKeys = new Set((p.directEvents || []).map(e => e.ref + '|' + e.titleZh));
+  for (const e of p.timelineConnections || []) assert.ok(!directKeys.has(e.ref + '|' + e.titleZh), 'Duplicate direct and context event: ' + p.name);
   other.set(p.name, p);
 }
 for (const p of study.people) assert.ok(people.has(p.name) || other.has(p.name), 'People Explorer unmatched: ' + p.name);
