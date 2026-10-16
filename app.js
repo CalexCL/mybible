@@ -770,7 +770,7 @@
     let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     const journeys=(state.study.journeys||[]).filter(j=>j.stops.some(stop=>places.some(p=>p.name===stop.place)));
-    const journeyHtml=journeys.length?'<section class="atlas-journeys"><h3>📜 圣经旅程 · Scripture Journey Sequences</h3><p class="muted">经文记载的地点顺序；不代表已确认的道路、距离或精确坐标。</p>'+journeys.map(j=>'<article class="atlas-journey"><strong>'+escapeHTML(j.titleZh)+' · '+escapeHTML(j.titleEn)+'</strong><p>'+escapeHTML(j.stops.map(stop=>stop.place).join(' → '))+'</p><div class="ref-chips">'+j.stops.map(stop=>refChip(stop.ref)).join('')+'</div><small>'+escapeHTML(j.note)+'</small></article>').join('')+'</section>':'';
+    const journeyHtml=journeys.length?'<section class="atlas-journeys"><h3>📜 圣经旅程 · Scripture Journey Sequences</h3><p class="muted">经文记载的地点顺序；不代表已确认的道路、距离或精确坐标。</p>'+journeys.map(j=>'<article class="atlas-journey"><button type="button" class="atlas-journey-map" data-journey="'+escapeHTML(j.id)+'">🗺 Show on map</button><strong>'+escapeHTML(j.titleZh)+' · '+escapeHTML(j.titleEn)+'</strong><p>'+escapeHTML(j.stops.map(stop=>stop.place).join(' → '))+'</p><div class="ref-chips">'+j.stops.map(stop=>refChip(stop.ref)).join('')+'</div><small>'+escapeHTML(j.note)+'</small></article>').join('')+'</section>':'';
     const verifiedGeo={"Rome":[41.9028,12.4964],"Ur":[30.9625,46.1053],"Haran":[36.867,39.029],"Canaan":[31.8,35],"Egypt":[30.0444,31.2357],"Jericho":[31.871,35.443],"Jerusalem":[31.778,35.235],"Bethlehem":[31.705,35.202],"Nazareth":[32.6996,35.3035],"Capernaum":[32.881,35.575],"Sea of Galilee":[32.817,35.583],"Jordan River":[31.84,35.55],"Damascus":[33.5138,36.2765],"Antioch":[36.204,36.161],"Bethel":[31.94,35.224],"Hebron":[31.532,35.099],"Beersheba":[31.252,34.791],"Shechem":[32.214,35.276],"Shiloh":[32.056,35.289],"Mount Carmel":[32.75,35],"Samaria":[32.28,35.19],"Bethany":[31.77,35.263],"Cana":[32.75,35.34],"Bethsaida":[32.91,35.64],"Caesarea Philippi":[33.246,35.693],"Caesarea":[32.502,34.891],"Corinth":[37.938,22.933],"Ephesus":[37.94,27.34],"Philippi":[41.01,24.29],"Thessalonica":[40.64,22.94],"Patmos":[37.31,26.55],"Mount of Olives":[31.778,35.246],"Gethsemane":[31.779,35.24],"Babylon":[32.536,44.421],"Nineveh":[36.36,43.15]};
     const geographic=places.filter(p=>verifiedGeo[p.name]);
     const mapHtml=geographic.length?'<div id="realBibleAtlas" class="real-bible-atlas" role="region" aria-label="Interactive biblical geography map"></div>':'';
@@ -786,6 +786,19 @@
         m.on('click',()=>{map.panTo(verifiedGeo[p.name]);});
         markers.push(m);
       });
+      $('[data-journey]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+        const journey=(state.study.journeys||[]).find(j=>j.id===btn.dataset.journey);
+        if(!journey)return;
+        const stops=journey.stops.filter(stop=>verifiedGeo[stop.place]);
+        if(!stops.length)return;
+        const coords=stops.map(stop=>verifiedGeo[stop.place]);
+        if(coords.length>1)map.fitBounds(L.latLngBounds(coords).pad(.3));
+        else map.setView(coords[0],7);
+        const all=map._layers;
+        geographic.forEach(p=>{});
+        L.popup().setLatLng(coords[0]).setContent('<strong>'+escapeHTML(journey.titleEn)+'</strong><br>'+stops.map((st,i)=>(i+1)+'. '+escapeHTML(st.place)).join('<br>')+'<br><small>Recorded stops only — no inferred route</small>').openOn(map);
+        grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
+      }));
       if(markers.length>1)map.fitBounds(L.featureGroup(markers).getBounds().pad(.15));
       map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderCollection();});});
       setTimeout(()=>map.invalidateSize(),80);
