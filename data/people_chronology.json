@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.8.0",
+    "version": "0.9.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -29,7 +29,9 @@
     "periodPolicy": "Narrative-era grouping is not a claim of exact contemporaneity, lifespan, or BCE dating.",
     "classificationCount": 40,
     "timelineConnectionPolicy": "Period-context-only events do not establish personal attendance, contemporaneity, or historical dates.",
-    "timelineCoverage": 40
+    "timelineCoverage": 40,
+    "directConnectionCount": 21,
+    "directPolicy": "Direct connections only where the named person is included in the referenced biblical narrative; not proof of lifespan alignment."
   },
   "people": [
     {
@@ -553,6 +555,26 @@
           "era": "Wilderness",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "摩西蒙召",
+          "ref": "Exodus 3-4",
+          "era": "Exodus",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "埃及十灾",
+          "ref": "Exodus 7-12",
+          "era": "Exodus",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "出埃及与过红海",
+          "ref": "Exodus 12:33-15:21",
+          "era": "Exodus",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -605,7 +627,8 @@
           "era": "Wilderness",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Joshua",
@@ -632,6 +655,26 @@
           "ref": "Joshua 24",
           "era": "Conquest",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "约书亚进入迦南",
+          "ref": "Joshua 1-4",
+          "era": "Conquest",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "耶利哥城倒塌",
+          "ref": "Joshua 6",
+          "era": "Conquest",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "示剑更新圣约",
+          "ref": "Joshua 24",
+          "era": "Conquest",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -687,6 +730,26 @@
           "era": "United Kingdom",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "大卫击败歌利亚",
+          "ref": "1 Samuel 17",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "大卫作王",
+          "ref": "2 Samuel 2-5",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
+        },
+        {
+          "titleZh": "神与大卫立约",
+          "ref": "2 Samuel 7",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -733,6 +796,14 @@
           "ref": "1 Kings 5-8",
           "era": "United Kingdom",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "所罗门建造圣殿",
+          "ref": "1 Kings 5-8",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -781,7 +852,8 @@
           "era": "Patriarchs",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Levi",
@@ -827,7 +899,8 @@
           "era": "Patriarchs",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Kohath",
@@ -873,7 +946,8 @@
           "era": "Wilderness",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Amram",
@@ -919,7 +993,8 @@
           "era": "Wilderness",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Caleb",
@@ -954,7 +1029,8 @@
           "era": "Conquest",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Eli",
@@ -989,7 +1065,8 @@
           "era": "Judges",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Elijah",
@@ -1037,6 +1114,14 @@
           "ref": "2 Kings 18-19",
           "era": "Assyrian period",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "以利亚在迦密山",
+          "ref": "1 Kings 18",
+          "era": "Divided Kingdom",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -1087,6 +1172,14 @@
           "era": "Assyrian period",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "以赛亚蒙召",
+          "ref": "Isaiah 6",
+          "era": "Assyrian period",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1130,7 +1223,8 @@
           "era": "Exile",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Mary",
@@ -1179,7 +1273,8 @@
           "era": "Jesus",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "John the Baptist",
@@ -1228,7 +1323,8 @@
           "era": "Jesus",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Peter",
@@ -1277,7 +1373,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Paul",
@@ -1326,7 +1423,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Eve",
@@ -1369,7 +1467,8 @@
           "era": "Primeval",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Cain",
@@ -1412,7 +1511,8 @@
           "era": "Primeval",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Abel",
@@ -1455,7 +1555,8 @@
           "era": "Primeval",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Deborah",
@@ -1491,6 +1592,14 @@
           "ref": "Ruth 1-4",
           "era": "Judges",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -1529,6 +1638,14 @@
           "era": "Judges",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1565,6 +1682,14 @@
           "ref": "Ruth 1-4",
           "era": "Judges",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -1603,6 +1728,14 @@
           "era": "Judges",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1639,6 +1772,14 @@
           "ref": "Ruth 1-4",
           "era": "Judges",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "撒母耳事奉",
+          "ref": "1 Samuel 1-8",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -1689,6 +1830,14 @@
           "era": "United Kingdom",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "扫罗受膏作王",
+          "ref": "1 Samuel 9-10",
+          "era": "United Kingdom",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1738,6 +1887,14 @@
           "era": "Assyrian period",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "以利沙接续以利亚",
+          "ref": "2 Kings 2",
+          "era": "Divided Kingdom",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1780,6 +1937,14 @@
           "ref": "Daniel 6",
           "era": "Exile",
           "relation": "period-context-only"
+        }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "耶利米蒙召",
+          "ref": "Jeremiah 1",
+          "era": "Babylonian period",
+          "relation": "named-person-in-scripture-event"
         }
       ]
     },
@@ -1824,6 +1989,14 @@
           "era": "Exile",
           "relation": "period-context-only"
         }
+      ],
+      "directEvents": [
+        {
+          "titleZh": "以西结在被掳之地蒙召",
+          "ref": "Ezekiel 1-3",
+          "era": "Exile",
+          "relation": "named-person-in-scripture-event"
+        }
       ]
     },
     {
@@ -1861,7 +2034,8 @@
           "era": "Persian period",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Ezra",
@@ -1898,7 +2072,8 @@
           "era": "Persian period",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Nehemiah",
@@ -1935,7 +2110,8 @@
           "era": "Persian period",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Joseph (guardian of Jesus)",
@@ -1984,7 +2160,8 @@
           "era": "Jesus",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "John (apostle)",
@@ -2033,7 +2210,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Stephen",
@@ -2082,7 +2260,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Barnabas",
@@ -2131,7 +2310,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Timothy",
@@ -2180,7 +2360,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Priscilla",
@@ -2229,7 +2410,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     },
     {
       "name": "Aquila",
@@ -2278,7 +2460,8 @@
           "era": "Early Church",
           "relation": "period-context-only"
         }
-      ]
+      ],
+      "directEvents": []
     }
   ]
 }
