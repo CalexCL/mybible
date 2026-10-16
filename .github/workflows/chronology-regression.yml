@@ -1,0 +1,36 @@
+name: MyBible Chronology Regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'chronology.html'
+      - 'data/people_chronology.json'
+      - 'data/study.json'
+      - 'service-worker.js'
+      - 'scripts/test-chronology.mjs'
+      - '.github/workflows/chronology-regression.yml'
+  pull_request:
+    paths:
+      - 'chronology.html'
+      - 'data/people_chronology.json'
+      - 'data/study.json'
+      - 'service-worker.js'
+      - 'scripts/test-chronology.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chronology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Chronology and JavaScript
+        run: node scripts/test-chronology.mjs
+      - name: Check main app syntax
+        run: node --check app.js
+      - name: Check PWA service worker syntax
+        run: node --check service-worker.js
