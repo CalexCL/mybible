@@ -187,3 +187,20 @@ a{color:var(--blue)}
 .lexicon-brief{margin-top:10px;border:1px solid color-mix(in srgb,var(--teal) 35%,var(--border));background:color-mix(in srgb,var(--teal) 7%,var(--surface));border-radius:11px;padding:10px}
 .lexicon-brief strong{display:block;font-size:calc(13px * var(--ui-scale));margin:2px 0 4px}
 .lexicon-brief p{margin:0;color:var(--muted);font-size:calc(11px * var(--ui-scale));line-height:1.45}
+
+/* Original-language pronunciation controls */
+.original-audio-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--border);background:var(--surface-2);border-radius:13px;padding:12px;margin-bottom:12px}
+.original-audio-toolbar strong{font-size:calc(12px * var(--ui-scale))}
+.original-audio-toolbar .muted{font-size:calc(10px * var(--ui-scale));line-height:1.45;margin-top:3px}
+.audio-rate-controls{display:flex;gap:6px;flex:0 0 auto}
+.audio-rate-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:6px 8px;font-size:calc(10px * var(--ui-scale));font-weight:800}
+.audio-rate-btn.active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.word-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.word-audio-btn{width:38px;height:38px;border-radius:50%;border:1px solid color-mix(in srgb,var(--teal) 40%,var(--border));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--text);display:grid;place-items:center;font-size:18px;flex:0 0 auto}
+.word-audio-btn.playing{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));color:var(--accent)}
+.audio-source-note{margin-top:7px;color:var(--muted);font-size:calc(9px * var(--ui-scale));font-style:italic}
+@media(max-width:850px){
+  .original-audio-toolbar{align-items:flex-start;flex-direction:column}
+  .audio-rate-controls{width:100%}
+  .audio-rate-btn{flex:1;min-height:38px}
+}
