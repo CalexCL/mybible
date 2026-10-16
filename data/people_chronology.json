@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -38,7 +38,9 @@
       "contextLinks": 210,
       "relationshipClassificationErrors": 0,
       "scope": "Static structural audit; not live UI acceptance"
-    }
+    },
+    "dedupPolicy": "Do not repeat direct person-event links as generic period context on the same biography.",
+    "dedupRemoved": 20
   },
   "people": [
     {
@@ -527,26 +529,8 @@
       "era": "Exodus",
       "timelineConnections": [
         {
-          "titleZh": "摩西蒙召",
-          "ref": "Exodus 3-4",
-          "era": "Exodus",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "埃及十灾",
-          "ref": "Exodus 7-12",
-          "era": "Exodus",
-          "relation": "period-context-only"
-        },
-        {
           "titleZh": "逾越节",
           "ref": "Exodus 12:1-32",
-          "era": "Exodus",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "出埃及与过红海",
-          "ref": "Exodus 12:33-15:21",
           "era": "Exodus",
           "relation": "period-context-only"
         },
@@ -644,26 +628,7 @@
       "ref": "Joshua 24:29; Judges 2:8",
       "events": [],
       "era": "Conquest",
-      "timelineConnections": [
-        {
-          "titleZh": "约书亚进入迦南",
-          "ref": "Joshua 1-4",
-          "era": "Conquest",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "耶利哥城倒塌",
-          "ref": "Joshua 6",
-          "era": "Conquest",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "示剑更新圣约",
-          "ref": "Joshua 24",
-          "era": "Conquest",
-          "relation": "period-context-only"
-        }
-      ],
+      "timelineConnections": [],
       "directEvents": [
         {
           "titleZh": "约书亚进入迦南",
@@ -710,24 +675,6 @@
         {
           "titleZh": "扫罗受膏作王",
           "ref": "1 Samuel 9-10",
-          "era": "United Kingdom",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "大卫击败歌利亚",
-          "ref": "1 Samuel 17",
-          "era": "United Kingdom",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "大卫作王",
-          "ref": "2 Samuel 2-5",
-          "era": "United Kingdom",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "神与大卫立约",
-          "ref": "2 Samuel 7",
           "era": "United Kingdom",
           "relation": "period-context-only"
         },
@@ -795,12 +742,6 @@
         {
           "titleZh": "神与大卫立约",
           "ref": "2 Samuel 7",
-          "era": "United Kingdom",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "所罗门建造圣殿",
-          "ref": "1 Kings 5-8",
           "era": "United Kingdom",
           "relation": "period-context-only"
         }
@@ -1093,12 +1034,6 @@
           "relation": "period-context-only"
         },
         {
-          "titleZh": "以利亚在迦密山",
-          "ref": "1 Kings 18",
-          "era": "Divided Kingdom",
-          "relation": "period-context-only"
-        },
-        {
           "titleZh": "以利沙接续以利亚",
           "ref": "2 Kings 2",
           "era": "Divided Kingdom",
@@ -1159,12 +1094,6 @@
           "titleZh": "以利沙接续以利亚",
           "ref": "2 Kings 2",
           "era": "Divided Kingdom",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "以赛亚蒙召",
-          "ref": "Isaiah 6",
-          "era": "Assyrian period",
           "relation": "period-context-only"
         },
         {
@@ -1583,12 +1512,6 @@
           "relation": "period-context-only"
         },
         {
-          "titleZh": "底波拉与巴拉",
-          "ref": "Judges 4-5",
-          "era": "Judges",
-          "relation": "period-context-only"
-        },
-        {
           "titleZh": "基甸击败米甸人",
           "ref": "Judges 6-8",
           "era": "Judges",
@@ -1630,12 +1553,6 @@
         {
           "titleZh": "底波拉与巴拉",
           "ref": "Judges 4-5",
-          "era": "Judges",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "基甸击败米甸人",
-          "ref": "Judges 6-8",
           "era": "Judges",
           "relation": "period-context-only"
         },
@@ -1683,12 +1600,6 @@
           "ref": "Judges 6-8",
           "era": "Judges",
           "relation": "period-context-only"
-        },
-        {
-          "titleZh": "路得与波阿斯",
-          "ref": "Ruth 1-4",
-          "era": "Judges",
-          "relation": "period-context-only"
         }
       ],
       "directEvents": [
@@ -1726,12 +1637,6 @@
         {
           "titleZh": "基甸击败米甸人",
           "ref": "Judges 6-8",
-          "era": "Judges",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "路得与波阿斯",
-          "ref": "Ruth 1-4",
           "era": "Judges",
           "relation": "period-context-only"
         }
@@ -1808,12 +1713,6 @@
           "relation": "period-context-only"
         },
         {
-          "titleZh": "扫罗受膏作王",
-          "ref": "1 Samuel 9-10",
-          "era": "United Kingdom",
-          "relation": "period-context-only"
-        },
-        {
           "titleZh": "大卫击败歌利亚",
           "ref": "1 Samuel 17",
           "era": "United Kingdom",
@@ -1871,12 +1770,6 @@
           "relation": "period-context-only"
         },
         {
-          "titleZh": "以利沙接续以利亚",
-          "ref": "2 Kings 2",
-          "era": "Divided Kingdom",
-          "relation": "period-context-only"
-        },
-        {
           "titleZh": "以赛亚蒙召",
           "ref": "Isaiah 6",
           "era": "Assyrian period",
@@ -1915,12 +1808,6 @@
       "profileType": "reference-only",
       "eraCertainty": "biblical-narrative-setting",
       "timelineConnections": [
-        {
-          "titleZh": "耶利米蒙召",
-          "ref": "Jeremiah 1",
-          "era": "Babylonian period",
-          "relation": "period-context-only"
-        },
         {
           "titleZh": "但以理被掳到巴比伦",
           "ref": "Daniel 1",
@@ -1982,12 +1869,6 @@
           "titleZh": "耶路撒冷与圣殿被毁",
           "ref": "2 Kings 25",
           "era": "Babylonian period",
-          "relation": "period-context-only"
-        },
-        {
-          "titleZh": "以西结在被掳之地蒙召",
-          "ref": "Ezekiel 1-3",
-          "era": "Exile",
           "relation": "period-context-only"
         },
         {
