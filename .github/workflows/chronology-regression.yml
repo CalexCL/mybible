@@ -8,6 +8,7 @@ on:
       - 'data/study.json'
       - 'service-worker.js'
       - 'scripts/test-chronology.mjs'
+      - 'scripts/smoke-chronology.mjs'
       - '.github/workflows/chronology-regression.yml'
   pull_request:
     paths:
@@ -34,3 +35,11 @@ jobs:
         run: node --check app.js
       - name: Check PWA service worker syntax
         run: node --check service-worker.js
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save playwright
+          npx playwright install chromium --with-deps
+      - name: Browser interaction smoke test
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/mybible-test-server.log 2>&1 &
+          node scripts/smoke-chronology.mjs
