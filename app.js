@@ -110,7 +110,7 @@
     $('#chapterSelect').addEventListener('change',async e=>{state.chapter=+e.target.value; await renderReader();});
     $$('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,true)));
     $('#prevChapter').addEventListener('click',()=>moveChapter(-1)); $('#nextChapter').addEventListener('click',()=>moveChapter(1));
-    $('#closeDrawer').addEventListener('click',()=>$('#studyDrawer').classList.remove('open'));
+    $('#closeDrawer').addEventListener('click',()=>{stopOriginalAudio();$('#studyDrawer').classList.remove('open');});
     $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>{state.selectedTab=b.dataset.tab; $$('.drawer-tab').forEach(x=>x.classList.toggle('active',x===b)); renderDrawer();}));
     $('#themeBtn').addEventListener('click',cycleTheme);
     $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
@@ -373,39 +373,72 @@
     $('.word-audio-btn').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
     if(btn&&playing){btn.classList.add('playing');btn.textContent='◼';}
   }
+  function stopOriginalAudio(){
+    window.__myBibleAudioSequence=(window.__myBibleAudioSequence||0)+1;
+    if(window.__myBibleWordAudio){
+      try{window.__myBibleWordAudio.pause();window.__myBibleWordAudio.currentTime=0;}catch{}
+      window.__myBibleWordAudio=null;
+    }
+    if('speechSynthesis' in window)window.speechSynthesis.cancel();
+    markAudioButton(null,false);
+    const seq=$('#playIndexedWords'); if(seq){seq.classList.remove('playing');seq.textContent='▶ 播放已收录字词';}
+  }
+
+  function speakWordOnce(word,btn=null){
+    return new Promise(resolve=>{
+      if(!word){resolve();return;}
+      const rate=originalAudioRate();
+      if(word.audioUrl){
+        try{
+          const audio=new Audio(word.audioUrl);
+          window.__myBibleWordAudio=audio;
+          audio.playbackRate=rate;
+          if(btn)markAudioButton(btn,true);
+          audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;resolve();};
+          audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;resolve();};
+          audio.play().catch(()=>resolve());
+          return;
+        }catch{resolve();return;}
+      }
+      if(!('speechSynthesis' in window)){resolve();return;}
+      const utter=new SpeechSynthesisUtterance(String(word.original||word.transliteration||''));
+      const lang=audioLanguage(word);
+      if(lang)utter.lang=lang;
+      utter.rate=rate;
+      const voices=window.speechSynthesis.getVoices();
+      const prefix=lang.split('-')[0].toLowerCase();
+      const voice=voices.find(v=>String(v.lang||'').toLowerCase().startsWith(prefix));
+      if(voice)utter.voice=voice;
+      if(btn)markAudioButton(btn,true);
+      utter.onend=()=>{if(btn)markAudioButton(btn,false);resolve();};
+      utter.onerror=()=>{if(btn)markAudioButton(btn,false);resolve();};
+      window.speechSynthesis.speak(utter);
+    });
+  }
+
+  async function playIndexedOriginalWords(words=[]){
+    if(!words.length)return;
+    stopOriginalAudio();
+    const token=window.__myBibleAudioSequence;
+    const btn=$('#playIndexedWords');
+    if(btn){btn.classList.add('playing');btn.textContent='◼ 播放中 · Playing';}
+    for(const word of words){
+      if(token!==window.__myBibleAudioSequence)break;
+      await speakWordOnce(word,null);
+      if(token!==window.__myBibleAudioSequence)break;
+      await new Promise(r=>setTimeout(r,120));
+    }
+    if(token===window.__myBibleAudioSequence && btn){btn.classList.remove('playing');btn.textContent='▶ 播放已收录字词';}
+  }
+
   async function playOriginalWord(word,btn){
     if(!word)return;
-    const rate=originalAudioRate();
-    if(word.audioUrl){
-      try{
-        if(window.__myBibleWordAudio){window.__myBibleWordAudio.pause();window.__myBibleWordAudio=null;}
-        const audio=new Audio(word.audioUrl);
-        window.__myBibleWordAudio=audio;
-        audio.playbackRate=rate;
-        markAudioButton(btn,true);
-        audio.onended=()=>markAudioButton(btn,false);
-        audio.onerror=()=>{markAudioButton(btn,false);toast('音频暂时无法播放');};
-        await audio.play();
-        return;
-      }catch(err){console.warn('[MyBible] word audio failed:',err);}
-    }
-    if(!('speechSynthesis' in window)){
+    stopOriginalAudio();
+    if(!word.audioUrl && !('speechSynthesis' in window)){
       toast('此装置不支持语音播放');
       return;
     }
-    window.speechSynthesis.cancel();
-    const utter=new SpeechSynthesisUtterance(String(word.original||word.transliteration||''));
-    const lang=audioLanguage(word);
-    if(lang)utter.lang=lang;
-    utter.rate=rate;
-    const voices=window.speechSynthesis.getVoices();
-    const prefix=lang.split('-')[0].toLowerCase();
-    const voice=voices.find(v=>String(v.lang||'').toLowerCase().startsWith(prefix));
-    if(voice)utter.voice=voice;
-    markAudioButton(btn,true);
-    utter.onend=()=>markAudioButton(btn,false);
-    utter.onerror=()=>{markAudioButton(btn,false);toast('此装置无法播放这个原文字词');};
-    window.speechSynthesis.speak(utter);
+    await speakWordOnce(word,btn);
   }
 
   function renderDrawer(){
@@ -418,7 +451,7 @@
       $('#drawerBookmark')?.addEventListener('click',()=>{toggleBookmark(ref);renderDrawer();}); $('#drawerHighlight')?.addEventListener('click',()=>{toggleHighlight(ref,$(`.verse-row[data-verse="${state.selectedVerse}"]`));renderDrawer();}); $('#drawerCross')?.addEventListener('click',()=>switchDrawerTab('crossrefs')); $('#drawerConnections')?.addEventListener('click',()=>switchDrawerTab('connections')); $('#drawerOriginal')?.addEventListener('click',()=>switchDrawerTab('original'));
     } else if(state.selectedTab==='original'){
       const stepUrl=stepBibleUrl(), rate=originalAudioRate();
-      body.innerHTML=words.length?`<div class="original-audio-toolbar"><div><strong>🔊 原文字词发音 · Pronunciation</strong><div class="muted">目前无策展录音时使用装置语音作 fallback；不会标示为古代发音重建。</div></div><div class="audio-rate-controls"><button class="audio-rate-btn ${rate===0.75?'active':''}" data-rate="0.75">0.75×</button><button class="audio-rate-btn ${rate===1?'active':''}" data-rate="1">1×</button><button class="audio-rate-btn ${rate===1.25?'active':''}" data-rate="1.25">1.25×</button></div></div>`+words.map((w,i)=>{
+      body.innerHTML=words.length?`<div class="original-audio-toolbar"><div><strong>🔊 原文字词发音 · Pronunciation</strong><div class="muted">目前无策展录音时使用装置语音作 fallback；不会标示为古代发音重建。</div></div><div class="original-audio-actions"><div class="audio-rate-controls"><button class="audio-rate-btn ${rate===0.75?'active':''}" data-rate="0.75">0.75×</button><button class="audio-rate-btn ${rate===1?'active':''}" data-rate="1">1×</button><button class="audio-rate-btn ${rate===1.25?'active':''}" data-rate="1.25">1.25×</button></div><div class="audio-sequence-controls"><button id="playIndexedWords" class="quiet-btn" type="button">▶ 播放已收录字词</button><button id="stopOriginalAudio" class="quiet-btn" type="button">■ 停止</button></div></div></div>`+words.map((w,i)=>{
         const lex=w.strong?lookupGreekLexicon(w.strong):null;
         return `<div class="word-card"><div class="word-title-row"><div class="word-original">${escapeHTML(w.original)}</div><button class="word-audio-btn" type="button" data-audio-index="${i}" title="播放发音 · Play pronunciation">🔊</button></div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="audio-source-note">${escapeHTML(audioSystemLabel(w))}</div>${lex?`<div class="lexicon-brief"><div class="card-meta">STEPBible TBESG · ${escapeHTML(lex.pos||'')}</div><strong>${escapeHTML(lex.lemma)} · ${escapeHTML(lex.transliteration)}</strong><p>${escapeHTML(lex.briefZh)} · ${escapeHTML(lex.briefEn)}</p></div>`:''}<div class="source-foot">Source layer: ${escapeHTML(lex?'STEPBible TBESG · CC BY 4.0':w.source+' / Tyndale House reference framework')}</div></div>`;
       }).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
@@ -443,7 +476,7 @@
       $('#saveNote').addEventListener('click',()=>{const text=$('#noteArea').value.trim();if(text)personal.notes[ref]={text,updated:Date.now()};else delete personal.notes[ref];savePersonal();renderPersonal();toast('笔记已保存');});
     }
   }
-  function switchDrawerTab(tab){state.selectedTab=tab;$$('.drawer-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderDrawer();}
+  function switchDrawerTab(tab){if(tab!=='original')stopOriginalAudio();state.selectedTab=tab;$$('.drawer-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderDrawer();}
 
   function renderStudyCoverage(){
     const el=$('#studyCoverage'); if(!el||!state.study)return;
