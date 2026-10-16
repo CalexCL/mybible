@@ -70,7 +70,7 @@ try {
   await page.locator('#readerPage.active').waitFor();
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   await page.locator('#chronologyBackBtn').click();
-  await page.locator('#explorePage.active').waitFor({timeout:30000});
+  await page.locator('#readerPage.active').waitFor({timeout:30000}); // Origin was the reader, not Explore.
   assert.deepEqual(errors, [], 'Uncaught browser errors');
   console.log('PASS mobile Chromium chronology interactions, filters, deep links, connectors and runtime');
 } finally {
