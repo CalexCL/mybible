@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.1.0",
+    "version": "1.2.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -40,7 +40,8 @@
       "scope": "Static structural audit; not live UI acceptance"
     },
     "dedupPolicy": "Do not repeat direct person-event links as generic period context on the same biography.",
-    "dedupRemoved": 20
+    "dedupRemoved": 20,
+    "placePolicy": "Selected places are linked by cited biblical passages; place association does not prove a journey route, location coordinates, or exact event date."
   },
   "people": [
     {
@@ -241,7 +242,33 @@
       "end": 2183,
       "ref": "Genesis 21:5; 25:7",
       "endType": "Died",
-      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization",
+      "placeConnections": [
+        {
+          "place": "Ur",
+          "ref": "Genesis 11:31",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Haran",
+          "ref": "Genesis 12:4",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Canaan",
+          "ref": "Genesis 12:5",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Hebron",
+          "ref": "Genesis 13:18",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
+      ]
     },
     {
       "name": "Sarah",
@@ -566,6 +593,20 @@
           "era": "Exodus",
           "relation": "named-person-in-scripture-event"
         }
+      ],
+      "placeConnections": [
+        {
+          "place": "Egypt",
+          "ref": "Exodus 2:1-10",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Sinai / Horeb",
+          "ref": "Exodus 3:1-6",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
       ]
     },
     {
@@ -648,6 +689,26 @@
           "era": "Conquest",
           "relation": "named-person-in-scripture-event"
         }
+      ],
+      "placeConnections": [
+        {
+          "place": "Jordan River",
+          "ref": "Joshua 3:1-17",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Jericho",
+          "ref": "Joshua 6:1-20",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Shechem",
+          "ref": "Joshua 24:1",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
       ]
     },
     {
@@ -704,6 +765,26 @@
           "era": "United Kingdom",
           "relation": "named-person-in-scripture-event"
         }
+      ],
+      "placeConnections": [
+        {
+          "place": "Bethlehem",
+          "ref": "1 Samuel 16:1-13",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Jerusalem",
+          "ref": "2 Samuel 5:6-10",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Hebron",
+          "ref": "2 Samuel 2:1-4",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
       ]
     },
     {
@@ -752,6 +833,14 @@
           "ref": "1 Kings 5-8",
           "era": "United Kingdom",
           "relation": "named-person-in-scripture-event"
+        }
+      ],
+      "placeConnections": [
+        {
+          "place": "Jerusalem",
+          "ref": "1 Kings 6:1-14",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
         }
       ]
     },
@@ -1065,6 +1154,20 @@
           "era": "Divided Kingdom",
           "relation": "named-person-in-scripture-event"
         }
+      ],
+      "placeConnections": [
+        {
+          "place": "Mount Carmel",
+          "ref": "1 Kings 18:19-39",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Sinai / Horeb",
+          "ref": "1 Kings 19:8",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
       ]
     },
     {
@@ -1160,7 +1263,15 @@
           "relation": "period-context-only"
         }
       ],
-      "directEvents": []
+      "directEvents": [],
+      "placeConnections": [
+        {
+          "place": "Babylon",
+          "ref": "Daniel 1:1-6",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
+      ]
     },
     {
       "name": "Mary",
@@ -1210,7 +1321,21 @@
           "relation": "period-context-only"
         }
       ],
-      "directEvents": []
+      "directEvents": [],
+      "placeConnections": [
+        {
+          "place": "Nazareth",
+          "ref": "Luke 1:26-38",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Bethlehem",
+          "ref": "Luke 2:4-7",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
+      ]
     },
     {
       "name": "John the Baptist",
@@ -1310,7 +1435,21 @@
           "relation": "period-context-only"
         }
       ],
-      "directEvents": []
+      "directEvents": [],
+      "placeConnections": [
+        {
+          "place": "Capernaum",
+          "ref": "Mark 1:21-30",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Jerusalem",
+          "ref": "Acts 2:14-41",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
+      ]
     },
     {
       "name": "Paul",
@@ -1360,7 +1499,39 @@
           "relation": "period-context-only"
         }
       ],
-      "directEvents": []
+      "directEvents": [],
+      "placeConnections": [
+        {
+          "place": "Damascus",
+          "ref": "Acts 9:3-19",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Antioch",
+          "ref": "Acts 13:1-3",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Corinth",
+          "ref": "Acts 18:1-11",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Ephesus",
+          "ref": "Acts 19:1-10",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        },
+        {
+          "place": "Rome",
+          "ref": "Acts 28:16-31",
+          "relation": "scripture-linked-place",
+          "coordinateCertainty": "not-implied"
+        }
+      ]
     },
     {
       "name": "Eve",
