@@ -117,7 +117,7 @@
     $$('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,true)));
     $('#prevChapter').addEventListener('click',()=>moveChapter(-1)); $('#nextChapter').addEventListener('click',()=>moveChapter(1));
     $('#closeDrawer').addEventListener('click',()=>{stopOriginalAudio();$('#studyDrawer').classList.remove('open');});
-    $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>{state.selectedTab=b.dataset.tab; $$('.drawer-tab').forEach(x=>x.classList.toggle('active',x===b)); renderDrawer();}));
+    $('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
     $('#themeBtn').addEventListener('click',cycleTheme);
     $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
@@ -139,11 +139,12 @@
       const id=$('#studyId').value;if(!id)return;
       await window.MyBibleAuth.deleteStudy(id);closeStudyEditor();await renderSavedStudies();toast('研读已删除');
     });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); stopOriginalAudio(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
 
   function showPage(page){
-    $$('.page').forEach(p=>p.classList.remove('active')); $(`#${page}Page`).classList.add('active');
+    stopOriginalAudio();
+    $('.page').forEach(p=>p.classList.remove('active')); $(`#${page}Page`).classList.add('active');
     $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     $('#mainContent').scrollTop=0; $('#bookSidebar').classList.remove('open');
     if(page==='mybible')renderPersonal();
@@ -408,6 +409,7 @@
       window.__myBibleWordAudio=null;
     }
     if('speechSynthesis' in window)window.speechSynthesis.cancel();
+    if(window.__myBibleAudioResolve){const done=window.__myBibleAudioResolve;window.__myBibleAudioResolve=null;done();}
     markAudioButton(null,false);
     const seq=$('#playIndexedWords'); if(seq){seq.classList.remove('playing');seq.textContent='▶ 播放已收录字词';}
   }
@@ -415,6 +417,9 @@
   function speakWordOnce(word,btn=null){
     return new Promise(resolve=>{
       if(!word){resolve();return;}
+      let settled=false;
+      const finish=()=>{if(settled)return;settled=true;if(window.__myBibleAudioResolve===finish)window.__myBibleAudioResolve=null;resolve();};
+      window.__myBibleAudioResolve=finish;
       const rate=originalAudioRate();
       if(word.audioUrl){
         try{
@@ -422,13 +427,13 @@
           window.__myBibleWordAudio=audio;
           audio.playbackRate=rate;
           if(btn)markAudioButton(btn,true);
-          audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;resolve();};
-          audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;resolve();};
-          audio.play().catch(()=>resolve());
+          audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
+          audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
+          audio.play().catch(()=>finish());
           return;
-        }catch{resolve();return;}
+        }catch{finish();return;}
       }
-      if(!('speechSynthesis' in window)){resolve();return;}
+      if(!('speechSynthesis' in window)){finish();return;}
       const lang=audioLanguage(word);
       const voice=voiceForWord(word);
       const spoken=voice?String(word.original||word.transliteration||''):String(word.transliteration||word.original||'');
@@ -439,8 +444,8 @@
       }
       utter.rate=rate;
       if(btn)markAudioButton(btn,true);
-      utter.onend=()=>{if(btn)markAudioButton(btn,false);resolve();};
-      utter.onerror=()=>{if(btn)markAudioButton(btn,false);resolve();};
+      utter.onend=()=>{if(btn)markAudioButton(btn,false);finish();};
+      utter.onerror=()=>{if(btn)markAudioButton(btn,false);finish();};
       window.speechSynthesis.speak(utter);
     });
   }
@@ -627,6 +632,7 @@
         </div>
       </div>`;
     $$('[data-original-lang]',tools).forEach(btn=>btn.addEventListener('click',()=>{
+      stopOriginalAudio();
       state.originalLangFilter=btn.dataset.originalLang;
       renderCollection();
     }));
@@ -654,6 +660,7 @@
   }
 
   function renderCollection(){
+    stopOriginalAudio();
     const key=state.collection, info=collectionInfo[key], filter=$('#collectionFilter').value.trim().toLowerCase(); $('#collectionTitle').textContent=info.title; const grid=$('#collectionGrid');
     if(key==='places'){ renderPlaces(grid,filter); return; }
     let items=[];
