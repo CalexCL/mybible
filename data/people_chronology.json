@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.6.0",
+    "version": "0.7.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -25,7 +25,9 @@
       "matched": 41,
       "referenceOnlyAdded": 29,
       "explicitPolicy": "Unknown lifespan is null, never zero or inferred."
-    }
+    },
+    "periodPolicy": "Narrative-era grouping is not a claim of exact contemporaneity, lifespan, or BCE dating.",
+    "classificationCount": 40
   },
   "people": [
     {
@@ -620,292 +622,321 @@
     {
       "name": "Elijah",
       "zh": "以利亚",
-      "era": "Unplaced",
+      "era": "Divided Kingdom",
       "life": null,
       "ref": "1 Kings 17-19; 2 Kings 1-2",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Isaiah",
       "zh": "以赛亚",
-      "era": "Unplaced",
+      "era": "Divided Kingdom",
       "life": null,
       "ref": "Isaiah; John 12:37-41",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Daniel",
       "zh": "但以理",
-      "era": "Unplaced",
+      "era": "Exile",
       "life": null,
       "ref": "Daniel",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Mary",
       "zh": "马利亚",
-      "era": "Unplaced",
+      "era": "Gospels",
       "life": null,
       "ref": "Matthew 1-2; Luke 1-2",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "John the Baptist",
       "zh": "施洗约翰",
-      "era": "Unplaced",
+      "era": "Gospels",
       "life": null,
       "ref": "Matthew 3; John 1:19-36",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Peter",
       "zh": "彼得",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Matthew 4:18-20; Acts 1-12",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Paul",
       "zh": "保罗",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 9; 13-28; Romans-Philemon",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Eve",
       "zh": "夏娃",
-      "era": "Unplaced",
+      "era": "Primeval",
       "life": null,
       "ref": "Genesis 2:18-25; Genesis 3:1-24",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Cain",
       "zh": "该隐",
-      "era": "Unplaced",
+      "era": "Primeval",
       "life": null,
       "ref": "Genesis 4:1-24; 1 John 3:12",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Abel",
       "zh": "亚伯",
-      "era": "Unplaced",
+      "era": "Primeval",
       "life": null,
       "ref": "Genesis 4:1-10; Matthew 23:35",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Deborah",
       "zh": "底波拉",
-      "era": "Unplaced",
+      "era": "Judges",
       "life": null,
       "ref": "Judges 4-5",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Gideon",
       "zh": "基甸",
-      "era": "Unplaced",
+      "era": "Judges",
       "life": null,
       "ref": "Judges 6-8; Hebrews 11:32",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Ruth",
       "zh": "路得",
-      "era": "Unplaced",
+      "era": "Judges",
       "life": null,
       "ref": "Ruth 1-4; Matthew 1:5",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Boaz",
       "zh": "波阿斯",
-      "era": "Unplaced",
+      "era": "Judges",
       "life": null,
       "ref": "Ruth 2-4; Matthew 1:5",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Samuel",
       "zh": "撒母耳",
-      "era": "Unplaced",
+      "era": "Judges",
       "life": null,
       "ref": "1 Samuel 1-25; Acts 3:24",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Saul",
       "zh": "扫罗",
-      "era": "Unplaced",
+      "era": "United Kingdom",
       "life": null,
       "ref": "1 Samuel 9-31; Acts 13:21",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Elisha",
       "zh": "以利沙",
-      "era": "Unplaced",
+      "era": "Divided Kingdom",
       "life": null,
       "ref": "1 Kings 19:16-21; 2 Kings 2-13",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Jeremiah",
       "zh": "耶利米",
-      "era": "Unplaced",
+      "era": "Exile",
       "life": null,
       "ref": "Jeremiah 1-52; Matthew 16:14",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Ezekiel",
       "zh": "以西结",
-      "era": "Unplaced",
+      "era": "Exile",
       "life": null,
       "ref": "Ezekiel 1-48",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Esther",
       "zh": "以斯帖",
-      "era": "Unplaced",
+      "era": "Persian Period",
       "life": null,
       "ref": "Esther 2-9",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Ezra",
       "zh": "以斯拉",
-      "era": "Unplaced",
+      "era": "Persian Period",
       "life": null,
       "ref": "Ezra 7-10; Nehemiah 8",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Nehemiah",
       "zh": "尼希米",
-      "era": "Unplaced",
+      "era": "Persian Period",
       "life": null,
       "ref": "Nehemiah 1-13",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Joseph (guardian of Jesus)",
       "zh": "约瑟（耶稣的养父）",
-      "era": "Unplaced",
+      "era": "Gospels",
       "life": null,
       "ref": "Matthew 1-2; Luke 1-2",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "John (apostle)",
       "zh": "使徒约翰",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Matthew 4:21-22; Mark 3:17",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Stephen",
       "zh": "司提反",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 6-7",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Barnabas",
       "zh": "巴拿巴",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 4:36-37; Acts 9:27",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Timothy",
       "zh": "提摩太",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 16:1-5; 1 Timothy 1:2",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Priscilla",
       "zh": "百基拉",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 18:2-26; Romans 16:3-5",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     },
     {
       "name": "Aquila",
       "zh": "亚居拉",
-      "era": "Unplaced",
+      "era": "Early Church",
       "life": null,
       "ref": "Acts 18:2-26; Romans 16:3-5",
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
-      "profileType": "reference-only"
+      "profileType": "reference-only",
+      "eraCertainty": "biblical-narrative-setting"
     }
   ]
 }
