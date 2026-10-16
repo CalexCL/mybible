@@ -129,6 +129,8 @@
     $('#closeStudyModal')?.addEventListener('click',closeStudyEditor);
     $('#prayerForm')?.addEventListener('submit',savePrayerFromForm);
     $('#studyForm')?.addEventListener('submit',saveStudyFromForm);
+    $('#closeVocabStudy')?.addEventListener('click',closeVocabStudy);
+    $('#vocabStudyModal')?.addEventListener('click',e=>{if(e.target.id==='vocabStudyModal')closeVocabStudy();});
     $('#deletePrayerBtn')?.addEventListener('click',async()=>{
       const id=$('#prayerId').value;if(!id)return;
       await window.MyBibleAuth.deletePrayerEntry(id);closePrayerEditor();await renderPrayerJournal();toast('祷告记录已删除');
@@ -137,7 +139,7 @@
       const id=$('#studyId').value;if(!id)return;
       await window.MyBibleAuth.deleteStudy(id);closeStudyEditor();await renderSavedStudies();toast('研读已删除');
     });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
 
   function showPage(page){
@@ -536,6 +538,70 @@
     $$('.category-card').forEach(b=>b.addEventListener('click',()=>{state.collection=b.dataset.collection;$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
   }
 
+  function originalStudyItems(){
+    const filter=$('#collectionFilter')?.value.trim().toLowerCase()||'';
+    const linked=Object.entries(state.study?.originalWords||{}).flatMap(([ref,arr])=>arr.map(x=>({...x,ref,itemType:'verse-word'})));
+    const linkedStrong=new Set(linked.map(x=>normalizeStrongId(x.strong)).filter(Boolean));
+    const lexicon=Object.values(state.study?.greekLexicon||{}).filter(x=>!linkedStrong.has(normalizeStrongId(x.strong))).map(x=>({...x,itemType:'lexicon',language:'Greek'}));
+    let items=[...linked,...lexicon];
+    if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
+    if(state.originalLangFilter!=='ALL')items=items.filter(x=>(x.itemType==='lexicon'?'Greek':String(x.language||''))===state.originalLangFilter);
+    return items;
+  }
+
+  function vocabWord(item){
+    return item?.itemType==='lexicon'
+      ?{original:item.lemma,transliteration:item.transliteration,strong:item.strong,language:'Greek',zh:item.briefZh,en:item.briefEn,source:'STEPBible TBESG'}
+      :{original:item.original,transliteration:item.transliteration,strong:item.strong,language:item.language,zh:item.glossZh,en:item.glossEn,ref:item.ref,source:item.source||'STEP'};
+  }
+
+  function renderVocabStudyCard(){
+    const body=$('#vocabStudyBody'); if(!body)return;
+    const items=state.vocabStudyItems||[];
+    if(!items.length){body.innerHTML='<div class="empty-state">当前筛选没有可学习的原文字词。</div>';return;}
+    state.vocabStudyIndex=Math.min(Math.max(Number(state.vocabStudyIndex)||0,0),items.length-1);
+    const item=items[state.vocabStudyIndex], w=vocabWord(item);
+    body.innerHTML=`
+      <div class="vocab-progress">${state.vocabStudyIndex+1} / ${items.length}</div>
+      <section class="vocab-flashcard">
+        <div class="card-meta">${escapeHTML(w.language||'Original Language')}${w.strong?' · '+escapeHTML(w.strong):''}</div>
+        <div class="vocab-original">${escapeHTML(w.original||'')}</div>
+        <div class="vocab-transliteration">${escapeHTML(w.transliteration||'')}</div>
+        <button id="vocabAudioBtn" class="word-audio-btn vocab-audio-btn" type="button">🔊</button>
+        <div id="vocabAnswer" class="vocab-answer hidden">
+          <strong>${escapeHTML(w.zh||'')}</strong>
+          <span>${escapeHTML(w.en||'')}</span>
+          ${w.ref?'<button id="vocabRefBtn" class="ref-chip" data-ref="'+escapeHTML(w.ref)+'">'+escapeHTML(w.ref)+'</button>':''}
+          <small>${escapeHTML(w.source||'')}</small>
+        </div>
+        <button id="vocabRevealBtn" class="primary-btn" type="button">显示意思 · Reveal Meaning</button>
+      </section>
+      <div class="vocab-nav">
+        <button id="vocabPrevBtn" class="quiet-btn" type="button" ${state.vocabStudyIndex===0?'disabled':''}>← 上一个</button>
+        <button id="vocabNextBtn" class="quiet-btn" type="button" ${state.vocabStudyIndex===items.length-1?'disabled':''}>下一个 →</button>
+      </div>`;
+    $('#vocabAudioBtn')?.addEventListener('click',e=>playOriginalWord(w,e.currentTarget));
+    $('#vocabRevealBtn')?.addEventListener('click',()=>{
+      $('#vocabAnswer')?.classList.remove('hidden');
+      $('#vocabRevealBtn')?.classList.add('hidden');
+    });
+    $('#vocabRefBtn')?.addEventListener('click',e=>{closeVocabStudy();navigateReference(e.currentTarget.dataset.ref);});
+    $('#vocabPrevBtn')?.addEventListener('click',()=>{state.vocabStudyIndex--;renderVocabStudyCard();});
+    $('#vocabNextBtn')?.addEventListener('click',()=>{state.vocabStudyIndex++;renderVocabStudyCard();});
+  }
+
+  function openVocabStudy(items=[]){
+    stopOriginalAudio();
+    state.vocabStudyItems=items;
+    state.vocabStudyIndex=0;
+    $('#vocabStudyModal')?.classList.remove('hidden');
+    renderVocabStudyCard();
+  }
+  function closeVocabStudy(){
+    stopOriginalAudio();
+    $('#vocabStudyModal')?.classList.add('hidden');
+  }
+
   function renderCollectionTools(items=[]){
     const tools=$('#collectionTools'); if(!tools)return;
     if(state.collection!=='originalWords'){stopOriginalAudio();tools.innerHTML='';return;}
@@ -555,6 +621,7 @@
         </div>
         <div class="collection-tool-actions">
           <span class="collection-count">${visible.length} items</span>
+          <button id="startVocabStudy" class="quiet-btn" type="button">🎓 学习模式 · Study</button>
           <button id="playVisibleOriginal" class="quiet-btn" type="button">▶ 播放当前字词</button>
           <button id="stopVisibleOriginal" class="quiet-btn" type="button">■ 停止</button>
         </div>
@@ -571,6 +638,7 @@
       playIndexedOriginalWords(words);
     });
     $('#stopVisibleOriginal')?.addEventListener('click',stopOriginalAudio);
+    $('#startVocabStudy')?.addEventListener('click',()=>openVocabStudy(originalStudyItems()));
   }
 
 
@@ -605,7 +673,7 @@
     }
     const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
-    $$$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function collectionCard(key,x){
