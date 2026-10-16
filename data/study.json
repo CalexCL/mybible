@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.3.2",
+    "version": "0.3.3",
     "status": "expanding",
     "note": "Curated expanding index. Greek lemma pilot expanded from STEPBible TBESG metadata under its stated CC BY 4.0 licence. Chinese brief glosses are MyBible translations of the source's brief English glosses. Hebrew local lexicon definitions remain deferred where permission is unclear."
   },
@@ -3038,5 +3038,58 @@
       "dataset": "TBESG",
       "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
     }
-  }
+  },
+  "journeys": [
+    {
+      "id": "abraham-call",
+      "titleZh": "亚伯兰蒙召与前往迦南",
+      "titleEn": "Abram travels toward Canaan",
+      "person": "Abraham",
+      "stops": [
+        {
+          "place": "Ur",
+          "ref": "Genesis 11:31"
+        },
+        {
+          "place": "Haran",
+          "ref": "Genesis 11:31; Genesis 12:4"
+        },
+        {
+          "place": "Canaan",
+          "ref": "Genesis 12:5"
+        }
+      ],
+      "note": "Scripture names the locations in the migration narrative. This is a textual sequence, not a reconstructed travel route."
+    },
+    {
+      "id": "paul-damascus",
+      "titleZh": "扫罗前往大马士革",
+      "titleEn": "Saul on the road to Damascus",
+      "person": "Paul",
+      "stops": [
+        {
+          "place": "Jerusalem",
+          "ref": "Acts 9:1-2"
+        },
+        {
+          "place": "Damascus",
+          "ref": "Acts 9:3-19"
+        }
+      ],
+      "note": "Textual origin and destination in Acts 9; exact road and intermediate stops are not established here."
+    },
+    {
+      "id": "paul-rome",
+      "titleZh": "保罗抵达罗马",
+      "titleEn": "Paul reaches Rome",
+      "person": "Paul",
+      "stops": [
+        {
+          "place": "Rome",
+          "ref": "Acts 28:14-16"
+        }
+      ],
+      "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry."
+    }
+  ]
 }
