@@ -38,6 +38,12 @@ try {
   await page.locator('#collectionGrid .place-card').first().waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
+  const backToPerson=page.locator('#collectionGrid .place-card a[href*="chronology.html?person=Moses"]');
+  await backToPerson.waitFor();
+  await backToPerson.click();
+  await page.locator('#detail').getByText('Moses',{exact:false}).waitFor();
+  assert.match(page.url(),/chronology.html\?person=Moses/);
+
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
   assert.deepEqual(errors, [], 'Uncaught browser errors');
