@@ -117,7 +117,7 @@
     $$('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,true)));
     $('#prevChapter').addEventListener('click',()=>moveChapter(-1)); $('#nextChapter').addEventListener('click',()=>moveChapter(1));
     $('#closeDrawer').addEventListener('click',()=>{stopOriginalAudio();$('#studyDrawer').classList.remove('open');});
-    $('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
+    $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
     $('#themeBtn').addEventListener('click',cycleTheme);
     $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
@@ -144,7 +144,7 @@
 
   function showPage(page){
     stopOriginalAudio();
-    $('.page').forEach(p=>p.classList.remove('active')); $(`#${page}Page`).classList.add('active');
+    $$('.page').forEach(p=>p.classList.remove('active')); $$(`#${page}Page`).classList.add('active');
     $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     $('#mainContent').scrollTop=0; $('#bookSidebar').classList.remove('open');
     if(page==='mybible')renderPersonal();
@@ -703,7 +703,7 @@
     let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${mapped.map(p=>`<button class="map-pin" style="left:${Number(p.x)}%;top:${Number(p.y)}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
-    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function renderTimeline(){
