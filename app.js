@@ -715,11 +715,11 @@
 
 
   function bindOriginalCollectionAudio(grid){
-    $$('[data-lex-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$$('[data-lex-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const lex=state.study.greekLexicon?.[normalizeStrongId(btn.dataset.lexAudio)];
       if(lex)playOriginalWord({original:lex.lemma,transliteration:lex.transliteration,language:'Greek'},btn);
     }));
-    $$('[data-linked-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$$('[data-linked-audio]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const parts=String(btn.dataset.linkedAudio||'').split('|');
       playOriginalWord({strong:parts[1],original:parts[2],transliteration:parts[3],language:parts[4]},btn);
     }));
@@ -746,7 +746,7 @@
     }
     const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
-    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     if(key==='originalWords')bindOriginalCollectionAudio(grid);
 
   }
@@ -775,7 +775,7 @@
     const geographic=places.filter(p=>verifiedGeo[p.name]);
     const mapHtml=geographic.length?'<div id="realBibleAtlas" class="real-bible-atlas" role="region" aria-label="Interactive biblical geography map"></div>':'';
     grid.innerHTML=`<div class="atlas-wrap ${filter&&places.length===1?'atlas-focused':''}"><div class="card-meta">BIBLE ATLAS · SCHEMATIC ${filter&&places.length===1?'· SELECTED LOCATION':''}</div>${filter&&places.length===1?`<div class="atlas-selected-summary"><strong>📍 ${escapeHTML(places[0].zh)} · ${escapeHTML(places[0].name)}</strong><span>Scripture-linked location · not a geographic route</span></div>`:`${mapHtml}`}<div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div>${([...(state.chronology?.people||[]),...(state.chronology?.undatedPeople||[])]).filter(person=>(person.placeConnections||[]).some(link=>link.place===p.name)).map(person=>{const links=(person.placeConnections||[]).filter(link=>link.place===p.name);return `<div class="atlas-person-link"><a class="quiet-btn" href="chronology.html?person=${encodeURIComponent(person.name)}&from=atlas&place=${encodeURIComponent(p.name)}">👤 ${escapeHTML(person.zh)} · ${escapeHTML(person.name)}</a><div class="ref-chips">${links.map(link=>refChip(link.ref)).join('')}</div></div>`;}).join('')}<a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div>${journeyHtml}<p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
-    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     if(grid.querySelector('#realBibleAtlas')&&window.L){
       const map=L.map('realBibleAtlas',{scrollWheelZoom:false}).setView([34,34],4);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'© OpenStreetMap contributors'}).addTo(map);
@@ -786,7 +786,7 @@
         m.on('click',()=>{map.panTo(verifiedGeo[p.name]);});
         markers.push(m);
       });
-      $('[data-journey]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+      $$('[data-journey]',grid).forEach(btn=>btn.addEventListener('click',()=>{
         const journey=(state.study.journeys||[]).find(j=>j.id===btn.dataset.journey);
         if(!journey)return;
         const stops=journey.stops.filter(stop=>verifiedGeo[stop.place]);
@@ -801,7 +801,7 @@
       map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderCollection();});});
       setTimeout(()=>map.invalidateSize(),80);
     }
-    $('[data-atlas-place]',grid).forEach(b=>b.addEventListener('click',()=>{
+    $$('[data-atlas-place]',grid).forEach(b=>b.addEventListener('click',()=>{
       const place=b.dataset.atlasPlace;
       if(!state.study.places.some(p=>p.name===place))return;
       $('#collectionFilter').value=place;
