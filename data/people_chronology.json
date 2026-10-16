@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.7.0",
+    "version": "0.8.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -27,7 +27,9 @@
       "explicitPolicy": "Unknown lifespan is null, never zero or inferred."
     },
     "periodPolicy": "Narrative-era grouping is not a claim of exact contemporaneity, lifespan, or BCE dating.",
-    "classificationCount": 40
+    "classificationCount": 40,
+    "timelineConnectionPolicy": "Period-context-only events do not establish personal attendance, contemporaneity, or historical dates.",
+    "timelineCoverage": 40
   },
   "people": [
     {
@@ -513,7 +515,45 @@
         }
       ],
       "note": "No reliable Adam-relative placement asserted.",
-      "era": "Exodus"
+      "era": "Exodus",
+      "timelineConnections": [
+        {
+          "titleZh": "摩西蒙召",
+          "ref": "Exodus 3-4",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "埃及十灾",
+          "ref": "Exodus 7-12",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "逾越节",
+          "ref": "Exodus 12:1-32",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "出埃及与过红海",
+          "ref": "Exodus 12:33-15:21",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈山颁布十诫",
+          "ref": "Exodus 19-20",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈立约",
+          "ref": "Exodus 24",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Aaron",
@@ -527,7 +567,45 @@
           "ref": "Exodus 7:7"
         }
       ],
-      "era": "Exodus"
+      "era": "Exodus",
+      "timelineConnections": [
+        {
+          "titleZh": "摩西蒙召",
+          "ref": "Exodus 3-4",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "埃及十灾",
+          "ref": "Exodus 7-12",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "逾越节",
+          "ref": "Exodus 12:1-32",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "出埃及与过红海",
+          "ref": "Exodus 12:33-15:21",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈山颁布十诫",
+          "ref": "Exodus 19-20",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈立约",
+          "ref": "Exodus 24",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Joshua",
@@ -535,7 +613,27 @@
       "life": 110,
       "ref": "Joshua 24:29; Judges 2:8",
       "events": [],
-      "era": "Conquest"
+      "era": "Conquest",
+      "timelineConnections": [
+        {
+          "titleZh": "约书亚进入迦南",
+          "ref": "Joshua 1-4",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶利哥城倒塌",
+          "ref": "Joshua 6",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "示剑更新圣约",
+          "ref": "Joshua 24",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "David",
@@ -551,7 +649,45 @@
         }
       ],
       "note": "70 inferred from 30 years at accession and 40-year reign; calendar years not asserted.",
-      "era": "United Kingdom"
+      "era": "United Kingdom",
+      "timelineConnections": [
+        {
+          "titleZh": "撒母耳事奉",
+          "ref": "1 Samuel 1-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "扫罗受膏作王",
+          "ref": "1 Samuel 9-10",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫击败歌利亚",
+          "ref": "1 Samuel 17",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫作王",
+          "ref": "2 Samuel 2-5",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "神与大卫立约",
+          "ref": "2 Samuel 7",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "所罗门建造圣殿",
+          "ref": "1 Kings 5-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Solomon",
@@ -560,7 +696,45 @@
       "ref": "1 Kings 11:42",
       "events": [],
       "note": "Forty-year reign recorded; age at death not given.",
-      "era": "United Kingdom"
+      "era": "United Kingdom",
+      "timelineConnections": [
+        {
+          "titleZh": "撒母耳事奉",
+          "ref": "1 Samuel 1-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "扫罗受膏作王",
+          "ref": "1 Samuel 9-10",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫击败歌利亚",
+          "ref": "1 Samuel 17",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫作王",
+          "ref": "2 Samuel 2-5",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "神与大卫立约",
+          "ref": "2 Samuel 7",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "所罗门建造圣殿",
+          "ref": "1 Kings 5-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Ishmael",
@@ -569,7 +743,45 @@
       "life": 137,
       "ref": "Genesis 25:17",
       "events": [],
-      "note": "Age at death recorded; not positioned on chart until conditional chronology is integrated."
+      "note": "Age at death recorded; not positioned on chart until conditional chronology is integrated.",
+      "timelineConnections": [
+        {
+          "titleZh": "亚伯拉罕蒙召",
+          "ref": "Genesis 12:1-9",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "神与亚伯拉罕立约",
+          "ref": "Genesis 15; Genesis 17",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以撒出生",
+          "ref": "Genesis 21:1-7",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "亚伯拉罕献以撒",
+          "ref": "Genesis 22:1-19",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "雅各梦见天梯",
+          "ref": "Genesis 28:10-22",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "雅各改名以色列",
+          "ref": "Genesis 32:22-32",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Levi",
@@ -577,7 +789,45 @@
       "era": "Patriarchs",
       "life": 137,
       "ref": "Exodus 6:16",
-      "events": []
+      "events": [],
+      "timelineConnections": [
+        {
+          "titleZh": "亚伯拉罕蒙召",
+          "ref": "Genesis 12:1-9",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "神与亚伯拉罕立约",
+          "ref": "Genesis 15; Genesis 17",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以撒出生",
+          "ref": "Genesis 21:1-7",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "亚伯拉罕献以撒",
+          "ref": "Genesis 22:1-19",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "雅各梦见天梯",
+          "ref": "Genesis 28:10-22",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "雅各改名以色列",
+          "ref": "Genesis 32:22-32",
+          "era": "Patriarchs",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Kohath",
@@ -585,7 +835,45 @@
       "era": "Exodus",
       "life": 133,
       "ref": "Exodus 6:18",
-      "events": []
+      "events": [],
+      "timelineConnections": [
+        {
+          "titleZh": "摩西蒙召",
+          "ref": "Exodus 3-4",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "埃及十灾",
+          "ref": "Exodus 7-12",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "逾越节",
+          "ref": "Exodus 12:1-32",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "出埃及与过红海",
+          "ref": "Exodus 12:33-15:21",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈山颁布十诫",
+          "ref": "Exodus 19-20",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈立约",
+          "ref": "Exodus 24",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Amram",
@@ -593,7 +881,45 @@
       "era": "Exodus",
       "life": 137,
       "ref": "Exodus 6:20",
-      "events": []
+      "events": [],
+      "timelineConnections": [
+        {
+          "titleZh": "摩西蒙召",
+          "ref": "Exodus 3-4",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "埃及十灾",
+          "ref": "Exodus 7-12",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "逾越节",
+          "ref": "Exodus 12:1-32",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "出埃及与过红海",
+          "ref": "Exodus 12:33-15:21",
+          "era": "Exodus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈山颁布十诫",
+          "ref": "Exodus 19-20",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "西奈立约",
+          "ref": "Exodus 24",
+          "era": "Wilderness",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Caleb",
@@ -608,7 +934,27 @@
           "ref": "Joshua 14:10-12"
         }
       ],
-      "note": "Age 85 stated; total lifespan not stated."
+      "note": "Age 85 stated; total lifespan not stated.",
+      "timelineConnections": [
+        {
+          "titleZh": "约书亚进入迦南",
+          "ref": "Joshua 1-4",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶利哥城倒塌",
+          "ref": "Joshua 6",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "示剑更新圣约",
+          "ref": "Joshua 24",
+          "era": "Conquest",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Eli",
@@ -617,7 +963,33 @@
       "life": 98,
       "ref": "1 Samuel 4:15-18",
       "events": [],
-      "note": "Age 98 at death stated."
+      "note": "Age 98 at death stated.",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Elijah",
@@ -628,7 +1000,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "王国分裂",
+          "ref": "1 Kings 12",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利亚在迦密山",
+          "ref": "1 Kings 18",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利沙接续以利亚",
+          "ref": "2 Kings 2",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以赛亚蒙召",
+          "ref": "Isaiah 6",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "北国以色列陷落",
+          "ref": "2 Kings 17",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷从亚述军得拯救",
+          "ref": "2 Kings 18-19",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Isaiah",
@@ -639,7 +1049,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "王国分裂",
+          "ref": "1 Kings 12",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利亚在迦密山",
+          "ref": "1 Kings 18",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利沙接续以利亚",
+          "ref": "2 Kings 2",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以赛亚蒙召",
+          "ref": "Isaiah 6",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "北国以色列陷落",
+          "ref": "2 Kings 17",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷从亚述军得拯救",
+          "ref": "2 Kings 18-19",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Daniel",
@@ -650,7 +1098,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "耶利米蒙召",
+          "ref": "Jeremiah 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理被掳到巴比伦",
+          "ref": "Daniel 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷与圣殿被毁",
+          "ref": "2 Kings 25",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以西结在被掳之地蒙召",
+          "ref": "Ezekiel 1-3",
+          "era": "Exile",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理在狮子坑",
+          "ref": "Daniel 6",
+          "era": "Exile",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Mary",
@@ -661,7 +1141,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "施洗约翰出生",
+          "ref": "Luke 1",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣降生",
+          "ref": "Matthew 1-2; Luke 1-2",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣受洗",
+          "ref": "Matthew 3:13-17; Mark 1:9-11; Luke 3:21-22",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣开始加利利事工",
+          "ref": "Matthew 4:12-25; Mark 1:14-39",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "登山宝训",
+          "ref": "Matthew 5-7",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "五饼二鱼喂饱五千人",
+          "ref": "Matthew 14:13-21; Mark 6:30-44; Luke 9:10-17; John 6:1-14",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "John the Baptist",
@@ -672,7 +1190,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "施洗约翰出生",
+          "ref": "Luke 1",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣降生",
+          "ref": "Matthew 1-2; Luke 1-2",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣受洗",
+          "ref": "Matthew 3:13-17; Mark 1:9-11; Luke 3:21-22",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣开始加利利事工",
+          "ref": "Matthew 4:12-25; Mark 1:14-39",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "登山宝训",
+          "ref": "Matthew 5-7",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "五饼二鱼喂饱五千人",
+          "ref": "Matthew 14:13-21; Mark 6:30-44; Luke 9:10-17; John 6:1-14",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Peter",
@@ -683,7 +1239,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Paul",
@@ -694,7 +1288,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Eve",
@@ -705,7 +1337,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "创造",
+          "ref": "Genesis 1-2",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "人类堕落",
+          "ref": "Genesis 3",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "该隐与亚伯",
+          "ref": "Genesis 4:1-16",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "挪亚洪水",
+          "ref": "Genesis 6-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "巴别塔",
+          "ref": "Genesis 11:1-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Cain",
@@ -716,7 +1380,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "创造",
+          "ref": "Genesis 1-2",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "人类堕落",
+          "ref": "Genesis 3",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "该隐与亚伯",
+          "ref": "Genesis 4:1-16",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "挪亚洪水",
+          "ref": "Genesis 6-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "巴别塔",
+          "ref": "Genesis 11:1-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Abel",
@@ -727,7 +1423,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "创造",
+          "ref": "Genesis 1-2",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "人类堕落",
+          "ref": "Genesis 3",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "该隐与亚伯",
+          "ref": "Genesis 4:1-16",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "挪亚洪水",
+          "ref": "Genesis 6-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "巴别塔",
+          "ref": "Genesis 11:1-9",
+          "era": "Primeval",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Deborah",
@@ -738,7 +1466,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Gideon",
@@ -749,7 +1503,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Ruth",
@@ -760,7 +1540,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Boaz",
@@ -771,7 +1577,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Samuel",
@@ -782,7 +1614,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "士师时期",
+          "ref": "Judges",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "底波拉与巴拉",
+          "ref": "Judges 4-5",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "基甸击败米甸人",
+          "ref": "Judges 6-8",
+          "era": "Judges",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "路得与波阿斯",
+          "ref": "Ruth 1-4",
+          "era": "Judges",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Saul",
@@ -793,7 +1651,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "撒母耳事奉",
+          "ref": "1 Samuel 1-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "扫罗受膏作王",
+          "ref": "1 Samuel 9-10",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫击败歌利亚",
+          "ref": "1 Samuel 17",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "大卫作王",
+          "ref": "2 Samuel 2-5",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "神与大卫立约",
+          "ref": "2 Samuel 7",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "所罗门建造圣殿",
+          "ref": "1 Kings 5-8",
+          "era": "United Kingdom",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Elisha",
@@ -804,7 +1700,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "王国分裂",
+          "ref": "1 Kings 12",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利亚在迦密山",
+          "ref": "1 Kings 18",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以利沙接续以利亚",
+          "ref": "2 Kings 2",
+          "era": "Divided Kingdom",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以赛亚蒙召",
+          "ref": "Isaiah 6",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "北国以色列陷落",
+          "ref": "2 Kings 17",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷从亚述军得拯救",
+          "ref": "2 Kings 18-19",
+          "era": "Assyrian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Jeremiah",
@@ -815,7 +1749,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "耶利米蒙召",
+          "ref": "Jeremiah 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理被掳到巴比伦",
+          "ref": "Daniel 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷与圣殿被毁",
+          "ref": "2 Kings 25",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以西结在被掳之地蒙召",
+          "ref": "Ezekiel 1-3",
+          "era": "Exile",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理在狮子坑",
+          "ref": "Daniel 6",
+          "era": "Exile",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Ezekiel",
@@ -826,7 +1792,39 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "耶利米蒙召",
+          "ref": "Jeremiah 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理被掳到巴比伦",
+          "ref": "Daniel 1",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷与圣殿被毁",
+          "ref": "2 Kings 25",
+          "era": "Babylonian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以西结在被掳之地蒙召",
+          "ref": "Ezekiel 1-3",
+          "era": "Exile",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "但以理在狮子坑",
+          "ref": "Daniel 6",
+          "era": "Exile",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Esther",
@@ -837,7 +1835,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "被掳归回",
+          "ref": "Ezra 1",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "第二圣殿完成",
+          "ref": "Ezra 6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以斯帖成为王后",
+          "ref": "Esther 2",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "尼希米重建城墙",
+          "ref": "Nehemiah 1-6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Ezra",
@@ -848,7 +1872,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "被掳归回",
+          "ref": "Ezra 1",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "第二圣殿完成",
+          "ref": "Ezra 6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以斯帖成为王后",
+          "ref": "Esther 2",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "尼希米重建城墙",
+          "ref": "Nehemiah 1-6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Nehemiah",
@@ -859,7 +1909,33 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "被掳归回",
+          "ref": "Ezra 1",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "第二圣殿完成",
+          "ref": "Ezra 6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "以斯帖成为王后",
+          "ref": "Esther 2",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "尼希米重建城墙",
+          "ref": "Nehemiah 1-6",
+          "era": "Persian period",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Joseph (guardian of Jesus)",
@@ -870,7 +1946,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "施洗约翰出生",
+          "ref": "Luke 1",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣降生",
+          "ref": "Matthew 1-2; Luke 1-2",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣受洗",
+          "ref": "Matthew 3:13-17; Mark 1:9-11; Luke 3:21-22",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶稣开始加利利事工",
+          "ref": "Matthew 4:12-25; Mark 1:14-39",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "登山宝训",
+          "ref": "Matthew 5-7",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "五饼二鱼喂饱五千人",
+          "ref": "Matthew 14:13-21; Mark 6:30-44; Luke 9:10-17; John 6:1-14",
+          "era": "Jesus",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "John (apostle)",
@@ -881,7 +1995,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Stephen",
@@ -892,7 +2044,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Barnabas",
@@ -903,7 +2093,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Timothy",
@@ -914,7 +2142,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Priscilla",
@@ -925,7 +2191,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     },
     {
       "name": "Aquila",
@@ -936,7 +2240,45 @@
       "events": [],
       "note": "Scripture does not specify a reliable lifespan in this index. No calendar year is assigned.",
       "profileType": "reference-only",
-      "eraCertainty": "biblical-narrative-setting"
+      "eraCertainty": "biblical-narrative-setting",
+      "timelineConnections": [
+        {
+          "titleZh": "五旬节",
+          "ref": "Acts 2",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "司提反殉道",
+          "ref": "Acts 6-7",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "保罗归信",
+          "ref": "Acts 9",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "彼得与哥尼流",
+          "ref": "Acts 10",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "安提阿教会差派宣教",
+          "ref": "Acts 13:1-3",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        },
+        {
+          "titleZh": "耶路撒冷会议",
+          "ref": "Acts 15",
+          "era": "Early Church",
+          "relation": "period-context-only"
+        }
+      ]
     }
   ]
 }
