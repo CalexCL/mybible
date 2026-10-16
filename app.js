@@ -162,6 +162,13 @@
     if(b)b.hidden=false;
   }
   function restorePreviousView(){
+    // Within Places Atlas, Back first clears the chosen location and restores all map pins.
+    if(document.querySelector('#explorePage.active') && state.collection==='places' && $('#collectionFilter').value.trim()){
+      $('#collectionFilter').value='';
+      renderCollection();
+      updateBackButton();
+      return;
+    }
     const prior=viewHistory.pop();
     if(!prior){if(safePreviousDocument){location.href=safePreviousDocument;return;}if(history.length>1&&document.referrer){history.back();return;}if(document.querySelector('#readerPage.active')){showPage('explore',false);}else{showPage('reader',false);}updateBackButton();return;}
     state.collection=prior.collection;
