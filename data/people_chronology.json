@@ -1,13 +1,23 @@
 {
   "meta": {
-    "version": "0.3.1",
+    "version": "0.3.2",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
-    "sourcePolicy": "Protestant Scripture / CUV Genesis 5, 7, 9 and 11 only",
+    "sourcePolicy": "Bible text (Genesis 5, 7–9, 11–12, 17, 21, 23, 25, 35, 41, 45, 47, 50; Acts 7:4); derivations explicitly labeled. Original-language reference: STEP Bible/Tyndale House.",
     "floodYear": 1656,
     "note": "Patriarch births from Abraham onward are conditional on the model placing Abraham's birth 130 years after Terah's birth, inferred by comparing Genesis 11:32, 12:4 and Acts 7:4. This is a harmonization, not a directly stated Abraham birth date. Joseph age at Jacob arrival derived using Genesis 41:46, 41:53-54, 45:6; Jacob age 130 in Genesis 47:9. Sarah's 90 years at Isaac's birth compared with Abraham's 100 (Genesis 17:17; 21:5) places her ten relative years after Abraham.",
-    "corrections": "Sarah was 10 years younger than Abraham (Genesis 17:17), not older. Relative birth 2018 and end 2145 are harmonization-derived."
+    "corrections": "Sarah was 10 years younger than Abraham (Genesis 17:17), not older. Relative birth 2018 and end 2145 are harmonization-derived.",
+    "modelId": "masoretic-relative-genesis-acts-harmonization",
+    "modelNotice": "Genesis 5/11 relative chronology plus a CONDITIONAL Terah→Abraham age-130 harmonization using Genesis 11:32, 12:4 and Acts 7:4. Do not present it as a consensus absolute date.",
+    "audit": {
+      "checked": "2026-10-16",
+      "people": 24,
+      "relationships": 21,
+      "events": 9,
+      "internalMath": "passed",
+      "limitations": "Internal consistency only; no independent manuscript-text chronology adjudication; absolute BCE dates are not inferred"
+    }
   },
   "people": [
     {
@@ -208,7 +218,7 @@
       "end": 2183,
       "ref": "Genesis 21:5; 25:7",
       "endType": "Died",
-      "certainty": "conditional-exodus-12:40-reading"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
     },
     {
       "name": "Sarah",
@@ -218,7 +228,7 @@
       "end": 2145,
       "ref": "Genesis 17:17; 23:1",
       "endType": "Died",
-      "certainty": "lifespan-scripture;relative-dates-derived-from-Abraham-model"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
     },
     {
       "name": "Isaac",
@@ -228,7 +238,7 @@
       "end": 2288,
       "ref": "Genesis 21:5; 35:28",
       "endType": "Died",
-      "certainty": "conditional-exodus-12:40-reading"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
     },
     {
       "name": "Jacob",
@@ -238,7 +248,7 @@
       "end": 2315,
       "ref": "Genesis 47:9; 47:28",
       "endType": "Died",
-      "certainty": "conditional-exodus-12:40-reading"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
     },
     {
       "name": "Joseph",
@@ -248,7 +258,7 @@
       "end": 2369,
       "ref": "Genesis 41:46; 50:26",
       "endType": "Died",
-      "certainty": "conditional-exodus-12:40-reading"
+      "certainty": "scripture-lifespan;conditional-relative-years-genesis-acts-harmonization"
     }
   ],
   "events": [
@@ -265,127 +275,148 @@
       "parent": "Adam",
       "child": "Seth",
       "age": 130,
-      "ref": "Genesis 5:3"
+      "ref": "Genesis 5:3",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Seth",
       "child": "Enosh",
       "age": 105,
-      "ref": "Genesis 5:6"
+      "ref": "Genesis 5:6",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Enosh",
       "child": "Kenan",
       "age": 90,
-      "ref": "Genesis 5:9"
+      "ref": "Genesis 5:9",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Kenan",
       "child": "Mahalalel",
       "age": 70,
-      "ref": "Genesis 5:12"
+      "ref": "Genesis 5:12",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Mahalalel",
       "child": "Jared",
       "age": 65,
-      "ref": "Genesis 5:15"
+      "ref": "Genesis 5:15",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Jared",
       "child": "Enoch",
       "age": 162,
-      "ref": "Genesis 5:18"
+      "ref": "Genesis 5:18",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Enoch",
       "child": "Methuselah",
       "age": 65,
-      "ref": "Genesis 5:21"
+      "ref": "Genesis 5:21",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Methuselah",
       "child": "Lamech",
       "age": 187,
-      "ref": "Genesis 5:25"
+      "ref": "Genesis 5:25",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Lamech",
       "child": "Noah",
       "age": 182,
-      "ref": "Genesis 5:28-29"
+      "ref": "Genesis 5:28-29",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Shem",
       "child": "Arpachshad",
       "age": 100,
-      "ref": "Genesis 11:10"
+      "ref": "Genesis 11:10",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Arpachshad",
       "child": "Shelah",
       "age": 35,
-      "ref": "Genesis 11:12"
+      "ref": "Genesis 11:12",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Shelah",
       "child": "Eber",
       "age": 30,
-      "ref": "Genesis 11:14"
+      "ref": "Genesis 11:14",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Eber",
       "child": "Peleg",
       "age": 34,
-      "ref": "Genesis 11:16"
+      "ref": "Genesis 11:16",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Peleg",
       "child": "Reu",
       "age": 30,
-      "ref": "Genesis 11:18"
+      "ref": "Genesis 11:18",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Reu",
       "child": "Serug",
       "age": 32,
-      "ref": "Genesis 11:20"
+      "ref": "Genesis 11:20",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Serug",
       "child": "Nahor",
       "age": 30,
-      "ref": "Genesis 11:22"
+      "ref": "Genesis 11:22",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Nahor",
       "child": "Terah",
       "age": 29,
-      "ref": "Genesis 11:24"
+      "ref": "Genesis 11:24",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Terah",
       "child": "Abraham",
       "age": 130,
-      "ref": "Genesis 11:32; 12:4; Acts 7:4 (harmonized)"
+      "ref": "Genesis 11:32; 12:4; Acts 7:4 (harmonized)",
+      "certainty": "conditional-harmonization"
     },
     {
       "parent": "Abraham",
       "child": "Isaac",
       "age": 100,
-      "ref": "Genesis 21:5"
+      "ref": "Genesis 21:5",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Isaac",
       "child": "Jacob",
       "age": 60,
-      "ref": "Genesis 25:26"
+      "ref": "Genesis 25:26",
+      "certainty": "scripture-stated-age"
     },
     {
       "parent": "Jacob",
       "child": "Joseph",
       "age": 91,
-      "ref": "Genesis 41:46; 45:6; 47:9 (derived)"
+      "ref": "Genesis 41:46; 45:6; 47:9 (derived)",
+      "certainty": "calculated-from-scripture"
     }
   ],
   "lifeEvents": [
