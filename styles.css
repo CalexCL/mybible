@@ -284,3 +284,13 @@ a{color:var(--blue)}
 .atlas-selected-summary{display:flex;flex-direction:column;gap:5px;padding:17px 20px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2);margin:10px 0}.atlas-selected-summary strong{font-size:calc(18px * var(--ui-scale))}.atlas-selected-summary span{font-size:12px;color:var(--muted)}
 
 .atlas-journeys{margin-top:18px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}.atlas-journeys h3{margin:0 0 6px}.atlas-journey{border-top:1px solid var(--border);padding:13px 0}.atlas-journey p{margin:7px 0;font-weight:700;overflow-wrap:anywhere}.atlas-journey small{display:block;margin-top:8px;color:var(--muted);line-height:1.5}
+
+/* Mobile schematic Atlas: non-overlapping tap targets instead of stacked map labels. */
+@media(max-width:850px){
+  .atlas-wrap:not(.atlas-focused) .atlas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;align-items:stretch;gap:10px;padding:16px;max-height:400px;overflow-y:auto;overflow-x:hidden}
+  .atlas-wrap:not(.atlas-focused) .atlas .map-water,.atlas-wrap:not(.atlas-focused) .atlas .map-river{display:none}
+  .atlas-wrap:not(.atlas-focused) .atlas .map-pin{position:relative!important;left:auto!important;top:auto!important;transform:none!important;display:flex;align-items:center;justify-content:flex-start;gap:8px;min-width:0;min-height:48px;padding:7px 9px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:left;cursor:pointer}
+  .atlas-wrap:not(.atlas-focused) .atlas .map-pin .dot{margin:0;flex:none}
+  .atlas-wrap:not(.atlas-focused) .atlas .map-pin .label{white-space:normal;overflow-wrap:anywhere;margin:0;font-size:calc(11px * var(--ui-scale));background:transparent}
+  .atlas-wrap:not(.atlas-focused) .atlas:before{display:none}
+}
