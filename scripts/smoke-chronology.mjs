@@ -52,6 +52,18 @@ try {
 
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
+  await page.goto('http://127.0.0.1:8765/', { waitUntil: 'networkidle' });
+  await page.locator('.nav-btn[data-page="timeline"]').click();
+  await page.locator('#timelinePage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('.nav-btn[data-page="explore"]').click();
+  await page.locator('#explorePage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
+  await page.locator('#chronologyBackBtn').click();
+  await page.locator('#explorePage.active').waitFor({timeout:30000});
   assert.deepEqual(errors, [], 'Uncaught browser errors');
   console.log('PASS mobile Chromium chronology interactions, filters, deep links, connectors and runtime');
 } finally {
