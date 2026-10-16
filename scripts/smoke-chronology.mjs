@@ -14,7 +14,7 @@ try {
   await page.locator('#personSearch').fill('Noah');
   assert.equal(await page.locator('#compareChoices input[data-compare]').count(), 1);
   await page.locator('#personSearch').fill('');
-  await page.locator('#zoom').fill('1500');
+  await page.locator('#zoom').evaluate(el => { el.value = '1500'; el.dispatchEvent(new Event('input', { bubbles: true })); });
   await page.locator('#showConnectors').uncheck();
   await page.locator('#showConnectors').check();
   await page.locator('#undatedSearch').fill('Moses');
