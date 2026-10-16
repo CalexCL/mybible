@@ -25,7 +25,7 @@
   };
 
   const state = {
-    books:[], nkjv:[], cuvsLocal:[], study:null, chronology:null,
+    books:[], nkjv:[], cuvsLocal:[], study:null, chronology:null, englishBookCache:new Map(), englishChapter:[],
     bookIndex:0, chapter:1, mode:'parallel', selectedVerse:1, selectedRef:'Genesis 1:1', selectedTab:'study',
     chineseBookCache:new Map(), collection:'namesOfGod', testament:'ALL', timelineEra:'ALL', originalLangFilter:'ALL'
   };
@@ -55,7 +55,7 @@
   function canonicalRef(bookIndex, chapter, verse){ return `${state.books[bookIndex].english} ${chapter}:${verse}`; }
   function displayRef(bookIndex, chapter, verse){ const b=state.books[bookIndex]; return `${b.chinese} ${chapter}:${verse} · ${b.english} ${chapter}:${verse}`; }
   function currentBook(){ return state.books[state.bookIndex]; }
-  function currentEnglishChapter(){ return CONFIG.scripture?.nkjv?.enabled ? (state.nkjv[state.bookIndex]?.chapters?.[state.chapter-1]?.verses || []) : []; }
+  function currentEnglishChapter(){ return state.englishChapter || []; }
 
   async function init(){
     await (window.MyBibleAuthReady || Promise.resolve());
@@ -85,7 +85,7 @@
     state.bookIndex=Math.min(Math.max(+pos.bookIndex||0,0),65);
     state.chapter=Math.min(Math.max(+pos.chapter||1,1),state.books[state.bookIndex].chapters);
     state.mode=['parallel','zh','en'].includes(pos.mode)?pos.mode:'parallel';
-    if(!CONFIG.scripture?.nkjv?.enabled && state.mode!=='zh') state.mode='zh';
+    if(!CONFIG.scripture?.kjv?.enabled && state.mode!=='zh') state.mode='zh';
     bindUI();
     if('speechSynthesis' in window){
       window.speechSynthesis.getVoices();
@@ -101,10 +101,10 @@
 
 
   function configureTranslationAvailability(){
-    const enabled = !!CONFIG.scripture?.nkjv?.enabled;
+    const enabled = !!CONFIG.scripture?.kjv?.enabled;
     $$('.mode-btn[data-mode="en"], .mode-btn[data-mode="parallel"]').forEach(btn=>{
       btn.disabled = !enabled;
-      btn.title = enabled ? '' : (CONFIG.scripture?.nkjv?.reason || 'NKJV is unavailable in this public build.');
+      btn.title = enabled ? 'KJV · King James Version' : 'English Bible currently unavailable';
     });
   }
 
@@ -196,7 +196,7 @@
     const b=currentBook();
     if(b) window.MyBibleAuth?.saveReadingPosition?.({book_osis:b.osis,chapter:state.chapter,last_verse:state.selectedVerse||1,mode:state.mode});
   }
-  function setMode(mode,render=true){ if((mode==='en'||mode==='parallel')&&!CONFIG.scripture?.nkjv?.enabled){toast('NKJV 公开版暂未启用：等待合法授权数据源');return;} state.mode=mode; $$('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode)); savePosition(); if(render)renderReader(); }
+  function setMode(mode,render=true){ if((mode==='en'||mode==='parallel')&&!CONFIG.scripture?.kjv?.enabled){toast('KJV 经文来源尚未启用');return;} state.mode=mode; $$('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode)); savePosition(); if(render)renderReader(); }
   async function moveChapter(dir){
     let bi=state.bookIndex,ch=state.chapter+dir;
     if(ch<1){if(bi===0)return;bi--;ch=state.books[bi].chapters;}
@@ -226,11 +226,34 @@
     }
   }
 
+  async function getEnglishChapter(){
+    const b=currentBook(), key=b.osis+':'+state.chapter;
+    const cached=loadJSON('mybible.kjv.'+key,null);
+    if(cached?.verses?.length)return {verses:cached.verses,source:'structured-cache'};
+    try{
+      let bookData=state.englishBookCache.get(b.osis);
+      if(!bookData){
+        const template=CONFIG.scripture.kjv.remoteBookTemplate;
+        const response=await fetch(template.replace('{osis}',encodeURIComponent(b.osis)),{cache:'force-cache'});
+        if(!response.ok)throw new Error('KJV HTTP '+response.status);
+        bookData=await response.json();
+        if(bookData.version!=='kjv'||!Array.isArray(bookData.chapters))throw new Error('Unexpected KJV schema');
+        state.englishBookCache.set(b.osis,bookData);
+      }
+      const chapter=bookData.chapters.find(c=>Number(c.chapter)===state.chapter);
+      if(!chapter||!Array.isArray(chapter.verses))throw new Error('KJV chapter missing');
+      const verses=chapter.verses.map(v=>({verse:Number(v.number),text:String(v.text||'')}));
+      if(!verses.length||verses.some((v,i)=>v.verse!==i+1||!v.text))throw new Error('Invalid KJV verse ordering');
+      try{localStorage.setItem('mybible.kjv.'+key,JSON.stringify({verses}));}catch{}
+      return {verses,source:'structured-online'};
+    }catch(err){console.warn('[MyBible] KJV temporarily unavailable',err);return {verses:[],source:'unavailable'};}
+  }
+
   async function renderReader(){
     savePosition(); renderBookNavigation(); syncChapterSelect();
     const b=currentBook(); $('#testamentKicker').textContent=b.testament==='OT'?'旧约 · OLD TESTAMENT':'新约 · NEW TESTAMENT'; $('#passageTitle').textContent=`${b.chinese} · ${b.english} ${state.chapter}`; $('#chapterStatus').textContent='正在载入经文与研读层…';
     const list=$('#verseList'); list.className=`verse-list ${state.mode==='zh'?'zh-only':state.mode==='en'?'en-only':''}`; list.innerHTML='<div class="loading"><div class="spinner"></div>正在载入经文…</div>';
-    const en=currentEnglishChapter(); const zhResult=state.mode==='en'?{verses:[],source:'not-needed'}:await getChineseChapter(); const zh=zhResult.verses;
+    const currentBookIndex=state.bookIndex,currentChapter=state.chapter; const [enResult,zhResult]=await Promise.all([state.mode==='zh'?Promise.resolve({verses:[],source:'not-needed'}):getEnglishChapter(),state.mode==='en'?Promise.resolve({verses:[],source:'not-needed'}):getChineseChapter()]); if(currentBookIndex!==state.bookIndex||currentChapter!==state.chapter)return; state.englishChapter=enResult.verses; const en=enResult.verses,zh=zhResult.verses;
     const notice=$('#scriptureNotice'); notice.classList.add('hidden');
     if(state.mode!=='en'){
       if(zhResult.source==='uploaded-pdf-fallback') {notice.innerHTML='<strong>离线回退：</strong> 当前中文章来自所附 CUVS PDF 的结构化抽取，并通过本章节数检查；联网时会优先使用结构化 CUVS 镜像。';notice.classList.remove('hidden');}
@@ -247,9 +270,9 @@
     if(!max)html='<div class="loading">No verse data available for this chapter.</div>';
     list.innerHTML=html;
     list.onclick=handleVerseClick;
-    const nkjvLabel=CONFIG.scripture?.nkjv?.enabled?' + NKJV':'';
-    const sourceText=state.mode==='en'?'NKJV':zhResult.source==='structured-online'?`CUVS · structured public-domain transport${nkjvLabel}`:zhResult.source==='structured-cache'?`CUVS · cached structured text${nkjvLabel}`:`CUVS · uploaded PDF fallback${nkjvLabel}`;
-    $('#chapterStatus').textContent=`${sourceText} · 点击任一节打开研读面板`;
+    const nkjvLabel=state.mode==='parallel'?' + KJV':'';
+    const sourceText=state.mode==='en'?'KJV':zhResult.source==='structured-online'?`CUVS · structured public-domain transport${nkjvLabel}`:zhResult.source==='structured-cache'?`CUVS · cached structured text${nkjvLabel}`:`CUVS · uploaded PDF fallback${nkjvLabel}`;
+    $('#chapterStatus').textContent=`${sourceText} · 点击任一节打开研读面板`; if(state.mode!=='zh'&&enResult.source==='unavailable'){notice.innerHTML='<strong>KJV 经文未能载入：</strong>请检查网络后重试，不会把缺失的英文经文当作 NKJV。';notice.classList.remove('hidden');}
   }
 
   function handleVerseClick(e){
