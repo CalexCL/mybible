@@ -95,6 +95,12 @@
     }
     configureTranslationAvailability(); renderBookNavigation(); populateSelectors(); renderStudyCoverage(); renderExploreCategories(); renderSources(); renderTimeline(); renderPersonal();
     setMode(state.mode,false); await renderReader();
+    const deep=new URLSearchParams(location.search);
+    if(deep.get('view')==='timeline'){
+      const era=deep.get('era');
+      if(era&&state.study.timeline.some(e=>e.era===era))state.timelineEra=era;
+      renderTimeline();showPage('timeline');
+    }
   }
 
   async function fetchJSON(url){ const r=await fetch(url); if(!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }
