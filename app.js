@@ -96,11 +96,11 @@
     configureTranslationAvailability(); renderBookNavigation(); populateSelectors(); renderStudyCoverage(); renderExploreCategories(); renderSources(); renderTimeline(); renderPersonal();
     setMode(state.mode,false); await renderReader();
     const deep=new URLSearchParams(location.search);
-    if(deep.get('view')==='explore'){showPage('explore');const collection=deep.get('collection');if(collection==='places'){state.collection='places';const place=deep.get('place');$('#collectionFilter').value=place&&state.study.places.some(p=>p.name===place)?place:'';renderExploreCategories();}}
+    if(deep.get('view')==='explore'){showPage('explore',false);const collection=deep.get('collection');if(collection==='places'){state.collection='places';const place=deep.get('place');$('#collectionFilter').value=place&&state.study.places.some(p=>p.name===place)?place:'';renderExploreCategories();}}
     if(deep.get('view')==='timeline'){
       const era=deep.get('era');
       if(era&&state.study.timeline.some(e=>e.era===era))state.timelineEra=era;
-      renderTimeline();showPage('timeline');
+      renderTimeline();showPage('timeline',false);
       const ref=deep.get('ref');
       if(ref){const target=[...document.querySelectorAll('#timelineList .timeline-ref')].find(b=>b.dataset.ref===ref);if(target){target.closest('.timeline-item')?.scrollIntoView({block:'center'});target.closest('.timeline-item')?.classList.add('selected-timeline-event');}}
     }
@@ -154,13 +154,14 @@
   }
 
   const viewHistory=[];
+  const safePreviousDocument=(()=>{try{const url=new URL(document.referrer);return url.origin===location.origin&&url.pathname!==location.pathname?url.href:null;}catch{return null;}})();
   function updateBackButton(){
     const b=$('#backNavigationBtn');
-    if(b)b.hidden=viewHistory.length===0;
+    if(b)b.hidden=viewHistory.length===0&&!safePreviousDocument;
   }
   function restorePreviousView(){
     const prior=viewHistory.pop();
-    if(!prior){updateBackButton();return;}
+    if(!prior){if(safePreviousDocument){location.href=safePreviousDocument;return;}updateBackButton();return;}
     state.collection=prior.collection;
     state.timelineEra=prior.timelineEra;
     $('#collectionFilter').value=prior.filter;
