@@ -25,7 +25,7 @@
   };
 
   const state = {
-    books:[], nkjv:[], cuvsLocal:[], study:null,
+    books:[], nkjv:[], cuvsLocal:[], study:null, chronology:null,
     bookIndex:0, chapter:1, mode:'parallel', selectedVerse:1, selectedRef:'Genesis 1:1', selectedTab:'study',
     chineseBookCache:new Map(), collection:'namesOfGod', testament:'ALL', timelineEra:'ALL', originalLangFilter:'ALL'
   };
@@ -68,6 +68,7 @@
       fetchJSON('data/books.json'), nkjvPromise, fetchJSON(CONFIG.scripture?.cuvs?.localDataUrl || 'data/cuvs_local.json'), fetchJSON('data/study.json')
     ]);
     state.books=books; state.nkjv=nkjv; state.cuvsLocal=cuvsLocal; state.study=study;
+    try { state.chronology=await fetchJSON('data/people_chronology.json'); } catch(err) { console.warn('[MyBible] Chronology unavailable:',err); }
     let pos=loadJSON(STORAGE.position,{bookIndex:0,chapter:1,mode:'parallel'});
     const cloudPrefs=window.MyBibleAuth?.preferences||null;
     if(cloudPrefs?.last_book){
@@ -682,13 +683,14 @@
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
     $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     if(key==='originalWords')bindOriginalCollectionAudio(grid);
+    if(key==='people')$('[data-chronology-person]',grid).forEach(b=>b.addEventListener('click',()=>{window.location.href='chronology.html?person='+encodeURIComponent(b.dataset.chronologyPerson);}));
   }
 
   function collectionCard(key,x){
     if(key==='namesOfGod')return `<article class="collection-card"><div class="card-meta">${escapeHTML(x.kind)}</div><div class="original">${escapeHTML(x.original||'')}</div><h3>${escapeHTML(x.zh)} · ${escapeHTML(x.name)}</h3><p>${escapeHTML(x.meaning)}</p><div class="ref-chips">${x.refs.map(refChip).join('')}</div></article>`;
     if(key==='covenants')return `<article class="collection-card"><div class="card-meta">COVENANT</div><h3>${escapeHTML(x.nameZh)} · ${escapeHTML(x.nameEn)}</h3><p><strong>Parties:</strong> ${escapeHTML(x.parties)}<br><strong>Sign:</strong> ${escapeHTML(x.sign)}</p><div class="ref-chips">${splitRefs(x.ref).map(refChip).join('')}</div></article>`;
     if(key==='prophecies')return `<article class="collection-card"><div class="card-meta">PROPHECY → FULFILLMENT</div><h3>${escapeHTML(x.topic)}</h3><p>${escapeHTML(x.evidence)}</p><div class="ref-chips">${refChip(x.prophecy)}${splitRefs(x.fulfillment).map(refChip).join('')}</div></article>`;
-    if(key==='people')return `<article class="collection-card"><div class="card-meta">PERSON</div><h3>${escapeHTML(x.zh)} · ${escapeHTML(x.name)}</h3><p>${escapeHTML(x.role)}</p><div class="ref-chips">${x.refs.map(refChip).join('')}</div></article>`;
+    if(key==='people'){const cp=state.chronology?.people?.find(p=>p.name===x.name);return `<article class="collection-card"><div class="card-meta">PERSON</div><h3>${escapeHTML(x.zh)} · ${escapeHTML(x.name)}</h3><p>${escapeHTML(x.role)}</p>${cp?`<p>经文记载寿数：${cp.life} 年 · <small>相对年份为特定家谱模型推算</small></p><button type="button" class="quiet-btn" data-chronology-person="${escapeHTML(cp.name)}">⏳ 查看人物年代对照 ↗</button>`:''}<div class="ref-chips">${x.refs.map(refChip).join('')}</div></article>`;}
     if(key==='originalWords'){
       if(x.itemType==='lexicon')return `<article class="collection-card original-lexicon-card"><div class="card-meta">STEPBible TBESG · ${escapeHTML(x.pos||'Greek')}</div><div class="collection-original-row"><div class="original">${escapeHTML(x.lemma)}</div><button class="word-audio-btn collection-audio-btn" type="button" data-lex-audio="${escapeHTML(x.strong)}" title="播放发音 · Play pronunciation">🔊</button></div><h3>${escapeHTML(x.transliteration)} · ${escapeHTML(x.strong)}</h3><p>${escapeHTML(x.briefZh)} · ${escapeHTML(x.briefEn)}</p><div class="source-foot">STEPBible TBESG · CC BY 4.0 · 中文简释为 MyBible 翻译</div></article>`;
       return `<article class="collection-card"><div class="card-meta">${escapeHTML(x.language)} · ${escapeHTML(x.ref)}</div><div class="collection-original-row"><div class="original">${escapeHTML(x.original)}</div><button class="word-audio-btn collection-audio-btn" type="button" data-linked-audio="${escapeHTML(x.ref)}|${escapeHTML(x.strong||'')}|${escapeHTML(x.original||'')}|${escapeHTML(x.transliteration||'')}|${escapeHTML(x.language||'')}" title="播放发音 · Play pronunciation">🔊</button></div><h3>${escapeHTML(x.transliteration)} ${x.strong?`· ${escapeHTML(x.strong)}`:''}</h3><p>${escapeHTML(x.glossZh)} · ${escapeHTML(x.glossEn)}</p><div class="ref-chips">${refChip(x.ref)}</div></article>`;
