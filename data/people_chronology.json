@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.4.0",
+    "version": "0.5.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -18,7 +18,9 @@
       "internalMath": "passed",
       "limitations": "Internal consistency only; no independent manuscript-text chronology adjudication; absolute BCE dates are not inferred"
     },
-    "undatedPolicy": "Document Scripture-stated lifespans and ages separately; do not place undated people on the relative-year axis."
+    "undatedPolicy": "Document Scripture-stated lifespans and ages separately; do not place undated people on the relative-year axis.",
+    "undatedCount": 11,
+    "description": "Undated people are grouped by biblical narrative period, never forced into shared calendar chronology."
   },
   "people": [
     {
@@ -503,7 +505,8 @@
           "ref": "Exodus 7:7"
         }
       ],
-      "note": "No reliable Adam-relative placement asserted."
+      "note": "No reliable Adam-relative placement asserted.",
+      "era": "Exodus"
     },
     {
       "name": "Aaron",
@@ -516,14 +519,16 @@
           "label": "与摩西见法老",
           "ref": "Exodus 7:7"
         }
-      ]
+      ],
+      "era": "Exodus"
     },
     {
       "name": "Joshua",
       "zh": "约书亚",
       "life": 110,
       "ref": "Joshua 24:29; Judges 2:8",
-      "events": []
+      "events": [],
+      "era": "Conquest"
     },
     {
       "name": "David",
@@ -538,7 +543,8 @@
           "ref": "2 Samuel 5:4"
         }
       ],
-      "note": "70 inferred from 30 years at accession and 40-year reign; calendar years not asserted."
+      "note": "70 inferred from 30 years at accession and 40-year reign; calendar years not asserted.",
+      "era": "United Kingdom"
     },
     {
       "name": "Solomon",
@@ -546,7 +552,65 @@
       "life": null,
       "ref": "1 Kings 11:42",
       "events": [],
-      "note": "Forty-year reign recorded; age at death not given."
+      "note": "Forty-year reign recorded; age at death not given.",
+      "era": "United Kingdom"
+    },
+    {
+      "name": "Ishmael",
+      "zh": "以实玛利",
+      "era": "Patriarchs",
+      "life": 137,
+      "ref": "Genesis 25:17",
+      "events": [],
+      "note": "Age at death recorded; not positioned on chart until conditional chronology is integrated."
+    },
+    {
+      "name": "Levi",
+      "zh": "利未",
+      "era": "Patriarchs",
+      "life": 137,
+      "ref": "Exodus 6:16",
+      "events": []
+    },
+    {
+      "name": "Kohath",
+      "zh": "哥辖",
+      "era": "Exodus",
+      "life": 133,
+      "ref": "Exodus 6:18",
+      "events": []
+    },
+    {
+      "name": "Amram",
+      "zh": "暗兰",
+      "era": "Exodus",
+      "life": 137,
+      "ref": "Exodus 6:20",
+      "events": []
+    },
+    {
+      "name": "Caleb",
+      "zh": "迦勒",
+      "era": "Conquest",
+      "life": null,
+      "ref": "Joshua 14:10-12",
+      "events": [
+        {
+          "age": 85,
+          "label": "请求希伯仑为业",
+          "ref": "Joshua 14:10-12"
+        }
+      ],
+      "note": "Age 85 stated; total lifespan not stated."
+    },
+    {
+      "name": "Eli",
+      "zh": "以利",
+      "era": "Judges",
+      "life": 98,
+      "ref": "1 Samuel 4:15-18",
+      "events": [],
+      "note": "Age 98 at death stated."
     }
   ]
 }
