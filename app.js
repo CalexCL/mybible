@@ -673,7 +673,7 @@
     }
     const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
-    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     if(key==='originalWords')bindOriginalCollectionAudio(grid);
   }
 
