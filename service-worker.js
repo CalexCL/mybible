@@ -1,7 +1,9 @@
-const CACHE_NAME = 'mybible-shell-v54';
+const CACHE_NAME = 'mybible-shell-v55';
 const APP_SHELL = [
   './',
   './index.html',
+  './chronology.html',
+  './data/people_chronology.json',
   './styles.css',
   './app.js',
   './config.js',
@@ -47,7 +49,7 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
           return resp;
         })
-        .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
+        .catch(() => caches.match(req).then(r => r || (url.pathname.endsWith('/chronology.html') ? Response.error() : caches.match('./index.html'))))
     );
     return;
   }
