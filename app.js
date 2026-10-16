@@ -131,7 +131,6 @@
       const id=$('#studyId').value;if(!id)return;
       await window.MyBibleAuth.deleteStudy(id);closeStudyEditor();await renderSavedStudies();toast('研读已删除');
     });
-    $$('.chip[data-era]').forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era; $$('.chip[data-era]').forEach(x=>x.classList.toggle('active',x===b)); renderTimeline();}));
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
 
@@ -405,7 +404,7 @@
     else if(key==='crossReferences') items=Object.entries(state.study.crossReferences).map(([ref,refs])=>({ref,refs,titleZh:ref,titleEn:`${refs.length} connected passages`}));
     else items=state.study[key]||[];
     if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
-    const note='<div class="starter-note">V0.1 为“可运行的基础版 + 精选起始资料”。完整穷尽式索引会在后续数据阶段逐项导入并保留来源审计。</div>';
+    const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
     $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
@@ -424,13 +423,23 @@
 
   function renderPlaces(grid,filter){
     let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
-    grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · V0.1 SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${places.map(p=>`<button class="map-pin" style="left:${p.x}%;top:${p.y}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${p.refs.map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅为位置关系示意，不把有争议地点画成确定坐标。正式 Atlas 阶段将采用可审计的历史地理资料。</p></div>`;
-    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
+    grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${mapped.map(p=>`<button class="map-pin" style="left:${Number(p.x)}%;top:${Number(p.y)}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
+    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function renderTimeline(){
-    const items=state.study.timeline.filter(x=>state.timelineEra==='ALL'||x.era===state.timelineEra); $('#timelineList').innerHTML=items.map(x=>`<article class="timeline-item"><div><div class="timeline-era">${escapeHTML(x.era)}</div><div class="timeline-date">${escapeHTML(x.date)}</div></div><div><h3>${escapeHTML(x.titleZh)} · ${escapeHTML(x.titleEn)}</h3></div><button class="timeline-ref" data-ref="${escapeHTML(String(x.ref).split(';')[0])}">${escapeHTML(x.ref)}</button></article>`).join('');
-    $$('.timeline-ref').forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    const timeline=state.study.timeline||[];
+    const controls=$('#timelineControls');
+    const eras=[...new Set(timeline.map(x=>x.era).filter(Boolean))];
+    if(state.timelineEra!=='ALL'&&!eras.includes(state.timelineEra))state.timelineEra='ALL';
+    if(controls){
+      controls.innerHTML=['ALL',...eras].map(era=>`<button class="chip ${state.timelineEra===era?'active':''}" data-era="${escapeHTML(era)}">${era==='ALL'?'全部时期':escapeHTML(era)}</button>`).join('');
+      $('.chip[data-era]',controls).forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era;renderTimeline();}));
+    }
+    const items=timeline.filter(x=>state.timelineEra==='ALL'||x.era===state.timelineEra);
+    $('#timelineList').innerHTML=items.map(x=>`<article class="timeline-item"><div><div class="timeline-era">${escapeHTML(x.era)}</div><div class="timeline-date">${escapeHTML(x.date)}</div></div><div><h3>${escapeHTML(x.titleZh)} · ${escapeHTML(x.titleEn)}</h3></div><button class="timeline-ref" data-ref="${escapeHTML(String(x.ref).split(';')[0])}">${escapeHTML(x.ref)}</button></article>`).join('');
+    $('.timeline-ref').forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function renderSources(){
