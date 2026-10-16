@@ -120,6 +120,7 @@
   function bindUI(){
     $$('.nav-btn').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
     $('.brand').addEventListener('click',()=>showPage('reader'));
+    $('#backNavigationBtn')?.addEventListener('click',restorePreviousView);
     $('#mobileNavBtn').addEventListener('click',()=>$('#bookSidebar').classList.toggle('open'));
     $$('.testament-btn').forEach(b=>b.addEventListener('click',()=>{state.testament=b.dataset.testament; $$('.testament-btn').forEach(x=>x.classList.toggle('active',x===b)); renderBookNavigation();}));
     $('#bookSelect').addEventListener('change',async e=>{state.bookIndex=+e.target.value; state.chapter=1; syncChapterSelect(); await renderReader();});
@@ -152,7 +153,28 @@
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); stopOriginalAudio(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
 
-  function showPage(page){
+  const viewHistory=[];
+  function updateBackButton(){
+    const b=$('#backNavigationBtn');
+    if(b)b.hidden=viewHistory.length===0;
+  }
+  function restorePreviousView(){
+    const prior=viewHistory.pop();
+    if(!prior){updateBackButton();return;}
+    state.collection=prior.collection;
+    state.timelineEra=prior.timelineEra;
+    $('#collectionFilter').value=prior.filter;
+    renderExploreCategories();renderTimeline();
+    showPage(prior.page,false);
+    updateBackButton();
+  }
+  function showPage(page,record=true){
+    const active=document.querySelector('.page.active')?.id.replace(/Page$/,'');
+    if(record&&active&&active!==page){
+      viewHistory.push({page:active,collection:state.collection,timelineEra:state.timelineEra,filter:$('#collectionFilter').value});
+      if(viewHistory.length>35)viewHistory.shift();
+    }
+    updateBackButton();
     stopOriginalAudio();
     $$('.page').forEach(p=>p.classList.remove('active')); $(`#${page}Page`).classList.add('active');
     $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
