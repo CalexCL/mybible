@@ -240,3 +240,23 @@ a{color:var(--blue)}
   .collection-tool-actions{width:100%}
   .collection-tool-actions .quiet-btn{flex:1;min-height:40px}
 }
+
+/* Original Language vocabulary flashcards */
+.vocab-study-card{width:min(620px,92vw)}
+.vocab-study-body{padding:0 20px 20px}
+.vocab-progress{text-align:center;color:var(--muted);font-size:calc(10px * var(--ui-scale));font-weight:800;margin-bottom:10px}
+.vocab-flashcard{display:grid;justify-items:center;text-align:center;gap:10px;border:1px solid var(--border);background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 5%,var(--surface)),var(--surface));border-radius:20px;padding:28px 22px;box-shadow:var(--soft-shadow)}
+.vocab-original{font-family:Georgia,"Noto Serif",serif;font-size:clamp(38px,9vw,62px);line-height:1.1;word-break:break-word}
+.vocab-transliteration{font-size:calc(15px * var(--ui-scale));font-weight:800;color:var(--muted)}
+.vocab-audio-btn{width:46px;height:46px;font-size:21px}
+.vocab-answer{display:grid;gap:5px;margin-top:6px}
+.vocab-answer strong{font-size:calc(18px * var(--ui-scale));color:var(--accent)}
+.vocab-answer span{font-size:calc(13px * var(--ui-scale))}
+.vocab-answer small{font-size:calc(9px * var(--ui-scale));color:var(--muted)}
+.vocab-answer .ref-chip{justify-self:center;margin-top:4px}
+.vocab-nav{display:flex;gap:10px;margin-top:12px}
+.vocab-nav .quiet-btn{flex:1;min-height:42px}
+@media(max-width:560px){
+  .vocab-study-body{padding:0 12px 14px}
+  .vocab-flashcard{padding:24px 14px}
+}
