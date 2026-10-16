@@ -8,6 +8,11 @@ window.MYBIBLE_CONFIG = Object.freeze({
       localDataUrl: 'data/cuvs_local.json',
       remoteBookTemplate: 'https://raw.githubusercontent.com/midvash/bible-data/main/versions/zh/cuvs/books/{osis}.json'
     },
+    kjv: {
+      enabled: true,
+      remoteBookTemplate: 'https://raw.githubusercontent.com/midvash/bible-data/main/versions/en/kjv/books/{osis}.json',
+      attribution: 'King James Version (1769); source: midvash/bible-data (public-domain designation, see SOURCES.md)'
+    },
     nkjv: {
       enabled: false,
       dataUrl: null,
