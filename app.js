@@ -120,7 +120,9 @@
   function bindUI(){
     $$('.nav-btn').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
     $('.brand').addEventListener('click',()=>showPage('reader'));
-    $('#backNavigationBtn')?.addEventListener('click',restorePreviousView);
+    const globalBack=$('#backNavigationBtn');
+    if(globalBack){document.body.appendChild(globalBack);globalBack.hidden=false;globalBack.addEventListener('click',restorePreviousView);}
+
     $('#mobileNavBtn').addEventListener('click',()=>$('#bookSidebar').classList.toggle('open'));
     $$('.testament-btn').forEach(b=>b.addEventListener('click',()=>{state.testament=b.dataset.testament; $$('.testament-btn').forEach(x=>x.classList.toggle('active',x===b)); renderBookNavigation();}));
     $('#bookSelect').addEventListener('change',async e=>{state.bookIndex=+e.target.value; state.chapter=1; syncChapterSelect(); await renderReader();});
