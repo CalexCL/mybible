@@ -253,6 +253,17 @@
   function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
 
   function openDrawer(){ $('#studyRef').textContent=displayRef(state.bookIndex,state.chapter,state.selectedVerse); $('#studyDrawer').classList.add('open'); renderDrawer(); }
+  function normalizeStrongId(v=''){
+    const s=String(v||'').trim().toUpperCase();
+    const m=s.match(/^([GH])(\d+)$/);
+    if(!m)return s;
+    return m[1]+String(Number(m[2])).padStart(4,'0');
+  }
+  function lookupGreekLexicon(strong){
+    const key=normalizeStrongId(strong);
+    return state.study?.greekLexicon?.[key]||null;
+  }
+
   function stepBibleUrl(book=currentBook(),chapter=state.chapter,verse=state.selectedVerse){
     if(!book)return 'https://www.stepbible.org/';
     const ref=book.osis+'.'+Number(chapter||1)+'.'+Number(verse||1);
@@ -343,7 +354,10 @@
       $('#drawerBookmark')?.addEventListener('click',()=>{toggleBookmark(ref);renderDrawer();}); $('#drawerHighlight')?.addEventListener('click',()=>{toggleHighlight(ref,$(`.verse-row[data-verse="${state.selectedVerse}"]`));renderDrawer();}); $('#drawerCross')?.addEventListener('click',()=>switchDrawerTab('crossrefs')); $('#drawerConnections')?.addEventListener('click',()=>switchDrawerTab('connections')); $('#drawerOriginal')?.addEventListener('click',()=>switchDrawerTab('original'));
     } else if(state.selectedTab==='original'){
       const stepUrl=stepBibleUrl();
-      body.innerHTML=words.length?words.map(w=>`<div class="word-card"><div class="word-original">${escapeHTML(w.original)}</div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="source-foot">Source layer: ${escapeHTML(w.source)} / Tyndale House reference framework</div></div>`).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
+      body.innerHTML=words.length?words.map(w=>{
+        const lex=w.strong?lookupGreekLexicon(w.strong):null;
+        return `<div class="word-card"><div class="word-original">${escapeHTML(w.original)}</div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div>${lex?`<div class="lexicon-brief"><div class="card-meta">STEPBible TBESG · ${escapeHTML(lex.pos||'')}</div><strong>${escapeHTML(lex.lemma)} · ${escapeHTML(lex.transliteration)}</strong><p>${escapeHTML(lex.briefZh)} · ${escapeHTML(lex.briefEn)}</p></div>`:''}<div class="source-foot">Source layer: ${escapeHTML(lex?'STEPBible TBESG · CC BY 4.0':w.source+' / Tyndale House reference framework')}</div></div>`;
+      }).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
     } else if(state.selectedTab==='crossrefs'){
       const direct=crossRefs.filter(x=>x.direction==='direct');
       const reverse=crossRefs.filter(x=>x.direction==='reverse');
