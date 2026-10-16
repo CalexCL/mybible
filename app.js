@@ -144,7 +144,7 @@
 
   function showPage(page){
     stopOriginalAudio();
-    $$('.page').forEach(p=>p.classList.remove('active')); $$(`#${page}Page`).classList.add('active');
+    $$('.page').forEach(p=>p.classList.remove('active')); $(`#${page}Page`).classList.add('active');
     $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     $('#mainContent').scrollTop=0; $('#bookSidebar').classList.remove('open');
     if(page==='mybible')renderPersonal();
