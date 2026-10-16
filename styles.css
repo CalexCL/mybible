@@ -221,3 +221,9 @@ a{color:var(--blue)}
 .audio-status-chip.curated{border-color:color-mix(in srgb,var(--green) 45%,var(--border));color:var(--green)}
 .audio-status-chip.device{border-color:color-mix(in srgb,var(--teal) 45%,var(--border));color:var(--teal)}
 .audio-status-chip.fallback{border-color:color-mix(in srgb,var(--accent) 40%,var(--border));color:var(--accent)}
+
+/* Original-language explorer lexicon cards */
+.collection-original-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.collection-original-row .original{min-width:0}
+.collection-audio-btn{width:36px;height:36px;font-size:17px}
+.original-lexicon-card{border-color:color-mix(in srgb,var(--teal) 24%,var(--border))}
