@@ -282,3 +282,5 @@ a{color:var(--blue)}
 @media(max-width:850px){.atlas-focused .atlas{height:125px}.atlas-focused .place-card{padding:14px}}
 
 .atlas-selected-summary{display:flex;flex-direction:column;gap:5px;padding:17px 20px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2);margin:10px 0}.atlas-selected-summary strong{font-size:calc(18px * var(--ui-scale))}.atlas-selected-summary span{font-size:12px;color:var(--muted)}
+
+.atlas-journeys{margin-top:18px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}.atlas-journeys h3{margin:0 0 6px}.atlas-journey{border-top:1px solid var(--border);padding:13px 0}.atlas-journey p{margin:7px 0;font-weight:700;overflow-wrap:anywhere}.atlas-journey small{display:block;margin-top:8px;color:var(--muted);line-height:1.5}
