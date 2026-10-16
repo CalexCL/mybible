@@ -358,7 +358,7 @@
     const n=Number(rate);
     if(![0.75,1,1.25].includes(n))return;
     localStorage.setItem(STORAGE.audioRate,String(n));
-    $('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
+    $$('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
   }
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
@@ -396,7 +396,7 @@
     });
   }
   function markAudioButton(btn,playing){
-    $('.word-audio-btn').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+    $$('.word-audio-btn').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
     if(btn&&playing){btn.classList.add('playing');btn.textContent='◼';}
   }
   function stopOriginalAudio(){
@@ -482,8 +482,8 @@
         const lex=w.strong?lookupGreekLexicon(w.strong):null;
         return `<div class="word-card"><div class="word-title-row"><div class="word-original">${escapeHTML(w.original)}</div><button class="word-audio-btn" type="button" data-audio-index="${i}" title="播放发音 · Play pronunciation">🔊</button></div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="audio-source-note">${escapeHTML(audioSystemLabel(w))}</div>${lex?`<div class="lexicon-brief"><div class="card-meta">STEPBible TBESG · ${escapeHTML(lex.pos||'')}</div><strong>${escapeHTML(lex.lemma)} · ${escapeHTML(lex.transliteration)}</strong><p>${escapeHTML(lex.briefZh)} · ${escapeHTML(lex.briefEn)}</p></div>`:''}<div class="source-foot">Source layer: ${escapeHTML(lex?'STEPBible TBESG · CC BY 4.0':w.source+' / Tyndale House reference framework')}</div></div>`;
       }).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
-      $('.word-audio-btn',body).forEach(btn=>btn.addEventListener('click',()=>playOriginalWord(words[Number(btn.dataset.audioIndex)],btn)));
-      $('.audio-rate-btn',body).forEach(btn=>btn.addEventListener('click',()=>setOriginalAudioRate(Number(btn.dataset.rate))));
+      $$('.word-audio-btn',body).forEach(btn=>btn.addEventListener('click',()=>playOriginalWord(words[Number(btn.dataset.audioIndex)],btn)));
+      $$('.audio-rate-btn',body).forEach(btn=>btn.addEventListener('click',()=>setOriginalAudioRate(Number(btn.dataset.rate))));
     } else if(state.selectedTab==='crossrefs'){
       const direct=crossRefs.filter(x=>x.direction==='direct');
       const reverse=crossRefs.filter(x=>x.direction==='reverse');
@@ -492,7 +492,7 @@
         (reverse.length?`<div class="study-section"><h3>反向关联 · Linked From</h3><div class="ref-chips">${reverse.map(x=>`<button class="ref-chip drawer-ref reverse-ref" data-ref="${escapeHTML(x.ref)}">${escapeHTML(x.ref)}</button>`).join('')}</div></div>`:'')+
         '<div class="source-foot">TSK starter network · 现在同时显示直接串珠与反向经文连接。完整 TSK 导入将在后续数据阶段继续扩充。</div>':
         '<div class="empty-state">本节尚未写入本机串珠索引。完整 TSK 数据接口已列入下一数据阶段。<br><br><a target="_blank" rel="noopener" href="https://www.thetreasuryofscriptureknowledge.com/">打开 Treasury of Scripture Knowledge ↗</a></div>';
-      $('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+      $$('.drawer-ref',body).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
 
     } else if(state.selectedTab==='connections'){
       const groups=collectVerseConnections();
@@ -517,11 +517,11 @@
     ];
     el.innerHTML='<div class="coverage-head"><div><div class="kicker">BIBLE INTELLIGENCE COVERAGE</div><h2>研读资料覆盖</h2><p>当前为已审核的基础资料层；数字代表已建立的索引入口，不代表整本圣经已穷尽完成。</p></div></div>'+
       '<div class="coverage-grid">'+metrics.map(m=>'<button class="coverage-card" data-coverage="'+m.key+'"><span class="coverage-icon">'+m.icon+'</span><strong>'+m.count+'</strong><span>'+m.label+'</span><small>'+m.sub+'</small></button>').join('')+'</div>';
-    $('.coverage-card',el).forEach(btn=>btn.addEventListener('click',()=>{
+    $$('.coverage-card',el).forEach(btn=>btn.addEventListener('click',()=>{
       const key=btn.dataset.coverage;
       if(collectionInfo[key]){
         state.collection=key;
-        $('.category-card').forEach(x=>x.classList.toggle('active',x.dataset.collection===key));
+        $$('.category-card').forEach(x=>x.classList.toggle('active',x.dataset.collection===key));
         $('#collectionFilter').value='';
         renderCollection();
         $('#collectionTitle')?.scrollIntoView({behavior:'smooth',block:'center'});
@@ -533,7 +533,7 @@
 
   function renderExploreCategories(){
     $('#exploreCategories').innerHTML=Object.entries(collectionInfo).map(([key,c])=>`<button class="category-card ${key===state.collection?'active':''}" data-collection="${key}"><div class="category-icon">${c.icon}</div><div class="category-title">${c.title}</div><div class="category-sub">${c.sub}</div></button>`).join('');
-    $$('.category-card').forEach(b=>b.addEventListener('click',()=>{state.collection=b.dataset.collection;$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
+    $$$('.category-card').forEach(b=>b.addEventListener('click',()=>{state.collection=b.dataset.collection;$$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
   }
 
   function renderCollection(){
@@ -546,7 +546,7 @@
     if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
     const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
-    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function collectionCard(key,x){
@@ -565,7 +565,7 @@
     let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     grid.innerHTML=`<div class="atlas-wrap"><div class="card-meta">BIBLE ATLAS · SCHEMATIC</div><div class="atlas"><div class="map-water"></div><div class="map-river"></div>${mapped.map(p=>`<button class="map-pin" style="left:${Number(p.x)}%;top:${Number(p.y)}%" title="${escapeHTML(p.note)}"><div class="dot"></div><div class="label">${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</div></button>`).join('')}</div><div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div><a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div><p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
-    $('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function renderTimeline(){
@@ -575,11 +575,11 @@
     if(state.timelineEra!=='ALL'&&!eras.includes(state.timelineEra))state.timelineEra='ALL';
     if(controls){
       controls.innerHTML=['ALL',...eras].map(era=>`<button class="chip ${state.timelineEra===era?'active':''}" data-era="${escapeHTML(era)}">${era==='ALL'?'全部时期':escapeHTML(era)}</button>`).join('');
-      $('.chip[data-era]',controls).forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era;renderTimeline();}));
+      $$('.chip[data-era]',controls).forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era;renderTimeline();}));
     }
     const items=timeline.filter(x=>state.timelineEra==='ALL'||x.era===state.timelineEra);
     $('#timelineList').innerHTML=items.map(x=>`<article class="timeline-item"><div><div class="timeline-era">${escapeHTML(x.era)}</div><div class="timeline-date">${escapeHTML(x.date)}</div></div><div><h3>${escapeHTML(x.titleZh)} · ${escapeHTML(x.titleEn)}</h3></div><button class="timeline-ref" data-ref="${escapeHTML(String(x.ref).split(';')[0])}">${escapeHTML(x.ref)}</button></article>`).join('');
-    $('.timeline-ref').forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
+    $$('.timeline-ref[data-ref]').forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
   function renderSources(){
@@ -687,7 +687,7 @@
         <div class="personal-meta">${escapeHTML(r.status)}${r.linked_verse_ref?' · '+escapeHTML(r.linked_verse_ref):''}</div>
         <div class="muted personal-preview">${escapeHTML((r.body||'').slice(0,110))}${(r.body||'').length>110?'…':''}</div>
       </div>`).join('');
-      $('[data-prayer-id]',list).forEach(b=>b.addEventListener('click',()=>openPrayerEditor(rows.find(r=>r.id===b.dataset.prayerId))));
+      $$('[data-prayer-id]',list).forEach(b=>b.addEventListener('click',()=>openPrayerEditor(rows.find(r=>r.id===b.dataset.prayerId))));
     }catch(err){list.innerHTML='<div class="empty-state">祷告日记暂时无法载入。</div>';console.warn(err);}
   }
 
@@ -707,7 +707,7 @@
         <button class="personal-title" data-study-id="${r.id}">${escapeHTML(r.title||'Study')}</button>
         <div class="muted personal-preview">${escapeHTML((r.description||'').slice(0,120))}${(r.description||'').length>120?'…':''}</div>
       </div>`).join('');
-      $('[data-study-id]',list).forEach(b=>b.addEventListener('click',()=>openStudyEditor(rows.find(r=>r.id===b.dataset.studyId))));
+      $$('[data-study-id]',list).forEach(b=>b.addEventListener('click',()=>openStudyEditor(rows.find(r=>r.id===b.dataset.studyId))));
     }catch(err){list.innerHTML='<div class="empty-state">研读收藏暂时无法载入。</div>';console.warn(err);}
   }
 
