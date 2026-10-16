@@ -46,6 +46,11 @@ try {
   assert.equal(await page.locator('#collectionGrid .atlas-focused').count(),1,'Selected location should use compact Atlas');
   assert.equal(await page.locator('#collectionGrid .atlas-focused .atlas').count(),0,'Focused Atlas should hide schematic map');
   assert.equal(await page.locator('#collectionGrid .atlas-selected-summary').count(),1);
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'');
+  assert.ok(await page.locator('#collectionGrid [data-atlas-place]').count()>1,'Back from selected Atlas location restores all pins');
+  await page.locator('#collectionFilter').fill('Egypt');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt');
