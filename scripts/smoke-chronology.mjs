@@ -44,7 +44,8 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
   assert.equal(await page.locator('#collectionGrid .atlas-focused').count(),1,'Selected location should use compact Atlas');
-  assert.ok((await page.locator('#collectionGrid .atlas-focused .atlas').boundingBox()).height<=160,'Focused Atlas should not waste vertical space');
+  assert.equal(await page.locator('#collectionGrid .atlas-focused .atlas').count(),0,'Focused Atlas should hide schematic map');
+  assert.equal(await page.locator('#collectionGrid .atlas-selected-summary').count(),1);
   await page.locator('#collectionFilter').fill('');
   await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt');
