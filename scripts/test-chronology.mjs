@@ -44,5 +44,14 @@ for (const p of data.undatedPeople) {
   other.set(p.name, p);
 }
 for (const p of study.people) assert.ok(people.has(p.name) || other.has(p.name), 'People Explorer unmatched: ' + p.name);
+for (const journey of study.journeys || []) {
+  assert.ok(journey.id && journey.person && journey.stops?.length, 'Journey metadata missing');
+  assert.ok(new Set(journey.stops.map(stop=>stop.place)).size===journey.stops.length, 'Duplicate journey stop: '+journey.id);
+  for(const stop of journey.stops) {
+    assert.ok(study.places.some(p=>p.name===stop.place), 'Journey place missing from Atlas: '+stop.place);
+    assert.ok(stop.ref && /[A-Za-z]/.test(stop.ref), 'Journey Scripture reference missing: '+journey.id);
+  }
+}
+
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
