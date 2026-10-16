@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "0.3.0",
+    "version": "0.3.1",
     "status": "expanding",
-    "note": "Curated expanding index. Scripture text remains separate from reference and study data. People, places, and timeline events in this phase are indexed primarily from Scripture references; chronology is labeled cautiously where dates are debated."
+    "note": "Curated expanding index. Scripture remains separate from study data. Greek lemma metadata now includes an attributed STEPBible/TBESG pilot import; Hebrew local lexicon definitions remain deferred where source permission is unclear."
   },
   "sourceRegistry": [
     {
@@ -24,7 +24,11 @@
       "name": "STEP Bible / Tyndale House",
       "type": "ORIGINAL LANGUAGE",
       "policy": "approved-protestant",
-      "use": "Hebrew, Aramaic, Greek, morphology and lexical study references."
+      "use": "Hebrew, Aramaic, Greek, morphology and lexical study references.",
+      "license": "CC BY 4.0 for STEPBible-created datasets where stated",
+      "attribution": "STEPBible.org; data created by STEPBible based on work at Tyndale House Cambridge",
+      "sourceUrl": "https://github.com/STEPBible/STEPBible-Data",
+      "note": "Import only datasets whose individual file licence permits this project. Hebrew brief lexicon definitions are not imported where the file requests additional permission."
     },
     {
       "id": "TSK",
@@ -60,6 +64,16 @@
       "type": "SCRIPTURE_TRANSPORT",
       "policy": "approved-technical",
       "use": "Public-domain CUVS format/edition verification only; not used for theology or commentary."
+    },
+    {
+      "id": "STEPDATA",
+      "name": "STEPBible Data Repository",
+      "type": "ORIGINAL LANGUAGE DATA",
+      "policy": "approved-protestant",
+      "use": "Local original-language lemma and morphology metadata imported only from explicitly permitted STEPBible datasets.",
+      "license": "CC BY 4.0 where stated in the individual dataset",
+      "attribution": "STEPBible.org; based on work at Tyndale House Cambridge",
+      "sourceUrl": "https://github.com/STEPBible/STEPBible-Data"
     }
   ],
   "crossReferences": {
@@ -2862,5 +2876,57 @@
       ],
       "source": "SCRIPTURE"
     }
-  ]
+  ],
+  "greekLexicon": {
+    "G0025": {
+      "strong": "G0025",
+      "lemma": "ἀγαπάω",
+      "transliteration": "agapaō",
+      "pos": "Verb",
+      "briefEn": "to love",
+      "briefZh": "爱；表达爱与善意",
+      "source": "STEPDATA",
+      "dataset": "TBESG"
+    },
+    "G2316": {
+      "strong": "G2316",
+      "lemma": "θεός",
+      "transliteration": "theos",
+      "pos": "Noun",
+      "briefEn": "God; a god or deity",
+      "briefZh": "神；神明",
+      "source": "STEPDATA",
+      "dataset": "TBESG"
+    },
+    "G2424": {
+      "strong": "G2424",
+      "lemma": "Ἰησοῦς",
+      "transliteration": "Iēsous",
+      "pos": "Proper noun",
+      "briefEn": "Jesus; also the Greek form used for Joshua",
+      "briefZh": "耶稣；亦可作约书亚的希腊文形式",
+      "source": "STEPDATA",
+      "dataset": "TBESG"
+    },
+    "G3056": {
+      "strong": "G3056",
+      "lemma": "λόγος",
+      "transliteration": "logos",
+      "pos": "Noun",
+      "briefEn": "word; saying; message; account",
+      "briefZh": "话语；言说；信息；道",
+      "source": "STEPDATA",
+      "dataset": "TBESG"
+    },
+    "G3439": {
+      "strong": "G3439",
+      "lemma": "μονογενής",
+      "transliteration": "monogenēs",
+      "pos": "Adjective",
+      "briefEn": "unique; only; only-begotten in traditional rendering",
+      "briefZh": "独一的；唯一的；传统译作“独生”",
+      "source": "STEPDATA",
+      "dataset": "TBESG"
+    }
+  }
 }
