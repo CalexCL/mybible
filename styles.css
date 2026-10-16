@@ -280,3 +280,5 @@ a{color:var(--blue)}
 .atlas-focused .place-card{width:100%;max-width:760px;padding:18px;line-height:1.55}
 .atlas-focused .place-card h4{font-size:calc(18px * var(--ui-scale));margin-bottom:7px}
 @media(max-width:850px){.atlas-focused .atlas{height:125px}.atlas-focused .place-card{padding:14px}}
+
+.atlas-selected-summary{display:flex;flex-direction:column;gap:5px;padding:17px 20px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2);margin:10px 0}.atlas-selected-summary strong{font-size:calc(18px * var(--ui-scale))}.atlas-selected-summary span{font-size:12px;color:var(--muted)}
