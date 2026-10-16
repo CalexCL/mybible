@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.3.2",
+    "version": "0.4.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -17,7 +17,8 @@
       "events": 9,
       "internalMath": "passed",
       "limitations": "Internal consistency only; no independent manuscript-text chronology adjudication; absolute BCE dates are not inferred"
-    }
+    },
+    "undatedPolicy": "Document Scripture-stated lifespans and ages separately; do not place undated people on the relative-year axis."
   },
   "people": [
     {
@@ -482,6 +483,70 @@
       "label": "以撒出生 · Isaac born",
       "ref": "Genesis 17:17; 21:5",
       "certainty": "scripture-age"
+    }
+  ],
+  "undatedPeople": [
+    {
+      "name": "Moses",
+      "zh": "摩西",
+      "life": 120,
+      "ref": "Deuteronomy 34:7",
+      "events": [
+        {
+          "age": 40,
+          "label": "第一次四十年阶段（使徒行传记述）",
+          "ref": "Acts 7:23"
+        },
+        {
+          "age": 80,
+          "label": "向法老说话",
+          "ref": "Exodus 7:7"
+        }
+      ],
+      "note": "No reliable Adam-relative placement asserted."
+    },
+    {
+      "name": "Aaron",
+      "zh": "亚伦",
+      "life": 123,
+      "ref": "Numbers 33:39",
+      "events": [
+        {
+          "age": 83,
+          "label": "与摩西见法老",
+          "ref": "Exodus 7:7"
+        }
+      ]
+    },
+    {
+      "name": "Joshua",
+      "zh": "约书亚",
+      "life": 110,
+      "ref": "Joshua 24:29; Judges 2:8",
+      "events": []
+    },
+    {
+      "name": "David",
+      "zh": "大卫",
+      "life": 70,
+      "ref": "2 Samuel 5:4-5; 1 Kings 2:11",
+      "derived": true,
+      "events": [
+        {
+          "age": 30,
+          "label": "开始作王",
+          "ref": "2 Samuel 5:4"
+        }
+      ],
+      "note": "70 inferred from 30 years at accession and 40-year reign; calendar years not asserted."
+    },
+    {
+      "name": "Solomon",
+      "zh": "所罗门",
+      "life": null,
+      "ref": "1 Kings 11:42",
+      "events": [],
+      "note": "Forty-year reign recorded; age at death not given."
     }
   ]
 }
