@@ -30,6 +30,14 @@ try {
   assert.ok(await page.locator('#timelineList .timeline-item').count()>0,'Timeline should display period events');
   assert.ok(await page.locator('#timelineList .selected-timeline-event').count()===1,'Direct event should be highlighted after navigation');
   assert.match(page.url(),/view=timeline/);
+  await page.goto('http://127.0.0.1:8765/chronology.html?person=Moses', { waitUntil: 'networkidle' });
+  const placeLink=page.locator('#detail a[href*="view=explore"][href*="place="]').first();
+  await placeLink.waitFor();
+  await placeLink.click();
+  await page.locator('#explorePage.active').waitFor({timeout:30000});
+  await page.locator('#collectionGrid .place-card').first().waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
+  assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
   assert.deepEqual(errors, [], 'Uncaught browser errors');
