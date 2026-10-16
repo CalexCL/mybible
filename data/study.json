@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "0.3.1",
+    "version": "0.3.2",
     "status": "expanding",
-    "note": "Curated expanding index. Scripture remains separate from study data. Greek lemma metadata now includes an attributed STEPBible/TBESG pilot import; Hebrew local lexicon definitions remain deferred where source permission is unclear."
+    "note": "Curated expanding index. Greek lemma pilot expanded from STEPBible TBESG metadata under its stated CC BY 4.0 licence. Chinese brief glosses are MyBible translations of the source's brief English glosses. Hebrew local lexicon definitions remain deferred where permission is unclear."
   },
   "sourceRegistry": [
     {
@@ -2927,6 +2927,116 @@
       "briefZh": "独一的；唯一的；传统译作“独生”",
       "source": "STEPDATA",
       "dataset": "TBESG"
+    },
+    "G4102": {
+      "strong": "G4102",
+      "lemma": "πίστις",
+      "transliteration": "pistis",
+      "pos": "Noun",
+      "briefEn": "faith",
+      "briefZh": "信心；信实",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G5485": {
+      "strong": "G5485",
+      "lemma": "χάρις",
+      "transliteration": "charis",
+      "pos": "Noun",
+      "briefEn": "grace",
+      "briefZh": "恩典",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G1680": {
+      "strong": "G1680",
+      "lemma": "ἐλπίς",
+      "transliteration": "elpis",
+      "pos": "Noun",
+      "briefEn": "hope",
+      "briefZh": "盼望",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G1343": {
+      "strong": "G1343",
+      "lemma": "δικαιοσύνη",
+      "transliteration": "dikaiosunē",
+      "pos": "Noun",
+      "briefEn": "righteousness",
+      "briefZh": "公义；义",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G4991": {
+      "strong": "G4991",
+      "lemma": "σωτηρία",
+      "transliteration": "sōtēria",
+      "pos": "Noun",
+      "briefEn": "salvation",
+      "briefZh": "救恩；拯救",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G4151": {
+      "strong": "G4151",
+      "lemma": "πνεῦμα",
+      "transliteration": "pneuma",
+      "pos": "Noun",
+      "briefEn": "spirit / breath",
+      "briefZh": "灵；气息",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G2222": {
+      "strong": "G2222",
+      "lemma": "ζωή",
+      "transliteration": "zōē",
+      "pos": "Noun",
+      "briefEn": "life",
+      "briefZh": "生命",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G0225": {
+      "strong": "G0225",
+      "lemma": "ἀλήθεια",
+      "transliteration": "alētheia",
+      "pos": "Noun",
+      "briefEn": "truth",
+      "briefZh": "真理；真实",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G0932": {
+      "strong": "G0932",
+      "lemma": "βασιλεία",
+      "transliteration": "basileia",
+      "pos": "Noun",
+      "briefEn": "kingdom",
+      "briefZh": "国度；王权",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
+    },
+    "G5547": {
+      "strong": "G5547",
+      "lemma": "Χριστός",
+      "transliteration": "Christos",
+      "pos": "Title / proper noun",
+      "briefEn": "Christ",
+      "briefZh": "基督；受膏者",
+      "source": "STEPDATA",
+      "dataset": "TBESG",
+      "briefZhNote": "MyBible Chinese rendering of TBESG brief gloss"
     }
   }
 }
