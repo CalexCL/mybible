@@ -38,8 +38,9 @@ try {
   await page.locator('#collectionGrid .place-card').first().waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
   await page.locator('#backNavigationBtn').click();
-  await page.locator('#detail').getByText('Moses',{exact:false}).waitFor();
-  assert.match(page.url(),/chronology.html\?person=Moses/);
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'');
+  assert.ok(await page.locator('#collectionGrid [data-atlas-place]').count()>1,'Back must restore all map pins before leaving Atlas');
   await page.goto('http://127.0.0.1:8765/?view=explore&collection=places&place=Egypt',{waitUntil:'networkidle'});
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
