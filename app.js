@@ -27,7 +27,7 @@
   const state = {
     books:[], nkjv:[], cuvsLocal:[], study:null,
     bookIndex:0, chapter:1, mode:'parallel', selectedVerse:1, selectedRef:'Genesis 1:1', selectedTab:'study',
-    chineseBookCache:new Map(), collection:'namesOfGod', testament:'ALL', timelineEra:'ALL'
+    chineseBookCache:new Map(), collection:'namesOfGod', testament:'ALL', timelineEra:'ALL', originalLangFilter:'ALL'
   };
 
   const personal = { notes:{}, bookmarks:{}, highlights:{} };
@@ -536,6 +536,43 @@
     $$$('.category-card').forEach(b=>b.addEventListener('click',()=>{state.collection=b.dataset.collection;$$$('.category-card').forEach(x=>x.classList.toggle('active',x===b));$('#collectionFilter').value='';renderCollection();})); renderCollection();
   }
 
+  function renderCollectionTools(items=[]){
+    const tools=$('#collectionTools'); if(!tools)return;
+    if(state.collection!=='originalWords'){tools.innerHTML='';return;}
+    const langCounts={Greek:0,Hebrew:0,Aramaic:0};
+    items.forEach(x=>{
+      const lang=String(x.language||x.itemType==='lexicon'?'Greek':'');
+      if(langCounts[lang]!==undefined)langCounts[lang]++;
+    });
+    const visible=state.originalLangFilter==='ALL'?items:items.filter(x=>{
+      const lang=x.itemType==='lexicon'?'Greek':String(x.language||'');
+      return lang===state.originalLangFilter;
+    });
+    tools.innerHTML=`
+      <div class="collection-tool-row">
+        <div class="language-filter-group">
+          ${['ALL','Greek','Hebrew','Aramaic'].map(lang=>`<button class="chip ${state.originalLangFilter===lang?'active':''}" data-original-lang="${lang}">${lang==='ALL'?'全部 · All':lang} ${lang==='ALL'?items.length:(langCounts[lang]||0)}</button>`).join('')}
+        </div>
+        <div class="collection-tool-actions">
+          <span class="collection-count">${visible.length} items</span>
+          <button id="playVisibleOriginal" class="quiet-btn" type="button">▶ 播放当前字词</button>
+          <button id="stopVisibleOriginal" class="quiet-btn" type="button">■ 停止</button>
+        </div>
+      </div>`;
+    $('[data-original-lang]',tools).forEach(btn=>btn.addEventListener('click',()=>{
+      state.originalLangFilter=btn.dataset.originalLang;
+      renderCollection();
+    }));
+    $('#playVisibleOriginal')?.addEventListener('click',()=>{
+      const words=visible.map(x=>x.itemType==='lexicon'
+        ?{original:x.lemma,transliteration:x.transliteration,language:'Greek'}
+        :{original:x.original,transliteration:x.transliteration,language:x.language}
+      );
+      playIndexedOriginalWords(words);
+    });
+    $('#stopVisibleOriginal')?.addEventListener('click',stopOriginalAudio);
+  }
+
   function renderCollection(){
     const key=state.collection, info=collectionInfo[key], filter=$('#collectionFilter').value.trim().toLowerCase(); $('#collectionTitle').textContent=info.title; const grid=$('#collectionGrid');
     if(key==='places'){ renderPlaces(grid,filter); return; }
@@ -543,12 +580,17 @@
     if(key==='originalWords'){
       const linked=Object.entries(state.study.originalWords||{}).flatMap(([ref,arr])=>arr.map(x=>({...x,ref,itemType:'verse-word'})));
       const linkedStrong=new Set(linked.map(x=>normalizeStrongId(x.strong)).filter(Boolean));
-      const lexicon=Object.values(state.study.greekLexicon||{}).filter(x=>!linkedStrong.has(normalizeStrongId(x.strong))).map(x=>({...x,itemType:'lexicon'}));
+      const lexicon=Object.values(state.study.greekLexicon||{}).filter(x=>!linkedStrong.has(normalizeStrongId(x.strong))).map(x=>({...x,itemType:'lexicon',language:'Greek'}));
       items=[...linked,...lexicon];
+      if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
+      renderCollectionTools(items);
+      if(state.originalLangFilter!=='ALL')items=items.filter(x=>(x.itemType==='lexicon'?'Greek':String(x.language||''))===state.originalLangFilter);
+    } else {
+      renderCollectionTools([]);
+      if(key==='crossReferences') items=Object.entries(state.study.crossReferences).map(([ref,refs])=>({ref,refs,titleZh:ref,titleEn:`${refs.length} connected passages`}));
+      else items=state.study[key]||[];
+      if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
     }
-    else if(key==='crossReferences') items=Object.entries(state.study.crossReferences).map(([ref,refs])=>({ref,refs,titleZh:ref,titleEn:`${refs.length} connected passages`}));
-    else items=state.study[key]||[];
-    if(filter)items=items.filter(x=>JSON.stringify(x).toLowerCase().includes(filter));
     const note='<div class="starter-note">Study Data '+escapeHTML(state.study.meta?.version||'')+' · '+escapeHTML(state.study.meta?.status||'foundation')+'。当前为已审核的扩展索引；完整穷尽式索引仍会逐项导入并保留来源审计。</div>';
     grid.innerHTML=note+items.map(x=>collectionCard(key,x)).join('');
     $$$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
