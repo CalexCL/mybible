@@ -37,6 +37,11 @@ try {
   await page.locator('#explorePage.active').waitFor({timeout:30000});
   await page.locator('#collectionGrid .place-card').first().waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(), 'Egypt');
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#detail').getByText('Moses',{exact:false}).waitFor();
+  assert.match(page.url(),/chronology.html\?person=Moses/);
+  await page.goto('http://127.0.0.1:8765/?view=explore&collection=places&place=Egypt',{waitUntil:'networkidle'});
+  await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
