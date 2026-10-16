@@ -294,3 +294,31 @@ a{color:var(--blue)}
   .atlas-wrap:not(.atlas-focused) .atlas .map-pin .label{white-space:normal;overflow-wrap:anywhere;margin:0;font-size:calc(11px * var(--ui-scale));background:transparent}
   .atlas-wrap:not(.atlas-focused) .atlas:before{display:none}
 }
+
+/* V83: Non-overlapping Atlas pin index on ALL screen widths.
+   The former pseudo-map crowded multiple historical sites into one tiny area. */
+.atlas-wrap:not(.atlas-focused) .atlas{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  align-content:start;align-items:stretch;gap:10px;
+  height:auto!important;min-height:180px;max-height:420px;
+  overflow-y:auto;overflow-x:hidden;padding:18px;
+}
+.atlas-wrap:not(.atlas-focused) .atlas .map-water,
+.atlas-wrap:not(.atlas-focused) .atlas .map-river{display:none!important}
+.atlas-wrap:not(.atlas-focused) .atlas .map-pin{
+  position:relative!important;left:auto!important;top:auto!important;
+  transform:none!important;display:flex!important;align-items:center;
+  justify-content:flex-start;gap:10px;min-width:0;min-height:48px;
+  padding:9px 10px;background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;text-align:left;cursor:pointer;
+}
+.atlas-wrap:not(.atlas-focused) .atlas .map-pin .dot{margin:0;flex:none}
+.atlas-wrap:not(.atlas-focused) .atlas .map-pin .label{
+  margin:0;white-space:normal;overflow-wrap:anywhere;
+  font-size:calc(12px * var(--ui-scale));background:transparent;
+}
+.atlas-wrap:not(.atlas-focused) .atlas:before{display:none}
+.atlas-wrap:not(.atlas-focused) .atlas .map-pin:focus-visible{
+  outline:3px solid var(--accent);outline-offset:2px;
+}
