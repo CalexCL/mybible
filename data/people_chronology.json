@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.9.0",
+    "version": "1.0.0",
     "title": "Genesis Synchronological Lifespans — Adam to Joseph",
     "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
     "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
@@ -31,7 +31,14 @@
     "timelineConnectionPolicy": "Period-context-only events do not establish personal attendance, contemporaneity, or historical dates.",
     "timelineCoverage": 40,
     "directConnectionCount": 21,
-    "directPolicy": "Direct connections only where the named person is included in the referenced biblical narrative; not proof of lifespan alignment."
+    "directPolicy": "Direct connections only where the named person is included in the referenced biblical narrative; not proof of lifespan alignment.",
+    "qa": {
+      "validationDate": "2026-10-16",
+      "directLinks": 21,
+      "contextLinks": 210,
+      "relationshipClassificationErrors": 0,
+      "scope": "Static structural audit; not live UI acceptance"
+    }
   },
   "people": [
     {
