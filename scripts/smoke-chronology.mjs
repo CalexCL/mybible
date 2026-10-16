@@ -43,6 +43,8 @@ try {
   await page.goto('http://127.0.0.1:8765/?view=explore&collection=places&place=Egypt',{waitUntil:'networkidle'});
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
+  assert.equal(await page.locator('#collectionGrid .atlas-focused').count(),1,'Selected location should use compact Atlas');
+  assert.ok((await page.locator('#collectionGrid .atlas-focused .atlas').boundingBox()).height<=160,'Focused Atlas should not waste vertical space');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#collectionGrid [data-atlas-place="Egypt"]').click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt');
