@@ -1,0 +1,448 @@
+{
+  "meta": {
+    "version": "0.3.0",
+    "title": "Genesis Synchronological Lifespans — Adam to Joseph",
+    "basis": "Relative years from Adam (AM-style), derived from the ages in Genesis 5 and 11 using the Masoretic/CUV sequence; NOT absolute BCE dates or universal chronology",
+    "warning": "Genesis chronologies differ across textual traditions. Every plotted start/end is a model calculation, not a verse-stated birth calendar year. Enoch was taken by God, not recorded as dying.",
+    "sourcePolicy": "Protestant Scripture / CUV Genesis 5, 7, 9 and 11 only",
+    "floodYear": 1656,
+    "note": "Patriarch births from Abraham onward are conditional on the model placing Abraham's birth 130 years after Terah's birth, inferred by comparing Genesis 11:32, 12:4 and Acts 7:4. This is a harmonization, not a directly stated Abraham birth date. Joseph age at Jacob arrival derived using Genesis 41:46, 41:53-54, 45:6; Jacob age 130 in Genesis 47:9."
+  },
+  "people": [
+    {
+      "zh": "亚当",
+      "name": "Adam",
+      "birth": 0,
+      "life": 930,
+      "end": 930,
+      "ref": "Genesis 5:3-5",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "塞特",
+      "name": "Seth",
+      "birth": 130,
+      "life": 912,
+      "end": 1042,
+      "ref": "Genesis 5:6-8",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "以挪士",
+      "name": "Enosh",
+      "birth": 235,
+      "life": 905,
+      "end": 1140,
+      "ref": "Genesis 5:9-11",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "该南",
+      "name": "Kenan",
+      "birth": 325,
+      "life": 910,
+      "end": 1235,
+      "ref": "Genesis 5:12-14",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "玛勒列",
+      "name": "Mahalalel",
+      "birth": 395,
+      "life": 895,
+      "end": 1290,
+      "ref": "Genesis 5:15-17",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "雅列",
+      "name": "Jared",
+      "birth": 460,
+      "life": 962,
+      "end": 1422,
+      "ref": "Genesis 5:18-20",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "以诺",
+      "name": "Enoch",
+      "birth": 622,
+      "life": 365,
+      "end": 987,
+      "ref": "Genesis 5:21-24",
+      "endType": "Taken by God",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "玛土撒拉",
+      "name": "Methuselah",
+      "birth": 687,
+      "life": 969,
+      "end": 1656,
+      "ref": "Genesis 5:25-27",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "拉麦",
+      "name": "Lamech",
+      "birth": 874,
+      "life": 777,
+      "end": 1651,
+      "ref": "Genesis 5:28-31",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "挪亚",
+      "name": "Noah",
+      "birth": 1056,
+      "life": 950,
+      "end": 2006,
+      "ref": "Genesis 5:28-29; 9:28-29",
+      "endType": "Died",
+      "certainty": "derived-genealogy"
+    },
+    {
+      "zh": "闪",
+      "name": "Shem",
+      "birth": 1558,
+      "life": 600,
+      "end": 2158,
+      "ref": "Genesis 11:10-11",
+      "endType": "Died",
+      "certainty": "derived-from-Genesis-11:10"
+    },
+    {
+      "name": "Arpachshad",
+      "zh": "亚法撒",
+      "birth": 1658,
+      "life": 438,
+      "end": 2096,
+      "ref": "Genesis 11:10-13",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Shelah",
+      "zh": "沙拉",
+      "birth": 1693,
+      "life": 433,
+      "end": 2126,
+      "ref": "Genesis 11:12-15",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Eber",
+      "zh": "希伯",
+      "birth": 1723,
+      "life": 464,
+      "end": 2187,
+      "ref": "Genesis 11:14-17",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Peleg",
+      "zh": "法勒",
+      "birth": 1757,
+      "life": 239,
+      "end": 1996,
+      "ref": "Genesis 11:16-19",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Reu",
+      "zh": "拉吴",
+      "birth": 1787,
+      "life": 239,
+      "end": 2026,
+      "ref": "Genesis 11:18-21",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Serug",
+      "zh": "西鹿",
+      "birth": 1819,
+      "life": 230,
+      "end": 2049,
+      "ref": "Genesis 11:20-23",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Nahor",
+      "zh": "拿鹤",
+      "birth": 1849,
+      "life": 148,
+      "end": 1997,
+      "ref": "Genesis 11:22-25",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Terah",
+      "zh": "他拉",
+      "birth": 1878,
+      "life": 205,
+      "end": 2083,
+      "ref": "Genesis 11:24-32",
+      "endType": "Died",
+      "certainty": "derived-Masoretic-Genesis-11"
+    },
+    {
+      "name": "Abraham",
+      "zh": "亚伯拉罕",
+      "birth": 2008,
+      "life": 175,
+      "end": 2183,
+      "ref": "Genesis 21:5; 25:7",
+      "endType": "Died",
+      "certainty": "conditional-exodus-12:40-reading"
+    },
+    {
+      "name": "Sarah",
+      "zh": "撒拉",
+      "birth": 1998,
+      "life": 127,
+      "end": 2125,
+      "ref": "Genesis 17:17; 23:1",
+      "endType": "Died",
+      "certainty": "conditional-exodus-12:40-reading"
+    },
+    {
+      "name": "Isaac",
+      "zh": "以撒",
+      "birth": 2108,
+      "life": 180,
+      "end": 2288,
+      "ref": "Genesis 21:5; 35:28",
+      "endType": "Died",
+      "certainty": "conditional-exodus-12:40-reading"
+    },
+    {
+      "name": "Jacob",
+      "zh": "雅各",
+      "birth": 2168,
+      "life": 147,
+      "end": 2315,
+      "ref": "Genesis 47:9; 47:28",
+      "endType": "Died",
+      "certainty": "conditional-exodus-12:40-reading"
+    },
+    {
+      "name": "Joseph",
+      "zh": "约瑟",
+      "birth": 2259,
+      "life": 110,
+      "end": 2369,
+      "ref": "Genesis 41:46; 50:26",
+      "endType": "Died",
+      "certainty": "conditional-exodus-12:40-reading"
+    }
+  ],
+  "events": [
+    {
+      "year": 1656,
+      "zh": "洪水",
+      "en": "Flood",
+      "ref": "Genesis 7:6",
+      "certainty": "derived: Noah born at year 1056; Flood at Noah age 600"
+    }
+  ],
+  "family": [
+    {
+      "parent": "Adam",
+      "child": "Seth",
+      "age": 130,
+      "ref": "Genesis 5:3"
+    },
+    {
+      "parent": "Seth",
+      "child": "Enosh",
+      "age": 105,
+      "ref": "Genesis 5:6"
+    },
+    {
+      "parent": "Enosh",
+      "child": "Kenan",
+      "age": 90,
+      "ref": "Genesis 5:9"
+    },
+    {
+      "parent": "Kenan",
+      "child": "Mahalalel",
+      "age": 70,
+      "ref": "Genesis 5:12"
+    },
+    {
+      "parent": "Mahalalel",
+      "child": "Jared",
+      "age": 65,
+      "ref": "Genesis 5:15"
+    },
+    {
+      "parent": "Jared",
+      "child": "Enoch",
+      "age": 162,
+      "ref": "Genesis 5:18"
+    },
+    {
+      "parent": "Enoch",
+      "child": "Methuselah",
+      "age": 65,
+      "ref": "Genesis 5:21"
+    },
+    {
+      "parent": "Methuselah",
+      "child": "Lamech",
+      "age": 187,
+      "ref": "Genesis 5:25"
+    },
+    {
+      "parent": "Lamech",
+      "child": "Noah",
+      "age": 182,
+      "ref": "Genesis 5:28-29"
+    },
+    {
+      "parent": "Shem",
+      "child": "Arpachshad",
+      "age": 100,
+      "ref": "Genesis 11:10"
+    },
+    {
+      "parent": "Arpachshad",
+      "child": "Shelah",
+      "age": 35,
+      "ref": "Genesis 11:12"
+    },
+    {
+      "parent": "Shelah",
+      "child": "Eber",
+      "age": 30,
+      "ref": "Genesis 11:14"
+    },
+    {
+      "parent": "Eber",
+      "child": "Peleg",
+      "age": 34,
+      "ref": "Genesis 11:16"
+    },
+    {
+      "parent": "Peleg",
+      "child": "Reu",
+      "age": 30,
+      "ref": "Genesis 11:18"
+    },
+    {
+      "parent": "Reu",
+      "child": "Serug",
+      "age": 32,
+      "ref": "Genesis 11:20"
+    },
+    {
+      "parent": "Serug",
+      "child": "Nahor",
+      "age": 30,
+      "ref": "Genesis 11:22"
+    },
+    {
+      "parent": "Nahor",
+      "child": "Terah",
+      "age": 29,
+      "ref": "Genesis 11:24"
+    },
+    {
+      "parent": "Terah",
+      "child": "Abraham",
+      "age": 130,
+      "ref": "Genesis 11:32; 12:4; Acts 7:4 (harmonized)"
+    },
+    {
+      "parent": "Abraham",
+      "child": "Isaac",
+      "age": 100,
+      "ref": "Genesis 21:5"
+    },
+    {
+      "parent": "Isaac",
+      "child": "Jacob",
+      "age": 60,
+      "ref": "Genesis 25:26"
+    },
+    {
+      "parent": "Jacob",
+      "child": "Joseph",
+      "age": 91,
+      "ref": "Genesis 41:46; 45:6; 47:9 (derived)"
+    }
+  ],
+  "lifeEvents": [
+    {
+      "person": "Abraham",
+      "age": 75,
+      "label": "离开哈兰 · Leaves Haran",
+      "ref": "Genesis 12:4",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Isaac",
+      "age": 60,
+      "label": "雅各出生 · Jacob born",
+      "ref": "Genesis 25:26",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Jacob",
+      "age": 130,
+      "label": "到埃及见法老 · Before Pharaoh",
+      "ref": "Genesis 47:9",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Joseph",
+      "age": 30,
+      "label": "在法老面前任职 · Serves Pharaoh",
+      "ref": "Genesis 41:46",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Noah",
+      "age": 600,
+      "label": "洪水开始 · Flood",
+      "ref": "Genesis 7:6",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Noah",
+      "age": 601,
+      "label": "洪水后地干 · Dry land after Flood",
+      "ref": "Genesis 8:13",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Shem",
+      "age": 100,
+      "label": "亚法撒出生 · Arpachshad born",
+      "ref": "Genesis 11:10",
+      "certainty": "scripture-age"
+    },
+    {
+      "person": "Enoch",
+      "age": 365,
+      "label": "被神接去 · Taken by God",
+      "ref": "Genesis 5:23-24",
+      "certainty": "scripture-age"
+    }
+  ]
+}
