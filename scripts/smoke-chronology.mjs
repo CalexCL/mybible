@@ -21,6 +21,15 @@ try {
   assert.equal(await page.locator('#undatedProfiles [data-undated-person]').count(), 1);
   await page.locator('#undatedProfiles [data-undated-person]').click();
   assert.match(await page.locator('#detail').innerText(), /Moses|摩西/);
+  const eventLink=page.locator('#detail a[href*="view=timeline"][href*="ref="]').first();
+  await eventLink.waitFor();
+  const targetUrl=await eventLink.getAttribute('href');
+  assert.match(targetUrl, /view=timeline.*era=Exodus.*ref=/);
+  await eventLink.click();
+  await page.locator('#timelinePage.active').waitFor({timeout:30000});
+  assert.ok(await page.locator('#timelineList .timeline-item').count()>0,'Timeline should display period events');
+  assert.ok(await page.locator('#timelineList .selected-timeline-event').count()===1,'Direct event should be highlighted after navigation');
+  assert.match(page.url(),/view=timeline/);
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
   assert.deepEqual(errors, [], 'Uncaught browser errors');
