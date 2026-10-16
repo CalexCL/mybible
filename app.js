@@ -100,6 +100,8 @@
       const era=deep.get('era');
       if(era&&state.study.timeline.some(e=>e.era===era))state.timelineEra=era;
       renderTimeline();showPage('timeline');
+      const ref=deep.get('ref');
+      if(ref){const target=[...document.querySelectorAll('#timelineList .timeline-ref')].find(b=>b.dataset.ref===ref);if(target){target.closest('.timeline-item')?.scrollIntoView({block:'center'});target.closest('.timeline-item')?.classList.add('selected-timeline-event');}}
     }
   }
 
