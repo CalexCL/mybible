@@ -276,6 +276,22 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Noah','Noah study filter restored');
   assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Noah remains in People category');
+  // Miracles and Parables Scripture links must restore the correct collection.
+  for(const [category,filter,reference] of [
+    ['jesusMiracles','Water into wine','John 2:1-11'],
+    ['parables','Sower','Matthew 13:3-23']
+  ]){
+    await page.locator('#collectionFilter').fill('');
+    await page.locator('#exploreCategories [data-collection="'+category+'"]').click();
+    await page.locator('#collectionFilter').fill(filter);
+    await page.locator('#collectionGrid .ref-chip[data-ref="'+reference+'"]').first().waitFor();
+    await page.locator('#collectionGrid .ref-chip[data-ref="'+reference+'"]').first().click();
+    await page.locator('#readerPage.active').waitFor();
+    await page.locator('#backNavigationBtn').click();
+    await page.locator('#explorePage.active').waitFor();
+    assert.equal(await page.locator('#collectionFilter').inputValue(),filter,category+' filter restored');
+    assert.match(await page.locator('#exploreCategories [data-collection="'+category+'"]').getAttribute('class'),/active/,category+' restored');
+  }
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
