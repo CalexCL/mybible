@@ -73,6 +73,9 @@ try {
   const zoomIn=page.locator('#realBibleAtlas .leaflet-control-zoom-in');
   await zoomIn.click();
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after map zoom');
+  await page.locator('#realBibleAtlas .leaflet-control-zoom-out').click();
+  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after zooming back out');
+  assert.ok(await page.locator('#atlasFindEgypt').isVisible(),'Egypt locator stays visible after map zoom controls');
   assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('埃及')&&t.includes('Egypt')),'Egypt named in Chinese and English');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('叙利亚')&&t.includes('Syria')),'Syria named in Chinese and English');
