@@ -772,7 +772,7 @@
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     const journeys=(state.study.journeys||[]).filter(j=>j.stops.some(stop=>places.some(p=>p.name===stop.place)));
     const journeyCount=journeys.length;
-    const journeyHtml=journeyCount?'<section class="atlas-journeys"><h3>📜 圣经旅程 · Scripture Journey Sequences ('+journeyCount+')</h3><p class="muted">经文记载的地点顺序；不代表已确认的道路、距离或精确坐标。</p>'+journeys.map(j=>'<article class="atlas-journey"><button type="button" class="atlas-journey-map" data-journey="'+escapeHTML(j.id)+'">🗺 Show on map</button><strong>'+escapeHTML(j.titleZh)+' · '+escapeHTML(j.titleEn)+'</strong><div class="atlas-journey-stops">'+j.stops.map((stop,i)=>'<button type="button" class="atlas-journey-stop" data-journey-place="'+escapeHTML(stop.place)+'" title="'+escapeHTML(stop.ref)+'">'+(i+1)+'. '+escapeHTML(stop.place)+'</button>').join('<span aria-hidden="true"> → </span>')+'</div><div class="atlas-journey-notes">'+j.stops.map((stop,i)=>'<div class="atlas-stop-note"><strong>'+(i+1)+'. '+escapeHTML(stop.place)+'</strong><p>'+escapeHTML(stop.noteZh||'')+'</p><p>'+escapeHTML(stop.noteEn||'')+'</p><div class="ref-chips">'+splitRefs(stop.ref).map(refChip).join('')+'</div></div>').join('')+'</div><div class="atlas-journey-links"><a class="quiet-btn" href="chronology.html?person='+encodeURIComponent(j.person)+'&from=atlas">👤 人物 · '+escapeHTML(j.person)+'</a><a class="quiet-btn" href="?view=timeline&era='+encodeURIComponent(j.era)+'&ref='+encodeURIComponent(j.timelineRef||'')+'">⌛ '+escapeHTML((state.study.timeline||[]).find(e=>e.era===j.era&&e.ref===j.timelineRef)?.titleZh||'对应事件')+' · '+escapeHTML((state.study.timeline||[]).find(e=>e.era===j.era&&e.ref===j.timelineRef)?.titleEn||'Timeline Event')+'</a></div><small>'+escapeHTML(j.note)+'</small></article>').join('')+'</section>':'';
+    const journeyHtml=journeyCount?'<section class="atlas-journeys"><h3>📜 圣经旅程 · Scripture Journey Sequences (<span id="journeyVisibleCount">'+journeyCount+'</span>/'+journeyCount+')</h3><div class="atlas-journey-controls"><label>🔎 搜寻旅程 · Search journeys<input id="journeySearch" type="search" placeholder="人物、地点、经文 · Person, place, Scripture" autocomplete="off"></label><label>📅 圣经时期 · Era<select id="journeyEraFilter"><option value="">全部时期 · All eras</option>'+[...new Set(journeys.map(j=>j.era))].map(era=>'<option value="'+escapeHTML(era)+'">'+escapeHTML(era)+'</option>').join('')+'</select></label><button type="button" id="journeyReset">重设 · Reset</button></div><p id="journeyEmpty" class="muted" hidden>没有符合的旅程 · No journeys match these filters.</p><p class="muted">经文记载的地点顺序；不代表已确认的道路、距离或精确坐标。</p>'+journeys.map(j=>'<article class="atlas-journey" data-journey-era="'+escapeHTML(j.era)+'" data-journey-search="'+escapeHTML([j.titleZh,j.titleEn,j.person,j.era,j.timelineRef,...j.stops.flatMap(stop=>[stop.place,stop.ref,stop.noteZh,stop.noteEn])].join(' ').toLowerCase())+'"><button type="button" class="atlas-journey-map" data-journey="'+escapeHTML(j.id)+'">🗺 Show on map</button><strong>'+escapeHTML(j.titleZh)+' · '+escapeHTML(j.titleEn)+'</strong><div class="atlas-journey-stops">'+j.stops.map((stop,i)=>'<button type="button" class="atlas-journey-stop" data-journey-place="'+escapeHTML(stop.place)+'" title="'+escapeHTML(stop.ref)+'">'+(i+1)+'. '+escapeHTML(stop.place)+'</button>').join('<span aria-hidden="true"> → </span>')+'</div><div class="atlas-journey-notes">'+j.stops.map((stop,i)=>'<div class="atlas-stop-note"><strong>'+(i+1)+'. '+escapeHTML(stop.place)+'</strong><p>'+escapeHTML(stop.noteZh||'')+'</p><p>'+escapeHTML(stop.noteEn||'')+'</p><div class="ref-chips">'+splitRefs(stop.ref).map(refChip).join('')+'</div></div>').join('')+'</div><div class="atlas-journey-links"><a class="quiet-btn" href="chronology.html?person='+encodeURIComponent(j.person)+'&from=atlas">👤 人物 · '+escapeHTML(j.person)+'</a><a class="quiet-btn" href="?view=timeline&era='+encodeURIComponent(j.era)+'&ref='+encodeURIComponent(j.timelineRef||'')+'">⌛ '+escapeHTML((state.study.timeline||[]).find(e=>e.era===j.era&&e.ref===j.timelineRef)?.titleZh||'对应事件')+' · '+escapeHTML((state.study.timeline||[]).find(e=>e.era===j.era&&e.ref===j.timelineRef)?.titleEn||'Timeline Event')+'</a></div><small>'+escapeHTML(j.note)+'</small></article>').join('')+'</section>':'';
     const verifiedGeo={"Rome":[41.9028,12.4964],"Ur":[30.9625,46.1053],"Haran":[36.867,39.029],"Canaan":[31.8,35],"Egypt":[30.0444,31.2357],"Jericho":[31.871,35.443],"Jerusalem":[31.778,35.235],"Bethlehem":[31.705,35.202],"Nazareth":[32.6996,35.3035],"Capernaum":[32.881,35.575],"Sea of Galilee":[32.817,35.583],"Jordan River":[31.84,35.55],"Damascus":[33.5138,36.2765],"Antioch":[36.204,36.161],"Bethel":[31.94,35.224],"Hebron":[31.532,35.099],"Beersheba":[31.252,34.791],"Shechem":[32.214,35.276],"Shiloh":[32.056,35.289],"Mount Carmel":[32.75,35],"Samaria":[32.28,35.19],"Bethany":[31.77,35.263],"Cana":[32.75,35.34],"Bethsaida":[32.91,35.64],"Caesarea Philippi":[33.246,35.693],"Caesarea":[32.502,34.891],"Corinth":[37.938,22.933],"Ephesus":[37.94,27.34],"Philippi":[41.01,24.29],"Thessalonica":[40.64,22.94],"Patmos":[37.31,26.55],"Mount of Olives":[31.778,35.246],"Gethsemane":[31.779,35.24],"Babylon":[32.536,44.421],"Nineveh":[36.36,43.15]};
     const geographic=places.filter(p=>verifiedGeo[p.name]);
     const mapHtml=geographic.length?'<div id="realBibleAtlas" class="real-bible-atlas" role="region" aria-label="Interactive biblical geography map"></div>':'';
@@ -803,7 +803,25 @@
       map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderPlaces(grid,name.toLowerCase());});});
       setTimeout(()=>map.invalidateSize(),80);
     }
-    $$('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    const journeySearch=grid.querySelector('#journeySearch');
+    const journeyEra=grid.querySelector('#journeyEraFilter');
+    const filterJourneys=()=>{
+      const query=(journeySearch?.value||'').trim().toLowerCase();
+      const era=journeyEra?.value||'';
+      let visible=0;
+      $('[data-journey-era]',grid).forEach(card=>{
+        card.hidden=!!(era&&card.dataset.journeyEra!==era || query&&!card.dataset.journeySearch.includes(query));
+        if(!card.hidden)visible++;
+      });
+      const count=grid.querySelector('#journeyVisibleCount');
+      if(count)count.textContent=String(visible);
+      const empty=grid.querySelector('#journeyEmpty');
+      if(empty)empty.hidden=visible!==0;
+    };
+    journeySearch?.addEventListener('input',filterJourneys);
+    journeyEra?.addEventListener('change',filterJourneys);
+    grid.querySelector('#journeyReset')?.addEventListener('click',()=>{journeySearch.value='';journeyEra.value='';filterJourneys();});
+    $('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const place=btn.dataset.journeyPlace;
       if(!state.study.places.some(p=>p.name===place))return;
       $('#collectionFilter').value=place;
