@@ -3066,7 +3066,8 @@
         }
       ],
       "note": "Scripture names the locations in the migration narrative. This is a textual sequence, not a reconstructed travel route.",
-      "era": "Patriarchs"
+      "era": "Patriarchs",
+      "timelineRef": "Genesis 12:1-9"
     },
     {
       "id": "paul-damascus",
@@ -3088,7 +3089,8 @@
         }
       ],
       "note": "Textual origin and destination in Acts 9; exact road and intermediate stops are not established here.",
-      "era": "Early Church"
+      "era": "Early Church",
+      "timelineRef": "Acts 9"
     },
     {
       "id": "paul-rome",
@@ -3104,7 +3106,8 @@
         }
       ],
       "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry.",
-      "era": "Apostolic"
+      "era": "Early Church",
+      "timelineRef": "Acts 27-28"
     },
     {
       "id": "joseph-mary-bethlehem",
@@ -3126,7 +3129,8 @@
         }
       ],
       "note": "Luke describes travel from Nazareth to Bethlehem. The route and stopping points are not specified.",
-      "era": "Jesus"
+      "era": "Jesus",
+      "timelineRef": "Matthew 1-2; Luke 1-2"
     },
     {
       "id": "paul-macedonia",
@@ -3148,7 +3152,8 @@
         }
       ],
       "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied.",
-      "era": "Apostolic"
+      "era": "Early Church",
+      "timelineRef": "Acts 13-21"
     }
   ]
 }
