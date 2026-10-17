@@ -1106,7 +1106,7 @@
       const aliases=commonAliases[b.english]||[];
       const names=[b.english,b.chinese,b.source_heading_zh,b.osis,...aliases].filter(Boolean).sort((a,b)=>b.length-a.length);
       for(const name of names){
-        const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); const re=new RegExp(`^${escaped}\\.?\\s+(\\d+)(?:\\s*:\\s*(\\d+))?(?=$|[\\s,;\\-–—])`,'i'); const m=s.match(re); if(m){const chapter=+m[1],verse=m[2]?+m[2]:1;if(chapter>=1&&chapter<=b.chapters)return{bookIndex:i,chapter,verse};}
+        const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); const re=new RegExp(`^${escaped}\\.?\\s*(\\d+)(?:\\s*:\\s*(\\d+))?(?=$|[\\s,;\\-–—])`,'i'); const m=s.match(re); if(m){const chapter=+m[1],verse=m[2]?+m[2]:1;if(chapter>=1&&chapter<=b.chapters)return{bookIndex:i,chapter,verse};}
       }
     }
     return null;
