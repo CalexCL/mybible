@@ -171,7 +171,7 @@ try {
     await page.locator('#searchModal:not(.hidden)').waitFor();
     await page.locator('#globalSearch').fill(reference);
     const jump=page.locator('#searchResults .search-result[data-jump]').first();
-    await jump.waitFor();
+    await page.waitForFunction(expected=>document.querySelector('#searchResults .search-result[data-jump]')?.dataset.jump===expected,[book,chapter,verse].join('|'),{timeout:10000});
     assert.equal(await jump.getAttribute('data-jump'),[book,chapter,verse].join('|'),'Reference parsed: '+reference);
     await jump.click();
     await page.waitForFunction(([b,ch])=>document.querySelector('#bookSelect')?.value===b&&document.querySelector('#chapterSelect')?.value===ch,[book,chapter]);
