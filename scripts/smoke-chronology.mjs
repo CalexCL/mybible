@@ -61,6 +61,10 @@ try {
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
   assert.equal(await page.locator('#atlasFindEgypt').count(),1,'Bilingual Egypt shortcut is available');
+  const mobileMap=await page.locator('#realBibleAtlas').boundingBox();
+  assert.ok(mobileMap&&mobileMap.height>=340,'Mobile Atlas maintains usable minimum height');
+  const egyptShortcut=await page.locator('#atlasFindEgypt').boundingBox();
+  assert.ok(egyptShortcut&&egyptShortcut.height>=40,'Egypt shortcut has a touch-friendly mobile target');
   assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('埃及')&&t.includes('Egypt')),'Egypt named in Chinese and English');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('叙利亚')&&t.includes('Syria')),'Syria named in Chinese and English');
