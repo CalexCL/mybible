@@ -297,6 +297,12 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.doesNotMatch(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'First Back restores previous Explore category');
   await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Third Back restores People study');
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.doesNotMatch(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Fourth Back restores earlier Explore collection');
+  await page.locator('#backNavigationBtn').click();
   await page.locator('#timelinePage.active').waitFor();
 
   await page.locator('#backNavigationBtn').click();
