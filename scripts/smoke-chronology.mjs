@@ -68,6 +68,10 @@ try {
     assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes(zh)&&t.includes(en)),zh+' / '+en+' bilingual region label');
   }
   assert.ok(await page.locator('#realBibleAtlas .atlas-place-label').count()>=5,'Major biblical places have visible bilingual markers');
+  const atlasPlaces=await page.locator('#realBibleAtlas .atlas-place-label').allTextContents();
+  for(const english of ['Egypt','Jerusalem','Bethlehem','Damascus','Rome']){
+    assert.ok(atlasPlaces.some(label=>label.includes(english)&&label.includes(' · ')),english+' visible as bilingual place label');
+  }
   await page.locator('#atlasFindEgypt').click();
   await page.locator('#realBibleAtlas .leaflet-popup-content').getByText('埃及 · Egypt').waitFor();
   // The Egypt map shortcut should open the actual place, then Back returns to all markers.
