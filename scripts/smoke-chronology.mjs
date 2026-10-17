@@ -71,7 +71,7 @@ try {
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive Bible place markers remain distinct from region labels');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-control-zoom').count()===1,'Atlas zoom controls remain present after bilingual overlay');
   const mapTileUrl=await page.locator('#realBibleAtlas .leaflet-tile').first().getAttribute('src');
-  assert.match(mapTileUrl,/World_Light_Gray_Base\/MapServer\/tile/,'Atlas uses the configured key-free gray basemap instead of blocked CARTO tiles');
+  assert.match(mapTileUrl,/tile\.openstreetmap\.org/,'Atlas requests public OpenStreetMap tiles instead of blank Esri tiles');
   const zoomIn=page.locator('#realBibleAtlas .leaflet-control-zoom-in');
   await zoomIn.click();
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after map zoom');
