@@ -767,7 +767,8 @@
   function splitRefs(s){return String(s||'').split(';').map(x=>x.trim()).filter(Boolean);}
 
   function renderPlaces(grid,filter){
-    let places=state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
+    const exact=state.study.places.find(p=>p.name.toLowerCase()===filter||p.zh.toLowerCase()===filter);
+    let places=exact?[exact]:state.study.places.filter(x=>!filter||JSON.stringify(x).toLowerCase().includes(filter));
     const mapped=places.filter(p=>Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
     const journeys=(state.study.journeys||[]).filter(j=>j.stops.some(stop=>places.some(p=>p.name===stop.place)));
     const journeyHtml=journeys.length?'<section class="atlas-journeys"><h3>📜 圣经旅程 · Scripture Journey Sequences</h3><p class="muted">经文记载的地点顺序；不代表已确认的道路、距离或精确坐标。</p>'+journeys.map(j=>'<article class="atlas-journey"><button type="button" class="atlas-journey-map" data-journey="'+escapeHTML(j.id)+'">🗺 Show on map</button><strong>'+escapeHTML(j.titleZh)+' · '+escapeHTML(j.titleEn)+'</strong><p>'+escapeHTML(j.stops.map(stop=>stop.place).join(' → '))+'</p><div class="ref-chips">'+j.stops.map(stop=>refChip(stop.ref)).join('')+'</div><small>'+escapeHTML(j.note)+'</small></article>').join('')+'</section>':'';
