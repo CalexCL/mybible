@@ -815,12 +815,14 @@
     const controls=$('#timelineControls');
     const eras=[...new Set(timeline.map(x=>x.era).filter(Boolean))];
     if(state.timelineEra!=='ALL'&&!eras.includes(state.timelineEra))state.timelineEra='ALL';
+    const eraZh={Primeval:'太古时期',Patriarchs:'列祖时期',Exodus:'出埃及时期',Wilderness:'旷野时期',Conquest:'征服迦南',Judges:'士师时期','United Kingdom':'统一王国','Divided Kingdom':'分裂王国','Assyrian period':'亚述时期','Babylonian period':'巴比伦时期',Exile:'被掳时期','Persian period':'波斯时期',Intertestamental:'两约之间',Jesus:'耶稣时期','Early Church':'初期教会',Apostolic:'使徒时期'};
+    const eraLabel=era=>era==='ALL'?'全部时期 · All periods':(eraZh[era]?eraZh[era]+' · '+era:era);
     if(controls){
-      controls.innerHTML=['ALL',...eras].map(era=>`<button class="chip ${state.timelineEra===era?'active':''}" data-era="${escapeHTML(era)}">${era==='ALL'?'全部时期':escapeHTML(era)}</button>`).join('');
+      controls.innerHTML=['ALL',...eras].map(era=>`<button class="chip ${state.timelineEra===era?'active':''}" data-era="${escapeHTML(era)}">${escapeHTML(eraLabel(era))}</button>`).join('');
       $$('.chip[data-era]',controls).forEach(b=>b.addEventListener('click',()=>{state.timelineEra=b.dataset.era;renderTimeline();}));
     }
     const items=timeline.filter(x=>state.timelineEra==='ALL'||x.era===state.timelineEra);
-    $('#timelineList').innerHTML=items.map(x=>`<article class="timeline-item"><div><div class="timeline-era">${escapeHTML(x.era)}</div><div class="timeline-date">${escapeHTML(x.date)}</div></div><div><h3>${escapeHTML(x.titleZh)} · ${escapeHTML(x.titleEn)}</h3></div><button class="timeline-ref" data-ref="${escapeHTML(String(x.ref).split(';')[0])}">${escapeHTML(x.ref)}</button></article>`).join('');
+    $('#timelineList').innerHTML=items.map(x=>`<article class="timeline-item"><div><div class="timeline-era">${escapeHTML(eraLabel(x.era))}</div><div class="timeline-date">${escapeHTML(x.date)}</div></div><div><h3>${escapeHTML(x.titleZh)} · ${escapeHTML(x.titleEn)}</h3></div><button class="timeline-ref" data-ref="${escapeHTML(String(x.ref).split(';')[0])}">${escapeHTML(x.ref)}</button></article>`).join('');
     $$('.timeline-ref[data-ref]').forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
   }
 
