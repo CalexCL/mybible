@@ -219,6 +219,16 @@ try {
   await page.locator('#readerPage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
   await page.locator('#timelinePage.active').waitFor();
+  // Preserve selected historical period across a Scripture visit and return.
+  await page.locator('#timelineControls [data-era="Patriarchs"]').click();
+  assert.equal(await page.locator('#timelineControls [data-era="Patriarchs"]').getAttribute('class').then(x=>x.includes('active')),true);
+  const periodPassage=page.locator('#timelineList .timeline-ref[data-ref]').first();
+  await periodPassage.click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#timelinePage.active').waitFor();
+  assert.match(await page.locator('#timelineControls [data-era="Patriarchs"]').getAttribute('class'),/active/,'Timeline period survives Scripture navigation');
+  await page.locator('#timelineControls [data-era="ALL"]').click();
   // The same holds for an Explore collection Scripture chip.
   await page.locator('.nav-btn[data-page="explore"]').click();
   await page.locator('#explorePage.active').waitFor();
