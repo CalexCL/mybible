@@ -70,6 +70,9 @@ try {
   assert.ok(placeLabels.some(x=>x.includes('埃及')&&x.includes('Egypt')),'Permanent Egypt place label is bilingual');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive Bible place markers remain distinct from region labels');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-control-zoom').count()===1,'Atlas zoom controls remain present after bilingual overlay');
+  const zoomIn=page.locator('#realBibleAtlas .leaflet-control-zoom-in');
+  await zoomIn.click();
+  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after map zoom');
   assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('埃及')&&t.includes('Egypt')),'Egypt named in Chinese and English');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('叙利亚')&&t.includes('Syria')),'Syria named in Chinese and English');
