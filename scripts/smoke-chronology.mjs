@@ -64,6 +64,9 @@ try {
   assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('埃及')&&t.includes('Egypt')),'Egypt named in Chinese and English');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('叙利亚')&&t.includes('Syria')),'Syria named in Chinese and English');
+  for(const [zh,en] of [['约旦','Jordan'],['伊拉克','Iraq'],['土耳其','Türkiye'],['希腊','Greece'],['意大利','Italy'],['黎巴嫩','Lebanon']]){
+    assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes(zh)&&t.includes(en)),zh+' / '+en+' bilingual region label');
+  }
   assert.ok(await page.locator('#realBibleAtlas .atlas-place-label').count()>=1,'Egypt has visible bilingual marker label');
   await page.locator('#atlasFindEgypt').click();
   await page.locator('#realBibleAtlas .leaflet-popup-content').getByText('埃及 · Egypt').waitFor();
