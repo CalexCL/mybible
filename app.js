@@ -843,7 +843,7 @@
         new maplibregl.Popup().setLngLat(points[0]).setHTML('<strong>'+escapeHTML(journey.titleEn)+'</strong><br>'+stops.map((st,i)=>(i+1)+'. '+escapeHTML(st.place)).join('<br>')+'<br><small>Recorded stops only — no inferred route</small>').addTo(map);
         grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       }));
-      map.on('click',e=>{const btn=e.originalEvent.target.closest?.('[data-atlas-place]');if(!btn)return;$('#collectionFilter').value=btn.dataset.atlasPlace;renderPlaces(grid,btn.dataset.atlasPlace.toLowerCase());});
+      grid.addEventListener('click',e=>{const btn=e.target.closest?.('[data-atlas-place]');if(!btn)return;$('#collectionFilter').value=btn.dataset.atlasPlace;renderPlaces(grid,btn.dataset.atlasPlace.toLowerCase());});
       setTimeout(()=>map.resize(),100);
     }
     const journeySearch=grid.querySelector('#journeySearch');
