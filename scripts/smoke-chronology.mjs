@@ -253,6 +253,9 @@ try {
   assert.equal(await page.locator('#collectionGrid .collection-card').count(),filteredCards,'Back restores filtered Explore cards');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.notMatch(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'First Back restores previous Explore category');
+  await page.locator('#backNavigationBtn').click();
   await page.locator('#timelinePage.active').waitFor();
 
   await page.locator('#backNavigationBtn').click();
