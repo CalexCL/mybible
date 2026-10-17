@@ -60,6 +60,11 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
+  assert.equal(await page.locator('#atlasFindEgypt').count(),1,'Bilingual Egypt shortcut is available');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-place-label').count()>=1,'Egypt has visible bilingual marker label');
+  await page.locator('#atlasFindEgypt').click();
+  await page.locator('#realBibleAtlas .leaflet-popup-content').getByText('埃及 · Egypt').waitFor();
   assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=19,'Nineteen Scripture journeys available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Bethlehem"]').count()>0,'Luke 2 Bethlehem stop available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
