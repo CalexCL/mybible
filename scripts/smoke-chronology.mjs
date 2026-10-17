@@ -254,7 +254,7 @@ try {
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
-  assert.notMatch(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'First Back restores previous Explore category');
+  assert.doesNotMatch(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'First Back restores previous Explore category');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#timelinePage.active').waitFor();
 
