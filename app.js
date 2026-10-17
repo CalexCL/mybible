@@ -826,7 +826,7 @@
         grid.querySelectorAll('.atlas-region-label').forEach(el=>el.hidden=close);
         grid.querySelectorAll('.atlas-place-label').forEach(el=>el.hidden=!close);
       };
-      map.on('zoomend',updateLabels);map.on('load',updateLabels);updateLabels();
+      map.on('zoomend',updateLabels);map.on('load',()=>{map.getContainer().dataset.mapReady='true';updateLabels();});updateLabels();
       map.on('error',e=>console.warn('Bible Atlas map rendering:',e.error?.message||e));
       grid.querySelector('#atlasFindEgypt')?.addEventListener('click',()=>{
         const egypt=markers.find(m=>m.place==='Egypt');
