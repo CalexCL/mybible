@@ -267,6 +267,15 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Aaron','Aaron study filter retained after Bible visit');
   assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'People category retained after Aaron study');
+  // Switching People study queries without leaving Explore must not leak a prior filter.
+  await page.locator('#collectionFilter').fill('Noah');
+  await page.locator('#collectionGrid .ref-chip[data-ref="Hebrews 11:7"]').first().waitFor();
+  await page.locator('#collectionGrid .ref-chip[data-ref="Hebrews 11:7"]').first().click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Noah','Noah study filter restored');
+  assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Noah remains in People category');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
