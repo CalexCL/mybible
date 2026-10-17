@@ -3349,6 +3349,97 @@
         }
       ],
       "note": "A single regional association; this entry does not claim a journey route."
+    },
+    {
+      "id": "solomon-temple",
+      "titleZh": "所罗门建造耶路撒冷圣殿",
+      "titleEn": "Solomon builds the temple in Jerusalem",
+      "person": "Solomon",
+      "era": "United Kingdom",
+      "timelineRef": "1 Kings 5-8",
+      "stops": [
+        {
+          "place": "Jerusalem",
+          "ref": "1 Kings 6:1-2; 1 Kings 8:1-11",
+          "noteZh": "所罗门在耶路撒冷建造圣殿，后来将约柜迎入。",
+          "noteEn": "Solomon built the temple in Jerusalem; the ark was later brought into it."
+        }
+      ],
+      "note": "A single documented city association, not a travel route."
+    },
+    {
+      "id": "nehemiah-jerusalem",
+      "titleZh": "尼希米重建耶路撒冷城墙",
+      "titleEn": "Nehemiah rebuilds Jerusalem's wall",
+      "person": "Nehemiah",
+      "era": "Persian period",
+      "timelineRef": "Nehemiah 1-6",
+      "stops": [
+        {
+          "place": "Jerusalem",
+          "ref": "Nehemiah 2:11-18; Nehemiah 6:15",
+          "noteZh": "尼希米到达耶路撒冷，察看城墙并组织修建。",
+          "noteEn": "Nehemiah arrived in Jerusalem, inspected its walls, and organized their rebuilding."
+        }
+      ],
+      "note": "The city is documented; no travel route from the Persian court is reconstructed."
+    },
+    {
+      "id": "john-baptism-jordan",
+      "titleZh": "耶稣在约旦河受洗",
+      "titleEn": "Jesus is baptized in the Jordan",
+      "person": "John the Baptist",
+      "era": "Jesus",
+      "timelineRef": "Matthew 3:13-17; Mark 1:9-11; Luke 3:21-22",
+      "stops": [
+        {
+          "place": "Jordan River",
+          "ref": "Mark 1:9-11; Matthew 3:13-17",
+          "noteZh": "约翰在约旦河为耶稣施洗。",
+          "noteEn": "John baptized Jesus in the Jordan River."
+        }
+      ],
+      "note": "The Jordan River is named; the precise baptism site is not fixed here."
+    },
+    {
+      "id": "samuel-shiloh",
+      "titleZh": "撒母耳在示罗事奉",
+      "titleEn": "Samuel serves at Shiloh",
+      "person": "Samuel",
+      "era": "United Kingdom",
+      "timelineRef": "1 Samuel 1-8",
+      "stops": [
+        {
+          "place": "Shiloh",
+          "ref": "1 Samuel 1:24-28; 1 Samuel 3:1-21",
+          "noteZh": "撒母耳年幼时被带到示罗，在耶和华面前事奉。",
+          "noteEn": "Samuel was brought to Shiloh as a child and ministered before the LORD."
+        }
+      ],
+      "note": "One scripturally named location, not a reconstructed journey."
+    },
+    {
+      "id": "elisha-succession-jordan",
+      "titleZh": "以利沙在约旦河继承以利亚的职分",
+      "titleEn": "Elisha succeeds Elijah near the Jordan",
+      "person": "Elisha",
+      "era": "Divided Kingdom",
+      "timelineRef": "2 Kings 2",
+      "stops": [
+        {
+          "place": "Jericho",
+          "ref": "2 Kings 2:4-5",
+          "noteZh": "以利亚和以利沙来到耶利哥，遇见当地的先知门徒。",
+          "noteEn": "Elijah and Elisha came to Jericho and met the company of prophets."
+        },
+        {
+          "place": "Jordan River",
+          "ref": "2 Kings 2:6-14",
+          "noteZh": "两人过约旦河；以利沙后来拿起以利亚的外衣再次过河。",
+          "noteEn": "They crossed the Jordan; Elisha later took Elijah's cloak and crossed back."
+        }
+      ],
+      "note": "The text names Jericho and the Jordan; exact crossing points are not specified."
     }
   ]
 }
