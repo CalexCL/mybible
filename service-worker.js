@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mybible-shell-v114';
+const CACHE_NAME = 'mybible-shell-v115';
 const APP_SHELL = [
   './',
   './index.html',
