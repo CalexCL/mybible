@@ -244,7 +244,7 @@ try {
   await page.locator('#collectionGrid .ref-chip[data-ref]').first().waitFor();
   const filteredCards=await page.locator('#collectionGrid .collection-card').count();
   assert.ok(filteredCards>0,'Moses explorer search finds study cards');
-  await page.locator('#collectionGrid .ref-chip[data-ref]').first().click();
+  await page.locator('#collectionGrid .ref-chip[data-ref="Hebrews 11:23-29"]').click();
   await page.locator('#readerPage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
