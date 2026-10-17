@@ -179,11 +179,17 @@
     }
     const prior=viewHistory.pop();
     if(!prior){if(safePreviousDocument){location.href=safePreviousDocument;return;}if(history.length>1&&document.referrer){history.back();return;}if(document.querySelector('#readerPage.active')){showPage('explore',false);}else{showPage('reader',false);}updateBackButton();return;}
+    if(prior.page==='reader' && Number.isInteger(prior.bookIndex)){
+      state.bookIndex=prior.bookIndex;state.chapter=prior.chapter;state.selectedVerse=prior.verse;
+      state.selectedRef=canonicalRef(prior.bookIndex,prior.chapter,prior.verse);
+      populateSelectors();renderBookNavigation();
+    }
     state.collection=prior.collection;
     state.timelineEra=prior.timelineEra;
     $('#collectionFilter').value=prior.filter;
     renderExploreCategories();renderTimeline();
     showPage(prior.page,false);
+    if(prior.page==='reader' && Number.isInteger(prior.bookIndex))renderReader().then(()=>{const row=$(`.verse-row[data-verse="${prior.verse}"]`);row?.scrollIntoView({block:'center'});row?.classList.add('selected');});
     updateBackButton();
   }
   function showPage(page,record=true){
@@ -1115,7 +1121,12 @@
   function navigateReference(ref){
     const clean=String(ref).split(/[;,]/)[0].trim().replace(/(\d+):(\d+)-(\d+)/,'$1:$2'); const p=parseReference(clean); if(!p){toast('这个参考地址将在下一版解析器扩充');return;} navigateTo(p.bookIndex,p.chapter,p.verse);
   }
-  async function navigateTo(bi,ch,v=1){ state.bookIndex=bi;state.chapter=ch;state.selectedVerse=v;state.selectedRef=canonicalRef(bi,ch,v);populateSelectors();renderBookNavigation();showPage('reader');await renderReader();setTimeout(()=>{const row=$(`.verse-row[data-verse="${v}"]`);if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('selected');}},80); }
+  async function navigateTo(bi,ch,v=1){
+    if(document.querySelector('#readerPage.active') && (state.bookIndex!==bi||state.chapter!==ch||state.selectedVerse!==v)){
+      viewHistory.push({page:'reader',bookIndex:state.bookIndex,chapter:state.chapter,verse:state.selectedVerse||1,collection:state.collection,timelineEra:state.timelineEra,filter:$('#collectionFilter').value});
+      if(viewHistory.length>35)viewHistory.shift();
+    }
+    state.bookIndex=bi;state.chapter=ch;state.selectedVerse=v;state.selectedRef=canonicalRef(bi,ch,v);populateSelectors();renderBookNavigation();showPage('reader');await renderReader();setTimeout(()=>{const row=$(`.verse-row[data-verse="${v}"]`);if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('selected');}},80); }
 
   init().catch(err=>{console.error(err); document.body.innerHTML=`<div style="padding:40px;font-family:system-ui"><h1>App could not start</h1><p>${escapeHTML(err.message)}</p><p>请通过网页服务器打开本项目；GitHub Pages 部署后会自动满足此要求。</p></div>`;});
 })();
