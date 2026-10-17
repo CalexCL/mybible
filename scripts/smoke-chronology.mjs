@@ -51,7 +51,7 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
-  assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=14,'Fourteen Scripture journeys available');
+  assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=19,'Nineteen Scripture journeys available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Bethlehem"]').count()>0,'Luke 2 Bethlehem stop available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
   assert.ok(await page.locator('.atlas-journey-stop[data-journey-place="Caesarea Philippi"]').count()>0,'Peter confession stop available');
@@ -61,7 +61,7 @@ try {
   await page.locator('#journeyEraFilter').selectOption('Patriarchs');
   assert.ok(await page.locator('.atlas-journey:visible').count()>=2,'Era filter works');
   await page.locator('#journeyReset').click();
-  assert.ok(await page.locator('.atlas-journey:visible').count()>=14,'Reset restores journeys');
+  assert.ok(await page.locator('.atlas-journey:visible').count()>=19,'Reset restores journeys');
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Haran');
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Journey stop must open exactly one Atlas place');
