@@ -251,6 +251,13 @@ try {
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Moses','Back preserves Explore text filter');
   assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Back preserves Explore category');
   assert.equal(await page.locator('#collectionGrid .collection-card').count(),filteredCards,'Back restores filtered Explore cards');
+  // Revisit a different valid reference without losing the filtered People collection.
+  await page.locator('#collectionGrid .ref-chip[data-ref="Hebrews 11:23-29"]').click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Moses','Repeated Bible visits preserve the same study filter');
+  assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Repeated Bible visits preserve People category');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
