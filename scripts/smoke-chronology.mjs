@@ -147,8 +147,8 @@ try {
   await page.goto('http://127.0.0.1:8765/', { waitUntil: 'networkidle' });
   // Cross-reference navigation: singular Psalm and abbreviated Scripture book names.
   await page.evaluate(()=>document.querySelector('#globalSearch')?.blur());
-  await page.locator('#bookSelect').selectOption('57');
-  await page.locator('#chapterSelect').selectOption('11');
+  await page.locator('#bookSelect').selectOption('0');
+  await page.locator('#chapterSelect').selectOption('1');
   await page.locator('#verseList .verse-row').first().click();
   await page.locator('.drawer-tab[data-tab="crossrefs"]').click();
   const psalmChip=page.locator('#studyDrawer .drawer-ref[data-ref="Psalm 33:6"]');
