@@ -3090,6 +3090,40 @@
         }
       ],
       "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry."
+    },
+    {
+      "id": "joseph-mary-bethlehem",
+      "titleZh": "约瑟与马利亚前往伯利恒",
+      "titleEn": "Joseph and Mary travel to Bethlehem",
+      "person": "Mary",
+      "stops": [
+        {
+          "place": "Nazareth",
+          "ref": "Luke 2:4"
+        },
+        {
+          "place": "Bethlehem",
+          "ref": "Luke 2:4-7"
+        }
+      ],
+      "note": "Luke describes travel from Nazareth to Bethlehem. The route and stopping points are not specified."
+    },
+    {
+      "id": "paul-macedonia",
+      "titleZh": "保罗在马其顿的旅程（部分地点）",
+      "titleEn": "Paul in Macedonia (selected locations)",
+      "person": "Paul",
+      "stops": [
+        {
+          "place": "Philippi",
+          "ref": "Acts 16:12"
+        },
+        {
+          "place": "Thessalonica",
+          "ref": "Acts 17:1"
+        }
+      ],
+      "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied."
     }
   ]
 }
