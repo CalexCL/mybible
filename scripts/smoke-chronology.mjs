@@ -258,6 +258,15 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Moses','Repeated Bible visits preserve the same study filter');
   assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Repeated Bible visits preserve People category');
+  // A second People study must restore its own filter after following Scripture.
+  await page.locator('#collectionFilter').fill('Aaron');
+  await page.locator('#collectionGrid .ref-chip[data-ref="Exodus 4:14-16"]').first().waitFor();
+  await page.locator('#collectionGrid .ref-chip[data-ref="Exodus 4:14-16"]').first().click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Aaron','Aaron study filter retained after Bible visit');
+  assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'People category retained after Aaron study');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
