@@ -51,6 +51,11 @@ try {
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
+  await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Haran');
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Journey stop must open exactly one Atlas place');
+  await page.locator('#backNavigationBtn').click();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   await page.locator('#collectionFilter').fill('Egypt');
   await page.locator('#collectionFilter').fill('');
   await page.locator('#realBibleAtlas .leaflet-marker-icon').first().click();
