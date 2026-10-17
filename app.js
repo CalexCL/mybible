@@ -793,43 +793,58 @@
     const mapHtml=geographic.length?'<div class="atlas-map-toolbar"><strong>圣经地图 · Bible Map</strong><button type="button" id="atlasFindEgypt">📍 埃及 · Egypt</button><span>中文 / English map labels</span></div><div id="realBibleAtlas" class="real-bible-atlas" role="region" aria-label="Interactive bilingual biblical geography map"></div>':'';
     grid.innerHTML=`<div class="atlas-wrap ${filter&&places.length===1?'atlas-focused':''}"><div class="card-meta">BIBLE ATLAS · SCHEMATIC ${filter&&places.length===1?'· SELECTED LOCATION':''}</div>${filter&&places.length===1?`<div class="atlas-selected-summary"><strong>📍 ${escapeHTML(places[0].zh)} · ${escapeHTML(places[0].name)}</strong><span>Scripture-linked location · not a geographic route</span></div>`:`${mapHtml}`}<div class="place-list">${places.map(p=>`<article class="place-card"><h4>${escapeHTML(p.zh)} · ${escapeHTML(p.name)}</h4><div class="card-meta">${escapeHTML(p.type)}</div><p>${escapeHTML(p.note)}</p><div class="ref-chips">${(p.refs||[]).map(refChip).join('')}</div>${([...(state.chronology?.people||[]),...(state.chronology?.undatedPeople||[])]).filter(person=>(person.placeConnections||[]).some(link=>link.place===p.name)).map(person=>{const links=(person.placeConnections||[]).filter(link=>link.place===p.name);return `<div class="atlas-person-link"><a class="quiet-btn" href="chronology.html?person=${encodeURIComponent(person.name)}&from=atlas&place=${encodeURIComponent(p.name)}">👤 ${escapeHTML(person.zh)} · ${escapeHTML(person.name)}</a><div class="ref-chips">${links.map(link=>refChip(link.ref)).join('')}</div></div>`;}).join('')}<a target="_blank" rel="noopener" href="https://www.bibleplaces.com/?s=${encodeURIComponent(p.name)}">BiblePlaces photo/geography reference ↗</a></article>`).join('')}</div>${journeyHtml}<p class="muted" style="font-size:10px">地图仅显示已有示意坐标的地点；完整地点清单仍显示在下方。不会把有争议地点画成确定坐标。</p></div>`;
     $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
-    if(grid.querySelector('#realBibleAtlas')&&window.L){
-      const map=L.map('realBibleAtlas',{scrollWheelZoom:false}).setView([34,34],4);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true}).addTo(map);
-      // Label-free tiles avoid unpredictable local-script labels; MyBible owns the bilingual names.
-      const regionLabels=[['埃及 · Egypt',[27.5,29.3]],['叙利亚 · Syria',[35,38.7]],['约旦 · Jordan',[31.2,36.6]],['伊拉克 · Iraq',[33.0,43.7]],['土耳其 · Türkiye',[39.0,34.5]],['希腊 · Greece',[39.0,22.3]],['意大利 · Italy',[42.8,12.8]],['黎巴嫩 · Lebanon',[34.1,35.8]]];
-      regionLabels.forEach(([name,coords])=>L.marker(coords,{interactive:false,keyboard:false,icon:L.divIcon({className:'atlas-region-label',html:'<span>'+escapeHTML(name)+'</span>',iconSize:[0,0]})}).addTo(map));
+    if(grid.querySelector('#realBibleAtlas')&&window.maplibregl){
+      const map=new maplibregl.Map({
+        container:'realBibleAtlas',
+        style:'https://tiles.openfreemap.org/styles/liberty',
+        center:[34,34],zoom:3.6,attributionControl:true
+      });
+      map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
+      const regionLabels=[['埃及 · Egypt',[29.3,27.5]],['叙利亚 · Syria',[38.7,35]],['约旦 · Jordan',[36.6,31.2]],['伊拉克 · Iraq',[43.7,33]],['土耳其 · Türkiye',[34.5,39]],['希腊 · Greece',[22.3,39]],['意大利 · Italy',[12.8,42.8]],['黎巴嫩 · Lebanon',[35.8,34.1]]];
+      regionLabels.forEach(([name,coords])=>{
+        const el=document.createElement('span');
+        el.className='atlas-region-label';el.textContent=name;
+        new maplibregl.Marker({element:el,anchor:'center'}).setLngLat(coords).addTo(map);
+      });
       const markers=[];
       geographic.forEach(p=>{
-        const m=L.marker(verifiedGeo[p.name]).addTo(map);
-        m.bindPopup('<strong>'+escapeHTML(p.zh)+' · '+escapeHTML(p.name)+'</strong><br><button type="button" data-atlas-place="'+escapeHTML(p.name)+'">View location</button>');
-        m.bindTooltip(escapeHTML(p.zh)+' · '+escapeHTML(p.name),{direction:'top',offset:[0,-12],opacity:.97,permanent:['Egypt','Jerusalem','Bethlehem','Damascus','Rome'].includes(p.name),className:'atlas-place-label'});
-        m.on('click',()=>{map.panTo(verifiedGeo[p.name]);});
-        markers.push(m);
+        const coords=[verifiedGeo[p.name][1],verifiedGeo[p.name][0]];
+        const el=document.createElement('button');el.type='button';el.className='atlas-geopoint';el.title=p.zh+' · '+p.name;el.setAttribute('aria-label',p.zh+' · '+p.name);
+        const popup=new maplibregl.Popup({offset:18}).setHTML('<strong>'+escapeHTML(p.zh)+' · '+escapeHTML(p.name)+'</strong><br><button type="button" data-atlas-place="'+escapeHTML(p.name)+'">查看地点 · View location</button>');
+        const marker=new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat(coords).setPopup(popup).addTo(map);
+        markers.push({place:p.name,marker});
+        if(['Egypt','Jerusalem','Bethlehem','Damascus','Rome'].includes(p.name)){
+          const tag=document.createElement('span');tag.className='atlas-place-label';tag.textContent=p.zh+' · '+p.name;
+          new maplibregl.Marker({element:tag,anchor:'bottom',offset:[0,-24]}).setLngLat(coords).addTo(map);
+        }
+      });
+      const bounds=new maplibregl.LngLatBounds();
+      markers.forEach(({marker})=>bounds.extend(marker.getLngLat()));
+      if(markers.length>1)map.fitBounds(bounds,{padding:40,maxZoom:4.5,duration:0});
+      const updateLabels=()=>{
+        const close=map.getZoom()>=6;
+        grid.querySelectorAll('.atlas-region-label').forEach(el=>el.hidden=close);
+        grid.querySelectorAll('.atlas-place-label').forEach(el=>el.hidden=!close);
+      };
+      map.on('zoomend',updateLabels);map.on('load',updateLabels);updateLabels();
+      map.on('error',e=>console.warn('Bible Atlas map rendering:',e.error?.message||e));
+      grid.querySelector('#atlasFindEgypt')?.addEventListener('click',()=>{
+        const egypt=markers.find(m=>m.place==='Egypt');
+        if(!egypt)return;map.flyTo({center:[verifiedGeo.Egypt[1],verifiedGeo.Egypt[0]],zoom:6,duration:400});
+        egypt.marker.togglePopup();grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       });
       $$('[data-journey]',grid).forEach(btn=>btn.addEventListener('click',()=>{
         const journey=(state.study.journeys||[]).find(j=>j.id===btn.dataset.journey);
         if(!journey)return;
-        const stops=journey.stops.filter(stop=>verifiedGeo[stop.place]);
-        if(!stops.length)return;
-        const coords=stops.map(stop=>verifiedGeo[stop.place]);
-        if(coords.length>1)map.fitBounds(L.latLngBounds(coords).pad(.3));
-        else map.setView(coords[0],7);
-        L.popup().setLatLng(coords[0]).setContent('<strong>'+escapeHTML(journey.titleEn)+'</strong><br>'+stops.map((st,i)=>(i+1)+'. '+escapeHTML(st.place)).join('<br>')+'<br><small>Recorded stops only — no inferred route</small>').openOn(map);
+        const stops=journey.stops.filter(stop=>verifiedGeo[stop.place]);if(!stops.length)return;
+        const points=stops.map(stop=>[verifiedGeo[stop.place][1],verifiedGeo[stop.place][0]]);
+        if(points.length>1){const b=new maplibregl.LngLatBounds();points.forEach(p=>b.extend(p));map.fitBounds(b,{padding:60,duration:400});}
+        else map.flyTo({center:points[0],zoom:7});
+        new maplibregl.Popup().setLngLat(points[0]).setHTML('<strong>'+escapeHTML(journey.titleEn)+'</strong><br>'+stops.map((st,i)=>(i+1)+'. '+escapeHTML(st.place)).join('<br>')+'<br><small>Recorded stops only — no inferred route</small>').addTo(map);
         grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       }));
-      // Keep regional and permanent place labels visible only at appropriate zoom levels.
-      const updateAtlasLabels=()=>{
-        const zoom=map.getZoom();
-        map.getContainer().classList.toggle('atlas-map-close',zoom>=6);
-        map.getContainer().classList.toggle('atlas-map-wide',zoom<6);
-      };
-      map.on('zoomend',updateAtlasLabels);
-      if(markers.length>1)map.fitBounds(L.featureGroup(markers).getBounds().pad(.15));
-      updateAtlasLabels();
-      grid.querySelector('#atlasFindEgypt')?.addEventListener('click',()=>{const egypt=geographic.find(p=>p.name==='Egypt');if(!egypt)return;map.setView(verifiedGeo.Egypt,6);const marker=markers[geographic.indexOf(egypt)];marker?.openPopup();grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});});
-      map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderPlaces(grid,name.toLowerCase());});});
-      setTimeout(()=>map.invalidateSize(),80);
+      map.on('click',e=>{const btn=e.originalEvent.target.closest?.('[data-atlas-place]');if(!btn)return;$('#collectionFilter').value=btn.dataset.atlasPlace;renderPlaces(grid,btn.dataset.atlasPlace.toLowerCase());});
+      setTimeout(()=>map.resize(),100);
     }
     const journeySearch=grid.querySelector('#journeySearch');
     const journeyEra=grid.querySelector('#journeyEraFilter');
