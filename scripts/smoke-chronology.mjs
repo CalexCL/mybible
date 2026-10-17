@@ -64,6 +64,13 @@ try {
   await page.locator('#journeyTypeFilter').selectOption('event');
   assert.ok(await page.locator('.atlas-journey:visible').count()>=3,'Single-site event filter returns event studies');
   assert.equal(await page.locator('.atlas-journey[data-journey-type="journey"]:visible').count(),0,'Event filter excludes multi-place journeys');
+  await page.locator('#journeyEraFilter').selectOption('');
+  await page.locator('#journeyTypeFilter').selectOption('');
+  await page.locator('#journeySort').selectOption('stops');
+  assert.equal(await page.locator('.atlas-journey').first().getAttribute('data-journey-stops'),'3','Most stops sorts longest journey first');
+  await page.locator('#journeySort').selectOption('az');
+  const titles=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyTitle));
+  assert.deepEqual(titles,[...titles].sort((a,b)=>a.localeCompare(b)),'Alphabetical journey order');
   await page.locator('#journeyReset').click();
   assert.ok(await page.locator('.atlas-journey:visible').count()>=19,'Reset restores journeys');
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
