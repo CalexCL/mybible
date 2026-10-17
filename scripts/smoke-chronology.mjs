@@ -47,6 +47,15 @@ try {
   assert.equal(await page.locator('#collectionGrid .atlas-focused').count(),1,'Selected location should use compact Atlas');
   assert.equal(await page.locator('#collectionGrid .atlas-focused .atlas').count(),0,'Focused Atlas should hide schematic map');
   assert.equal(await page.locator('#collectionGrid .atlas-selected-summary').count(),1);
+  // A Scripture citation from a selected Atlas place returns to that same place.
+  const egyptRef=page.locator('#collectionGrid .place-card .ref-chip[data-ref]').filter({hasText:/Exodus|Genesis|Matthew|Acts|Exod/i}).first();
+  await egyptRef.waitFor();
+  await egyptRef.click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt','Scripture Back restores selected Atlas location');
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Back keeps Egypt focused before restoring all pins');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
