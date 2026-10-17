@@ -73,6 +73,34 @@ try {
   assert.deepEqual(titles,[...titles].sort((a,b)=>a.localeCompare(b)),'Alphabetical journey order');
   await page.locator('#journeyReset').click();
   assert.ok(await page.locator('.atlas-journey:visible').count()>=19,'Reset restores journeys');
+  // V112: exercise combined filters, empty results, sorting, counts and reset in one browser flow.
+  const allJourneys=await page.locator('.atlas-journey').count();
+  const biblicalOrder=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyOrder));
+  await page.locator('#journeySort').selectOption('stops');
+  const stopCounts=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>Number(c.dataset.journeyStops)));
+  assert.deepEqual(stopCounts,[...stopCounts].sort((a,b)=>b-a),'All journeys sort by descending stop count');
+  await page.locator('#journeySearch').fill('Elijah');
+  await page.locator('#journeyEraFilter').selectOption('Divided Kingdom');
+  const matching=await page.locator('.atlas-journey:visible').count();
+  assert.ok(matching>0,'Combined Elijah search and era filter should find journeys');
+  assert.equal(Number(await page.locator('#journeyVisibleCount').innerText()),matching,'Visible journey count reflects combined filters');
+  await page.locator('#journeyTypeFilter').selectOption('event');
+  const combined=await page.locator('.atlas-journey:visible').count();
+  assert.ok(combined<=matching,'Adding type filter must not increase matches');
+  assert.equal(Number(await page.locator('#journeyVisibleCount').innerText()),combined,'Visible count reflects triple-filter matches');
+  await page.locator('#journeySearch').fill('NO_MATCH_MYBIBLE_2030');
+  assert.equal(await page.locator('.atlas-journey:visible').count(),0,'Impossible query has zero matches');
+  assert.equal(await page.locator('#journeyVisibleCount').innerText(),'0','No-match count reads zero');
+  assert.equal(await page.locator('#journeyEmpty').isVisible(),true,'Empty-state explanation visible');
+  await page.locator('#journeyReset').click();
+  assert.equal(await page.locator('#journeySearch').inputValue(),'','Reset clears journey search');
+  assert.equal(await page.locator('#journeyEraFilter').inputValue(),'','Reset clears era');
+  assert.equal(await page.locator('#journeyTypeFilter').inputValue(),'','Reset clears type');
+  assert.equal(await page.locator('#journeySort').inputValue(),'scripture','Reset returns Biblical order');
+  assert.equal(await page.locator('.atlas-journey:visible').count(),allJourneys,'Reset restores all journeys');
+  assert.equal(await page.locator('#journeyEmpty').isVisible(),false,'Reset removes empty state');
+  assert.deepEqual(await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyOrder)),biblicalOrder,'Reset restores original Scripture order');
+
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Haran');
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Journey stop must open exactly one Atlas place');
