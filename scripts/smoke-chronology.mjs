@@ -143,7 +143,7 @@ try {
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   await page.locator('#collectionFilter').fill('Egypt');
   await page.locator('#collectionFilter').fill('');
-  await page.locator('#realBibleAtlas .leaflet-marker-icon').first().click();
+  await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').first().click();
   await page.locator('.leaflet-popup-content [data-atlas-place]').first().click();
   assert.ok((await page.locator('#collectionFilter').inputValue()).length>0);
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Clicking geographic marker should select one place');
