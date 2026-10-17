@@ -167,7 +167,8 @@ try {
     ['Heb 11:3','57','11','3'],
     ['1John 1:1','61','1','1']
   ]){
-    await page.locator('#searchBtn').click();
+    await page.keyboard.press('Control+k');
+    await page.locator('#searchModal:not(.hidden)').waitFor();
     await page.locator('#globalSearch').fill(reference);
     const jump=page.locator('#searchResults .search-result[data-jump]').first();
     await jump.waitFor();
