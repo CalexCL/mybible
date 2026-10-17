@@ -809,7 +809,7 @@
       const query=(journeySearch?.value||'').trim().toLowerCase();
       const era=journeyEra?.value||'';
       let visible=0;
-      $('[data-journey-era]',grid).forEach(card=>{
+      $$('[data-journey-era]',grid).forEach(card=>{
         card.hidden=!!(era&&card.dataset.journeyEra!==era || query&&!card.dataset.journeySearch.includes(query));
         if(!card.hidden)visible++;
       });
@@ -821,7 +821,7 @@
     journeySearch?.addEventListener('input',filterJourneys);
     journeyEra?.addEventListener('change',filterJourneys);
     grid.querySelector('#journeyReset')?.addEventListener('click',()=>{journeySearch.value='';journeyEra.value='';filterJourneys();});
-    $('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const place=btn.dataset.journeyPlace;
       if(!state.study.places.some(p=>p.name===place))return;
       $('#collectionFilter').value=place;
