@@ -40,7 +40,7 @@ try {
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back must restore all geographic map markers');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>1,'Back must restore all geographic map markers');
   await page.goto('http://127.0.0.1:8765/?view=explore&collection=places&place=Egypt',{waitUntil:'networkidle'});
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionGrid .place-card').count(), 1, 'Atlas should focus on selected Scripture place');
@@ -59,7 +59,7 @@ try {
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon').count()>1,'Back from selected Atlas location restores full map');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>1,'Back from selected Atlas location restores full map');
   assert.equal(await page.locator('#atlasFindEgypt').count(),1,'Bilingual Egypt shortcut is available');
   const mobileMap=await page.locator('#realBibleAtlas').boundingBox();
   assert.ok(mobileMap&&mobileMap.height>=340,'Mobile Atlas maintains usable minimum height');
@@ -68,15 +68,15 @@ try {
   assert.ok(egyptShortcut.width>=90,'Egypt locator label is wide enough to read on a mobile screen');
   const placeLabels=await page.locator('#realBibleAtlas .atlas-place-label').allTextContents();
   assert.ok(placeLabels.some(x=>x.includes('埃及')&&x.includes('Egypt')),'Permanent Egypt place label is bilingual');
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive Bible place markers remain distinct from region labels');
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-control-zoom').count()===1,'Atlas zoom controls remain present after bilingual overlay');
-  const mapTileUrl=await page.locator('#realBibleAtlas .leaflet-tile').first().getAttribute('src');
-  assert.match(mapTileUrl,/tile\.openstreetmap\.org/,'Atlas requests public OpenStreetMap tiles instead of blank Esri tiles');
-  const zoomIn=page.locator('#realBibleAtlas .leaflet-control-zoom-in');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>10,'Interactive Bible place markers remain distinct from region labels');
+  assert.ok(await page.locator('#realBibleAtlas .maplibregl-ctrl-group').count()===1,'Atlas zoom controls remain present after bilingual overlay');
+  assert.ok(await page.locator('#realBibleAtlas canvas.maplibregl-canvas').count()===1,'OpenFreeMap vector canvas initialized');
+  assert.ok(await page.evaluate(()=>!!window.maplibregl),'MapLibre renderer is available');
+  const zoomIn=page.locator('#realBibleAtlas .maplibregl-ctrl-zoom-in');
   await zoomIn.click();
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after map zoom');
-  await page.locator('#realBibleAtlas .leaflet-control-zoom-out').click();
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>10,'Interactive markers remain after zooming back out');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>10,'Interactive markers remain after map zoom');
+  await page.locator('#realBibleAtlas .maplibregl-ctrl-zoom-out').click();
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>10,'Interactive markers remain after zooming back out');
   assert.ok(await page.locator('#atlasFindEgypt').isVisible(),'Egypt locator stays visible after map zoom controls');
   assert.ok(await page.locator('#realBibleAtlas .atlas-region-label').count()>=5,'Atlas provides bilingual geographic labels');
   assert.ok((await page.locator('#realBibleAtlas .atlas-region-label').allTextContents()).some(t=>t.includes('埃及')&&t.includes('Egypt')),'Egypt named in Chinese and English');
@@ -90,15 +90,15 @@ try {
     assert.ok(atlasPlaces.some(label=>label.includes(english)&&label.includes(' · ')),english+' visible as bilingual place label');
   }
   await page.locator('#atlasFindEgypt').click();
-  await page.locator('#realBibleAtlas .leaflet-popup-content').getByText('埃及 · Egypt').waitFor();
+  await page.locator('#realBibleAtlas .maplibregl-popup-content').getByText('埃及 · Egypt').waitFor();
   // The Egypt map shortcut should open the actual place, then Back returns to all markers.
-  await page.locator('#realBibleAtlas .leaflet-popup-content [data-atlas-place="Egypt"]').click();
+  await page.locator('#realBibleAtlas .maplibregl-popup-content [data-atlas-place="Egypt"]').click();
   await page.locator('#explorePage.active').waitFor();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt','Egypt shortcut opens selected location');
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Egypt shortcut displays one place');
   await page.locator('#backNavigationBtn').click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'','Back returns from Egypt shortcut to Atlas');
-  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>1,'Atlas pins restored');
+  assert.ok(await page.locator('#realBibleAtlas .atlas-geopoint').count()>1,'Atlas pins restored');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=19,'Nineteen Scripture journeys available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Bethlehem"]').count()>0,'Luke 2 Bethlehem stop available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
@@ -177,8 +177,8 @@ try {
   assert.equal(await page.locator('#collectionFilter').inputValue(),'');
   await page.locator('#collectionFilter').fill('Egypt');
   await page.locator('#collectionFilter').fill('');
-  await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').first().click();
-  await page.locator('.leaflet-popup-content [data-atlas-place]').first().click();
+  await page.locator('#realBibleAtlas .atlas-geopoint').first().click();
+  await page.locator('.maplibregl-popup-content [data-atlas-place]').first().click();
   assert.ok((await page.locator('#collectionFilter').inputValue()).length>0);
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Clicking geographic marker should select one place');
   await page.locator('#collectionFilter').fill('Egypt');
