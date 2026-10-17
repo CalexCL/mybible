@@ -238,6 +238,20 @@ try {
   await page.locator('#readerPage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
   await page.locator('#explorePage.active').waitFor();
+  // Filtered Explore collection must survive a passage visit and Back.
+  await page.locator('#exploreCategories [data-collection="people"]').click();
+  await page.locator('#collectionFilter').fill('Moses');
+  await page.locator('#collectionGrid .ref-chip[data-ref]').first().waitFor();
+  const filteredCards=await page.locator('#collectionGrid .collection-card').count();
+  assert.ok(filteredCards>0,'Moses explorer search finds study cards');
+  await page.locator('#collectionGrid .ref-chip[data-ref]').first().click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Moses','Back preserves Explore text filter');
+  assert.match(await page.locator('#exploreCategories [data-collection="people"]').getAttribute('class'),/active/,'Back preserves Explore category');
+  assert.equal(await page.locator('#collectionGrid .collection-card').count(),filteredCards,'Back restores filtered Explore cards');
+  await page.locator('#collectionFilter').fill('');
   await page.locator('#backNavigationBtn').click();
   await page.locator('#timelinePage.active').waitFor();
 
