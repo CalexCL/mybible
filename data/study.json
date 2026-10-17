@@ -3286,6 +3286,69 @@
         }
       ],
       "note": "Single site association only; the passage does not establish a travel itinerary here."
+    },
+    {
+      "id": "peter-caesarea-jerusalem",
+      "titleZh": "彼得在该撒利亚与耶路撒冷",
+      "titleEn": "Peter in Caesarea and Jerusalem",
+      "person": "Peter",
+      "era": "Early Church",
+      "timelineRef": "Acts 10",
+      "stops": [
+        {
+          "place": "Caesarea",
+          "ref": "Acts 10:24-48",
+          "noteZh": "彼得在该撒利亚的哥尼流家中宣讲福音。",
+          "noteEn": "Peter proclaimed the gospel in Cornelius's household in Caesarea."
+        },
+        {
+          "place": "Jerusalem",
+          "ref": "Acts 11:2-18",
+          "noteZh": "彼得回到耶路撒冷，向信徒解释发生的事。",
+          "noteEn": "Peter explained the events to fellow believers in Jerusalem."
+        }
+      ],
+      "note": "Acts 10–11 names both places; intermediate travel stages are not established."
+    },
+    {
+      "id": "paul-corinth-ephesus",
+      "titleZh": "保罗从哥林多前往以弗所",
+      "titleEn": "Paul from Corinth to Ephesus",
+      "person": "Paul",
+      "era": "Early Church",
+      "timelineRef": "Acts 13-21",
+      "stops": [
+        {
+          "place": "Corinth",
+          "ref": "Acts 18:1-18",
+          "noteZh": "保罗在哥林多传道并住了一段时间。",
+          "noteEn": "Paul preached and stayed for a period in Corinth."
+        },
+        {
+          "place": "Ephesus",
+          "ref": "Acts 18:19-21",
+          "noteZh": "保罗到了以弗所，在会堂与犹太人辩论。",
+          "noteEn": "Paul reached Ephesus and reasoned in the synagogue."
+        }
+      ],
+      "note": "Acts mentions a stop at Cenchreae before Ephesus; this limited Atlas sequence is not a complete itinerary."
+    },
+    {
+      "id": "peter-galilee-caesarea-philippi",
+      "titleZh": "彼得在该撒利亚腓立比认信",
+      "titleEn": "Peter's confession near Caesarea Philippi",
+      "person": "Peter",
+      "era": "Jesus",
+      "timelineRef": "Matthew 16:13-20",
+      "stops": [
+        {
+          "place": "Caesarea Philippi",
+          "ref": "Matthew 16:13-20",
+          "noteZh": "在该撒利亚腓立比境内，彼得宣认耶稣是基督。",
+          "noteEn": "In the district of Caesarea Philippi, Peter confessed Jesus as the Christ."
+        }
+      ],
+      "note": "A single regional association; this entry does not claim a journey route."
     }
   ]
 }
