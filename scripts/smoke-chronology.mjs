@@ -56,10 +56,13 @@ try {
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
   assert.ok(await page.locator('.atlas-journey-stop[data-journey-place="Caesarea Philippi"]').count()>0,'Peter confession stop available');
   await page.locator('#journeySearch').fill('Elijah');
-  assert.equal(await page.locator('.atlas-journey:visible').count(),1,'Journey search narrows results');
+  assert.equal(await page.locator('.atlas-journey:visible').count(),2,'Elijah search finds both relevant studies');
   await page.locator('#journeySearch').fill('');
   await page.locator('#journeyEraFilter').selectOption('Patriarchs');
   assert.ok(await page.locator('.atlas-journey:visible').count()>=2,'Era filter works');
+  await page.locator('#journeyTypeFilter').selectOption('event');
+  assert.ok(await page.locator('.atlas-journey:visible').count()>=3,'Single-site event filter returns event studies');
+  assert.equal(await page.locator('.atlas-journey[data-journey-type="journey"]:visible').count(),0,'Event filter excludes multi-place journeys');
   await page.locator('#journeyReset').click();
   assert.ok(await page.locator('.atlas-journey:visible').count()>=19,'Reset restores journeys');
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
