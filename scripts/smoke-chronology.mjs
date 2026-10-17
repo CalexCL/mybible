@@ -183,6 +183,19 @@ try {
     await jump.click();
     await page.waitForFunction(([b,ch])=>document.querySelector('#bookSelect')?.value===b&&document.querySelector('#chapterSelect')?.value===ch,[book,chapter]);
   }
+  // Back should restore the prior Scripture passage, not merely the Bible tab.
+  await page.locator('#searchBtn').evaluate(el=>el.click());
+  await page.locator('#globalSearch').fill('Genesis 1:1');
+  await page.waitForFunction(()=>document.querySelector('#searchResults [data-jump]')?.dataset.jump==='0|1|1');
+  await page.locator('#searchResults [data-jump]').first().click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='0');
+  await page.locator('#searchBtn').evaluate(el=>el.click());
+  await page.locator('#globalSearch').fill('Psalm 33:6');
+  await page.waitForFunction(()=>document.querySelector('#searchResults [data-jump]')?.dataset.jump==='18|33|6');
+  await page.locator('#searchResults [data-jump]').first().click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='18');
+  await page.locator('#backNavigationBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='0' && document.querySelector('#chapterSelect')?.value==='1');
   await page.locator('.nav-btn[data-page="timeline"]').click();
   await page.locator('#timelinePage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
