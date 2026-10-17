@@ -798,7 +798,7 @@
         grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       }));
       if(markers.length>1)map.fitBounds(L.featureGroup(markers).getBounds().pad(.15));
-      map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderCollection();});});
+      map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderPlaces(grid,name.toLowerCase());});});
       setTimeout(()=>map.invalidateSize(),80);
     }
     $$('[data-atlas-place]',grid).forEach(b=>b.addEventListener('click',()=>{
