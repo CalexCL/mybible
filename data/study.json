@@ -3048,15 +3048,21 @@
       "stops": [
         {
           "place": "Ur",
-          "ref": "Genesis 11:31"
+          "ref": "Genesis 11:31",
+          "noteZh": "一家人从吾珥出发，原定前往迦南。",
+          "noteEn": "Abram's family departed from Ur, intending to go to Canaan."
         },
         {
           "place": "Haran",
-          "ref": "Genesis 11:31; Genesis 12:4"
+          "ref": "Genesis 11:31; Genesis 12:4",
+          "noteZh": "一家人在哈兰居住；亚伯兰后来从这里启程。",
+          "noteEn": "The family settled in Haran; Abram later departed from there."
         },
         {
           "place": "Canaan",
-          "ref": "Genesis 12:5"
+          "ref": "Genesis 12:5",
+          "noteZh": "亚伯兰进入迦南地。",
+          "noteEn": "Abram entered the land of Canaan."
         }
       ],
       "note": "Scripture names the locations in the migration narrative. This is a textual sequence, not a reconstructed travel route."
@@ -3069,11 +3075,15 @@
       "stops": [
         {
           "place": "Jerusalem",
-          "ref": "Acts 9:1-2"
+          "ref": "Acts 9:1-2",
+          "noteZh": "扫罗在耶路撒冷取得前往大马士革会堂的文书。",
+          "noteEn": "Saul obtained letters for the synagogues in Damascus."
         },
         {
           "place": "Damascus",
-          "ref": "Acts 9:3-19"
+          "ref": "Acts 9:3-19",
+          "noteZh": "扫罗接近大马士革时遇见复活的耶稣，后来在城里恢复视力。",
+          "noteEn": "Near Damascus Saul encountered the risen Jesus; his sight was restored in the city."
         }
       ],
       "note": "Textual origin and destination in Acts 9; exact road and intermediate stops are not established here."
@@ -3086,7 +3096,9 @@
       "stops": [
         {
           "place": "Rome",
-          "ref": "Acts 28:14-16"
+          "ref": "Acts 28:14-16",
+          "noteZh": "保罗来到罗马，并获准独自居住，由士兵看守。",
+          "noteEn": "Paul reached Rome and was permitted to stay by himself under guard."
         }
       ],
       "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry."
@@ -3099,11 +3111,15 @@
       "stops": [
         {
           "place": "Nazareth",
-          "ref": "Luke 2:4"
+          "ref": "Luke 2:4",
+          "noteZh": "约瑟从拿撒勒出发，与怀孕的马利亚同往伯利恒。",
+          "noteEn": "Joseph left Nazareth for Bethlehem with Mary, who was expecting a child."
         },
         {
           "place": "Bethlehem",
-          "ref": "Luke 2:4-7"
+          "ref": "Luke 2:4-7",
+          "noteZh": "耶稣在伯利恒出生。",
+          "noteEn": "Jesus was born in Bethlehem."
         }
       ],
       "note": "Luke describes travel from Nazareth to Bethlehem. The route and stopping points are not specified."
@@ -3116,11 +3132,15 @@
       "stops": [
         {
           "place": "Philippi",
-          "ref": "Acts 16:12"
+          "ref": "Acts 16:12",
+          "noteZh": "保罗的同工团队到了腓立比，在那里传讲福音。",
+          "noteEn": "Paul's party came to Philippi and preached the gospel there."
         },
         {
           "place": "Thessalonica",
-          "ref": "Acts 17:1"
+          "ref": "Acts 17:1",
+          "noteZh": "他们经过暗妃波里和亚波罗尼亚，来到帖撒罗尼迦。",
+          "noteEn": "They passed through Amphipolis and Apollonia before reaching Thessalonica."
         }
       ],
       "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied."
