@@ -196,6 +196,20 @@ try {
   await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='18');
   await page.locator('#backNavigationBtn').click();
   await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='0' && document.querySelector('#chapterSelect')?.value==='1');
+  // Multiple Scripture-reference hops must unwind one passage at a time.
+  for(const [query,expected] of [['John 1:1','42|1|1'],['Heb 11:3','57|11|3']]){
+    await page.keyboard.press('Control+k');
+    await page.locator('#globalSearch').fill(query);
+    await page.waitForFunction(value=>document.querySelector('#searchResults [data-jump]')?.dataset.jump===value,expected);
+    await page.locator('#searchResults [data-jump]').first().click();
+    await page.waitForFunction(value=>{
+      const [bi,ch]=value.split('|');return document.querySelector('#bookSelect')?.value===bi&&document.querySelector('#chapterSelect')?.value===ch;
+    },expected);
+  }
+  await page.locator('#backNavigationBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='42'&&document.querySelector('#chapterSelect')?.value==='1');
+  await page.locator('#backNavigationBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='0'&&document.querySelector('#chapterSelect')?.value==='1');
   await page.locator('.nav-btn[data-page="timeline"]').click();
   await page.locator('#timelinePage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
