@@ -827,7 +827,7 @@
         grid.querySelectorAll('.atlas-place-label').forEach(el=>el.hidden=!close);
       };
       map.on('zoomend',updateLabels);map.on('load',()=>{map.getContainer().dataset.mapReady='true';updateLabels();});updateLabels();
-      map.on('error',e=>console.warn('Bible Atlas map rendering:',e.error?.message||e));
+      map.on('error',e=>{console.warn('Bible Atlas map rendering:',e.error?.message||e);map.getContainer().dataset.mapError='true';});
       grid.querySelector('#atlasFindEgypt')?.addEventListener('click',()=>{
         const egypt=markers.find(m=>m.place==='Egypt');
         if(!egypt)return;map.flyTo({center:[verifiedGeo.Egypt[1],verifiedGeo.Egypt[0]],zoom:6,duration:400});
@@ -844,7 +844,7 @@
         grid.querySelector('#realBibleAtlas')?.scrollIntoView({behavior:'smooth',block:'center'});
       }));
       grid.addEventListener('click',e=>{const btn=e.target.closest?.('[data-atlas-place]');if(!btn)return;$('#collectionFilter').value=btn.dataset.atlasPlace;renderPlaces(grid,btn.dataset.atlasPlace.toLowerCase());});
-      setTimeout(()=>map.resize(),100);
+      setTimeout(()=>{if(map.getContainer().isConnected)map.resize();},100);
     }
     const journeySearch=grid.querySelector('#journeySearch');
     const journeyEra=grid.querySelector('#journeyEraFilter');
