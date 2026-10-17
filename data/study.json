@@ -3200,6 +3200,92 @@
         }
       ],
       "note": "Only the destination is mapped; Moab is not assigned a precise location in this explorer."
+    },
+    {
+      "id": "moses-exodus-sinai",
+      "titleZh": "摩西带领以色列人出埃及至西奈",
+      "titleEn": "Moses leads Israel from Egypt to Sinai",
+      "person": "Moses",
+      "era": "Exodus",
+      "timelineRef": "Exodus 3-4",
+      "stops": [
+        {
+          "place": "Egypt",
+          "ref": "Exodus 12:31-42",
+          "noteZh": "以色列人在逾越节之后离开埃及。",
+          "noteEn": "The Israelites departed from Egypt after the Passover."
+        },
+        {
+          "place": "Sinai / Horeb",
+          "ref": "Exodus 19:1-6",
+          "noteZh": "以色列人来到西奈旷野；确切山址仍有争议。",
+          "noteEn": "Israel arrived in the wilderness of Sinai; the mountain's exact location is debated."
+        }
+      ],
+      "note": "Selected biblical regions only; Exodus records additional stages. Sinai's exact mountain identification is disputed."
+    },
+    {
+      "id": "joshua-jordan-jericho",
+      "titleZh": "约书亚带领以色列人过约旦河",
+      "titleEn": "Joshua crosses the Jordan and reaches Jericho",
+      "person": "Joshua",
+      "era": "Conquest",
+      "timelineRef": "Joshua 1-4",
+      "stops": [
+        {
+          "place": "Jordan River",
+          "ref": "Joshua 3:14-17",
+          "noteZh": "祭司抬着约柜踏入约旦河，以色列民从干地经过。",
+          "noteEn": "The priests carried the ark into the Jordan, and Israel crossed on dry ground."
+        },
+        {
+          "place": "Jericho",
+          "ref": "Joshua 6:1-20",
+          "noteZh": "以色列人围绕耶利哥城；经文记载城墙倒塌。",
+          "noteEn": "Israel marched around Jericho; Scripture records the fall of its walls."
+        }
+      ],
+      "note": "Textual sequence of places; map markers are approximate modern geographical references, not an excavated route."
+    },
+    {
+      "id": "david-hebron-jerusalem",
+      "titleZh": "大卫从希伯仑到耶路撒冷",
+      "titleEn": "David's kingship: Hebron and Jerusalem",
+      "person": "David",
+      "era": "United Kingdom",
+      "timelineRef": "2 Samuel 2-5",
+      "stops": [
+        {
+          "place": "Hebron",
+          "ref": "2 Samuel 2:1-4",
+          "noteZh": "大卫前往希伯仑，被犹大家膏立为王。",
+          "noteEn": "David went to Hebron and was anointed king over Judah."
+        },
+        {
+          "place": "Jerusalem",
+          "ref": "2 Samuel 5:6-10",
+          "noteZh": "大卫攻取耶路撒冷，并在城中居住。",
+          "noteEn": "David took Jerusalem and established his residence there."
+        }
+      ],
+      "note": "A biblical sequence of royal centers, not evidence for one specific travel path."
+    },
+    {
+      "id": "elijah-carmel",
+      "titleZh": "以利亚在迦密山",
+      "titleEn": "Elijah at Mount Carmel",
+      "person": "Elijah",
+      "era": "Divided Kingdom",
+      "timelineRef": "1 Kings 18",
+      "stops": [
+        {
+          "place": "Mount Carmel",
+          "ref": "1 Kings 18:19-39",
+          "noteZh": "以利亚在迦密山面对巴力的先知，向以色列宣告耶和华是上帝。",
+          "noteEn": "At Mount Carmel Elijah confronted the prophets of Baal and called Israel to recognize the LORD as God."
+        }
+      ],
+      "note": "Single site association only; the passage does not establish a travel itinerary here."
     }
   ]
 }
