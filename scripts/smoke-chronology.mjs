@@ -65,6 +65,14 @@ try {
   assert.ok(await page.locator('#realBibleAtlas .atlas-place-label').count()>=1,'Egypt has visible bilingual marker label');
   await page.locator('#atlasFindEgypt').click();
   await page.locator('#realBibleAtlas .leaflet-popup-content').getByText('埃及 · Egypt').waitFor();
+  // The Egypt map shortcut should open the actual place, then Back returns to all markers.
+  await page.locator('#realBibleAtlas .leaflet-popup-content [data-atlas-place="Egypt"]').click();
+  await page.locator('#explorePage.active').waitFor();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'Egypt','Egypt shortcut opens selected location');
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Egypt shortcut displays one place');
+  await page.locator('#backNavigationBtn').click();
+  assert.equal(await page.locator('#collectionFilter').inputValue(),'','Back returns from Egypt shortcut to Atlas');
+  assert.ok(await page.locator('#realBibleAtlas .leaflet-marker-icon:not(.atlas-region-label)').count()>1,'Atlas pins restored');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=19,'Nineteen Scripture journeys available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Bethlehem"]').count()>0,'Luke 2 Bethlehem stop available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
