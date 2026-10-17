@@ -212,6 +212,25 @@ try {
   await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='0'&&document.querySelector('#chapterSelect')?.value==='1');
   await page.locator('.nav-btn[data-page="timeline"]').click();
   await page.locator('#timelinePage.active').waitFor();
+  // A timeline Scripture link must return to Timeline, not directly to Reader.
+  const timelinePassage=page.locator('#timelineList .timeline-ref[data-ref]').first();
+  await timelinePassage.waitFor();
+  await timelinePassage.click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#timelinePage.active').waitFor();
+  // The same holds for an Explore collection Scripture chip.
+  await page.locator('.nav-btn[data-page="explore"]').click();
+  await page.locator('#explorePage.active').waitFor();
+  const explorePassage=page.locator('#collectionGrid .ref-chip[data-ref]').first();
+  await explorePassage.waitFor();
+  await explorePassage.click();
+  await page.locator('#readerPage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#explorePage.active').waitFor();
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#timelinePage.active').waitFor();
+
   await page.locator('#backNavigationBtn').click();
   await page.locator('#readerPage.active').waitFor();
   await page.locator('.nav-btn[data-page="explore"]').click();
