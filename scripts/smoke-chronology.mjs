@@ -145,6 +145,17 @@ try {
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
   await page.goto('http://127.0.0.1:8765/', { waitUntil: 'networkidle' });
+  // Cross-reference navigation: singular Psalm and abbreviated Scripture book names.
+  await page.evaluate(()=>document.querySelector('#globalSearch')?.blur());
+  await page.locator('#bookSelect').selectOption('57');
+  await page.locator('#chapterSelect').selectOption('11');
+  await page.locator('#verseList .verse-row').first().click();
+  await page.locator('.drawer-tab[data-tab="crossrefs"]').click();
+  const psalmChip=page.locator('#studyDrawer .drawer-ref[data-ref="Psalm 33:6"]');
+  await psalmChip.waitFor({timeout:15000});
+  await psalmChip.click();
+  await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='18' && document.querySelector('#chapterSelect')?.value==='33',{timeout:15000});
+  assert.match(await page.locator('#studyDrawer').innerText(),/Genesis|创世记|诗篇|Psalm/);
   await page.locator('.nav-btn[data-page="timeline"]').click();
   await page.locator('#timelinePage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
