@@ -824,7 +824,7 @@
     };
     const sortJourneys=()=>{
       const section=grid.querySelector('.atlas-journeys');
-      const cards=$('[data-journey-era]',grid);
+      const cards=Array.from(grid.querySelectorAll('[data-journey-era]'));
       const mode=journeySort?.value||'scripture';
       if(mode==='az')cards.sort((a,b)=>a.dataset.journeyTitle.localeCompare(b.dataset.journeyTitle));
       else if(mode==='stops')cards.sort((a,b)=>Number(b.dataset.journeyStops)-Number(a.dataset.journeyStops));
