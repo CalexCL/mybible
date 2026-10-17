@@ -3154,6 +3154,52 @@
       "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied.",
       "era": "Early Church",
       "timelineRef": "Acts 13-21"
+    },
+    {
+      "id": "jacob-egypt",
+      "titleZh": "雅各全家前往埃及",
+      "titleEn": "Jacob's family goes to Egypt",
+      "person": "Jacob",
+      "era": "Patriarchs",
+      "timelineRef": "Genesis 46-47",
+      "stops": [
+        {
+          "place": "Canaan",
+          "ref": "Genesis 45:25-28",
+          "noteZh": "雅各在迦南得知约瑟仍然活着。",
+          "noteEn": "Jacob learned in Canaan that Joseph was still alive."
+        },
+        {
+          "place": "Beersheba",
+          "ref": "Genesis 46:1-4",
+          "noteZh": "以色列在别是巴献祭，并领受上帝的应许。",
+          "noteEn": "Israel offered sacrifices at Beersheba and received God's promise."
+        },
+        {
+          "place": "Egypt",
+          "ref": "Genesis 46:5-7",
+          "noteZh": "雅各与家眷进入埃及。",
+          "noteEn": "Jacob entered Egypt with his household."
+        }
+      ],
+      "note": "Selected locations from Genesis 45–46; no modern travel route is implied."
+    },
+    {
+      "id": "ruth-bethlehem",
+      "titleZh": "路得与拿俄米回到伯利恒",
+      "titleEn": "Ruth and Naomi arrive in Bethlehem",
+      "person": "Ruth",
+      "era": "Judges",
+      "timelineRef": "Judges",
+      "stops": [
+        {
+          "place": "Bethlehem",
+          "ref": "Ruth 1:19-22",
+          "noteZh": "拿俄米与路得来到伯利恒，正值收割大麦的开始。",
+          "noteEn": "Naomi and Ruth arrived in Bethlehem at the beginning of the barley harvest."
+        }
+      ],
+      "note": "Only the destination is mapped; Moab is not assigned a precise location in this explorer."
     }
   ]
 }
