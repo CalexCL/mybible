@@ -803,7 +803,7 @@
       geographic.forEach(p=>{
         const m=L.marker(verifiedGeo[p.name]).addTo(map);
         m.bindPopup('<strong>'+escapeHTML(p.zh)+' · '+escapeHTML(p.name)+'</strong><br><button type="button" data-atlas-place="'+escapeHTML(p.name)+'">View location</button>');
-        m.bindTooltip(escapeHTML(p.zh)+' · '+escapeHTML(p.name),{direction:'top',offset:[0,-12],opacity:.97,permanent:p.name==='Egypt',className:'atlas-place-label'});
+        m.bindTooltip(escapeHTML(p.zh)+' · '+escapeHTML(p.name),{direction:'top',offset:[0,-12],opacity:.97,permanent:['Egypt','Jerusalem','Bethlehem','Damascus','Rome'].includes(p.name),className:'atlas-place-label'});
         m.on('click',()=>{map.panTo(verifiedGeo[p.name]);});
         markers.push(m);
       });
