@@ -3065,7 +3065,8 @@
           "noteEn": "Abram entered the land of Canaan."
         }
       ],
-      "note": "Scripture names the locations in the migration narrative. This is a textual sequence, not a reconstructed travel route."
+      "note": "Scripture names the locations in the migration narrative. This is a textual sequence, not a reconstructed travel route.",
+      "era": "Patriarchs"
     },
     {
       "id": "paul-damascus",
@@ -3086,7 +3087,8 @@
           "noteEn": "Near Damascus Saul encountered the risen Jesus; his sight was restored in the city."
         }
       ],
-      "note": "Textual origin and destination in Acts 9; exact road and intermediate stops are not established here."
+      "note": "Textual origin and destination in Acts 9; exact road and intermediate stops are not established here.",
+      "era": "Early Church"
     },
     {
       "id": "paul-rome",
@@ -3101,7 +3103,8 @@
           "noteEn": "Paul reached Rome and was permitted to stay by himself under guard."
         }
       ],
-      "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry."
+      "note": "Destination mentioned in Acts 28. Earlier sea-voyage stages are not inferred from this limited entry.",
+      "era": "Apostolic"
     },
     {
       "id": "joseph-mary-bethlehem",
@@ -3122,7 +3125,8 @@
           "noteEn": "Jesus was born in Bethlehem."
         }
       ],
-      "note": "Luke describes travel from Nazareth to Bethlehem. The route and stopping points are not specified."
+      "note": "Luke describes travel from Nazareth to Bethlehem. The route and stopping points are not specified.",
+      "era": "Jesus"
     },
     {
       "id": "paul-macedonia",
@@ -3143,7 +3147,8 @@
           "noteEn": "They passed through Amphipolis and Apollonia before reaching Thessalonica."
         }
       ],
-      "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied."
+      "note": "Acts names Amphipolis and Apollonia between these places; they are omitted from this map until added as documented places. No direct route is implied.",
+      "era": "Apostolic"
     }
   ]
 }
