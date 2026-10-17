@@ -802,14 +802,14 @@
       map.on('popupopen',e=>{const btn=e.popup.getElement()?.querySelector('[data-atlas-place]');btn?.addEventListener('click',()=>{const name=btn.dataset.atlasPlace;$('#collectionFilter').value=name;renderPlaces(grid,name.toLowerCase());});});
       setTimeout(()=>map.invalidateSize(),80);
     }
-    $('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
+    $$('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const place=btn.dataset.journeyPlace;
       if(!state.study.places.some(p=>p.name===place))return;
       $('#collectionFilter').value=place;
       renderPlaces(grid,place.toLowerCase());
       grid.querySelector('.atlas-selected-summary')?.scrollIntoView({block:'nearest',behavior:'smooth'});
     }));
-    $('[data-atlas-place]',grid).forEach(b=>b.addEventListener('click',()=>{
+    $$('[data-atlas-place]',grid).forEach(b=>b.addEventListener('click',()=>{
       const place=b.dataset.atlasPlace;
       if(!state.study.places.some(p=>p.name===place))return;
       $('#collectionFilter').value=place;
