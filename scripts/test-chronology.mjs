@@ -53,5 +53,8 @@ for (const journey of study.journeys || []) {
   }
 }
 
+const appSource = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+assert.ok(!/(?<!\\$)\\$\\([^\\n;]*?\\)\\.forEach\\s*\\(/.test(appSource), 'A single-element $ selector is incorrectly used with forEach');
+assert.ok(!/\\$\\$\\$\\(/.test(appSource), 'Undefined $$ selector breaks app startup');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
