@@ -156,6 +156,25 @@ try {
   await psalmChip.click();
   await page.waitForFunction(()=>document.querySelector('#bookSelect')?.value==='18' && document.querySelector('#chapterSelect')?.value==='33',{timeout:15000});
   assert.match(await page.locator('#studyDrawer').innerText(),/Genesis|创世记|诗篇|Psalm/);
+  // Verify abbreviations and Chinese compact references through the actual search UI.
+  await page.locator('#closeDrawer').click();
+  for(const [reference,book,chapter,verse] of [
+    ['Psalm 33:6','18','33','6'],
+    ['Psa 33:6','18','33','6'],
+    ['诗篇33:6','18','33','6'],
+    ['Matt 5:3','39','5','3'],
+    ['Jn 1:1','42','1','1'],
+    ['Heb 11:3','57','11','3'],
+    ['1John 1:1','61','1','1']
+  ]){
+    await page.locator('#searchBtn').click();
+    await page.locator('#globalSearch').fill(reference);
+    const jump=page.locator('#searchResults .search-result[data-jump]').first();
+    await jump.waitFor();
+    assert.equal(await jump.getAttribute('data-jump'),[book,chapter,verse].join('|'),'Reference parsed: '+reference);
+    await jump.click();
+    await page.waitForFunction(([b,ch])=>document.querySelector('#bookSelect')?.value===b&&document.querySelector('#chapterSelect')?.value===ch,[book,chapter]);
+  }
   await page.locator('.nav-btn[data-page="timeline"]').click();
   await page.locator('#timelinePage.active').waitFor();
   await page.locator('#backNavigationBtn').click();
