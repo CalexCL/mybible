@@ -54,6 +54,13 @@ try {
   assert.ok(await page.locator('#collectionGrid .atlas-journey-map').count()>=11,'Eleven Scripture journeys available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Bethlehem"]').count()>0,'Luke 2 Bethlehem stop available');
   assert.ok(await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Beersheba"]').count()>0,'Jacob journey Beersheba stop available');
+  await page.locator('#journeySearch').fill('Elijah');
+  assert.equal(await page.locator('.atlas-journey:visible').count(),1,'Journey search narrows results');
+  await page.locator('#journeySearch').fill('');
+  await page.locator('#journeyEraFilter').selectOption('Patriarchs');
+  assert.ok(await page.locator('.atlas-journey:visible').count()>=2,'Era filter works');
+  await page.locator('#journeyReset').click();
+  assert.ok(await page.locator('.atlas-journey:visible').count()>=11,'Reset restores journeys');
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Haran');
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Journey stop must open exactly one Atlas place');
