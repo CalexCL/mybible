@@ -795,7 +795,7 @@
     $$('.ref-chip',grid).forEach(b=>b.addEventListener('click',()=>navigateReference(b.dataset.ref)));
     if(grid.querySelector('#realBibleAtlas')&&window.L){
       const map=L.map('realBibleAtlas',{scrollWheelZoom:false}).setView([34,34],4);
-      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors and the GIS user community'}).addTo(map);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors and the GIS user community'}).addTo(map);
       // Label-free tiles avoid unpredictable local-script labels; MyBible owns the bilingual names.
       const regionLabels=[['埃及 · Egypt',[27.5,29.3]],['叙利亚 · Syria',[35,38.7]],['约旦 · Jordan',[31.2,36.6]],['伊拉克 · Iraq',[33.0,43.7]],['土耳其 · Türkiye',[39.0,34.5]],['希腊 · Greece',[39.0,22.3]],['意大利 · Italy',[42.8,12.8]],['黎巴嫩 · Lebanon',[34.1,35.8]]];
       regionLabels.forEach(([name,coords])=>L.marker(coords,{interactive:false,keyboard:false,icon:L.divIcon({className:'atlas-region-label',html:'<span>'+escapeHTML(name)+'</span>',iconSize:[0,0]})}).addTo(map));
