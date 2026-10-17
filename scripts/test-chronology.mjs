@@ -53,6 +53,7 @@ for (const journey of study.journeys || []) {
   for(const stop of journey.stops) {
     assert.ok(study.places.some(p=>p.name===stop.place), 'Journey place missing from Atlas: '+stop.place);
     assert.ok(stop.ref && /[A-Za-z]/.test(stop.ref), 'Journey Scripture reference missing: '+journey.id);
+    assert.ok(stop.ref.split(';').every(ref=>/^[A-Za-z0-9 ]+\s+\d+(?::\d+)?(?:-\d+(?::\d+)?)?$/.test(ref.trim())),'Malformed Scripture passage in journey '+journey.id+': '+stop.ref);
   }
 }
 
