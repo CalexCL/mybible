@@ -156,6 +156,7 @@
   }
 
   const viewHistory=[];
+  let atlasJourneyReturn=null;
   const safePreviousDocument=(()=>{try{const url=new URL(document.referrer);return url.origin===location.origin&&url.pathname!==location.pathname?url.href:null;}catch{return null;}})();
   function updateBackButton(){
     const b=$('#backNavigationBtn');
@@ -166,6 +167,13 @@
     if(document.querySelector('#explorePage.active') && state.collection==='places' && $('#collectionFilter').value.trim()){
       $('#collectionFilter').value='';
       renderCollection();
+      if(atlasJourneyReturn){
+        const saved=atlasJourneyReturn;
+        atlasJourneyReturn=null;
+        const grid=$('#collectionGrid');
+        const values={journeySearch:saved.search,journeyEraFilter:saved.era,journeyTypeFilter:saved.type,journeySort:saved.sort};
+        Object.entries(values).forEach(([id,value])=>{const field=grid.querySelector('#'+id);if(field){field.value=value;field.dispatchEvent(new Event(id==='journeySearch'?'input':'change',{bubbles:true}));}});
+      }
       updateBackButton();
       return;
     }
@@ -839,6 +847,7 @@
     $$('[data-journey-place]',grid).forEach(btn=>btn.addEventListener('click',()=>{
       const place=btn.dataset.journeyPlace;
       if(!state.study.places.some(p=>p.name===place))return;
+      atlasJourneyReturn={search:journeySearch?.value||'',era:journeyEra?.value||'',type:journeyType?.value||'',sort:journeySort?.value||'scripture'};
       $('#collectionFilter').value=place;
       renderPlaces(grid,place.toLowerCase());
       grid.querySelector('.atlas-selected-summary')?.scrollIntoView({block:'nearest',behavior:'smooth'});
