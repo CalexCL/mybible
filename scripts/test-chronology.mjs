@@ -58,6 +58,7 @@ for (const journey of study.journeys || []) {
 }
 
 const appSource = read('app.js');
+assert.ok(!appSource.includes("const cards=$('[data-journey-era]',grid)"),'Journey sorting must select all cards');
 assert.ok(!/(?<!\$)\$\([^\n;]*?\)\.forEach\s*\(/.test(appSource), 'A single-element $ selector is incorrectly used with forEach');
 assert.ok(!/\$\$\$\(/.test(appSource), 'Undefined $$$ selector breaks app startup');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
