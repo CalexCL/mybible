@@ -60,6 +60,7 @@ try {
   await page.locator('#journeySearch').fill('');
   await page.locator('#journeyEraFilter').selectOption('Patriarchs');
   assert.ok(await page.locator('.atlas-journey:visible').count()>=2,'Era filter works');
+  await page.locator('#journeyEraFilter').selectOption('');
   await page.locator('#journeyTypeFilter').selectOption('event');
   assert.ok(await page.locator('.atlas-journey:visible').count()>=3,'Single-site event filter returns event studies');
   assert.equal(await page.locator('.atlas-journey[data-journey-type="journey"]:visible').count(),0,'Event filter excludes multi-place journeys');
