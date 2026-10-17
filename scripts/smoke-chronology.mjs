@@ -72,6 +72,7 @@ try {
   assert.ok(await page.locator('#realBibleAtlas .maplibregl-ctrl-group').count()===1,'Atlas zoom controls remain present after bilingual overlay');
   assert.ok(await page.locator('#realBibleAtlas canvas.maplibregl-canvas').count()===1,'OpenFreeMap vector canvas initialized');
   await page.waitForFunction(()=>document.querySelector('#realBibleAtlas')?.dataset.mapReady==='true',null,{timeout:20000});
+  assert.notEqual(await page.locator('#realBibleAtlas').getAttribute('data-map-error'),'true','MapLibre must load without a rendering error');
   assert.ok(await page.evaluate(()=>!!window.maplibregl),'MapLibre renderer is available');
   const zoomIn=page.locator('#realBibleAtlas .maplibregl-ctrl-zoom-in');
   await zoomIn.click();
