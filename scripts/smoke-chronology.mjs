@@ -73,6 +73,14 @@ try {
   assert.deepEqual(titles,[...titles].sort((a,b)=>a.localeCompare(b)),'Alphabetical journey order');
   await page.locator('#journeyReset').click();
   assert.ok(await page.locator('.atlas-journey:visible').count()>=19,'Reset restores journeys');
+  await page.locator('#journeySort').selectOption('za');
+  const reverseTitles=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyTitle));
+  assert.deepEqual(reverseTitles,[...reverseTitles].sort((a,b)=>b.localeCompare(a)),'Reverse alphabetical journey ordering');
+  await page.locator('#journeySort').selectOption('fewest');
+  const fewestCounts=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>Number(c.dataset.journeyStops)));
+  assert.deepEqual(fewestCounts,[...fewestCounts].sort((a,b)=>a-b),'Fewest stops journey ordering');
+  await page.locator('#journeyReset').click();
+
   // V112: exercise combined filters, empty results, sorting, counts and reset in one browser flow.
   const allJourneys=await page.locator('.atlas-journey').count();
   const biblicalOrder=await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyOrder));
