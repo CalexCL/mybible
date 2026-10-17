@@ -101,6 +101,19 @@ try {
   assert.equal(await page.locator('#journeyEmpty').isVisible(),false,'Reset removes empty state');
   assert.deepEqual(await page.locator('.atlas-journey').evaluateAll(cards=>cards.map(c=>c.dataset.journeyOrder)),biblicalOrder,'Reset restores original Scripture order');
 
+  await page.locator('#journeySearch').fill('Abraham');
+  await page.locator('#journeySort').selectOption('az');
+  const journeyBeforePlace=await page.locator('.atlas-journey:visible').count();
+  assert.ok(journeyBeforePlace>0,'Filtered journey list should have matches before opening a place');
+  const selectedPlaceButton=page.locator('.atlas-journey:visible .atlas-journey-stop').first();
+  await selectedPlaceButton.click();
+  assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Filtered journey stop opens a place');
+  await page.locator('#backNavigationBtn').click();
+  await page.locator('#journeySearch').waitFor();
+  assert.equal(await page.locator('#journeySearch').inputValue(),'Abraham','Back restores journey search');
+  assert.equal(await page.locator('#journeySort').inputValue(),'az','Back restores journey sort');
+  assert.equal(await page.locator('.atlas-journey:visible').count(),journeyBeforePlace,'Back restores matching journey results');
+  await page.locator('#journeyReset').click();
   await page.locator('#collectionGrid .atlas-journey-stop[data-journey-place="Haran"]').first().click();
   assert.equal(await page.locator('#collectionFilter').inputValue(),'Haran');
   assert.equal(await page.locator('#collectionGrid .place-card').count(),1,'Journey stop must open exactly one Atlas place');
