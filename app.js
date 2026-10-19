@@ -129,6 +129,7 @@
     $('#chapterSelect').addEventListener('change',async e=>{state.chapter=+e.target.value; await renderReader();});
     $$('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,true)));
     $('#prevChapter').addEventListener('click',()=>moveChapter(-1)); $('#nextChapter').addEventListener('click',()=>moveChapter(1));
+    bindMobileReaderNavigation();
     $('#closeDrawer').addEventListener('click',closeVerseDrawer);
     $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
     $('#themeBtn').addEventListener('click',cycleTheme);
@@ -255,6 +256,42 @@
     const bs=$('#bookSelect'); bs.innerHTML=state.books.map((b,i)=>`<option value="${i}" ${i===state.bookIndex?'selected':''}>${b.chinese} · ${b.english}</option>`).join(''); syncChapterSelect();
   }
   function syncChapterSelect(){ const b=currentBook(); $('#chapterSelect').innerHTML=Array.from({length:b.chapters},(_,i)=>`<option value="${i+1}" ${i+1===state.chapter?'selected':''}>${i+1}</option>`).join(''); $('#bookSelect').value=String(state.bookIndex); }
+  function bindMobileReaderNavigation(){
+    const reader=$('#readerPage'),toggle=$('#mobileReaderToggle');
+    const apply=collapsed=>{
+      reader.classList.toggle('mobile-reader-collapsed',collapsed);
+      toggle?.setAttribute('aria-expanded',String(!collapsed));
+      if(toggle){toggle.textContent=collapsed?'☰ 显示菜单 · Show menus':'☰ 隐藏菜单 · Hide menus';toggle.setAttribute('aria-label',collapsed?'Expand Bible reading menus':'Collapse Bible reading menus');}
+      localStorage.setItem('csb.mobileReaderCollapsed',collapsed?'1':'0');
+    };
+    apply(localStorage.getItem('csb.mobileReaderCollapsed')!=='0');
+    toggle?.addEventListener('click',()=>apply(!reader.classList.contains('mobile-reader-collapsed')));
+    const passage=$('#verseList');
+    let start=null;
+    passage.addEventListener('touchstart',e=>{
+      if(e.touches.length!==1||e.target.closest('button,input,select,textarea,a')){start=null;return;}
+      const t=e.touches[0];start={x:t.clientX,y:t.clientY,time:Date.now(),moved:false};
+    },{passive:true});
+    passage.addEventListener('touchmove',e=>{
+      if(!start||e.touches.length!==1)return;
+      const t=e.touches[0];
+      if(Math.abs(t.clientY-start.y)>45&&Math.abs(t.clientY-start.y)>Math.abs(t.clientX-start.x))start.moved=true;
+    },{passive:true});
+    passage.addEventListener('touchcancel',()=>{start=null;},{passive:true});
+    passage.addEventListener('touchend',e=>{
+      if(!start||start.moved||!reader.classList.contains('active')||e.changedTouches.length!==1||$('#studyDrawer').classList.contains('open')){start=null;return;}
+      const t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y,elapsed=Date.now()-start.time;
+      start=null;
+      if(elapsed>850||Math.abs(dx)<85||Math.abs(dx)<Math.abs(dy)*1.7||Math.abs(dy)>75)return;
+      // Prevent a swipe from also activating a verse's click handler.
+      passage.dataset.swipeUntil=String(Date.now()+500);
+      moveChapter(dx<0?1:-1);
+    },{passive:true});
+    passage.addEventListener('click',e=>{
+      if(Number(passage.dataset.swipeUntil||0)>Date.now()){e.preventDefault();e.stopImmediatePropagation();}
+    },true);
+  }
+
   function savePosition(){
     localStorage.setItem(STORAGE.position,JSON.stringify({bookIndex:state.bookIndex,chapter:state.chapter,mode:state.mode}));
     const b=currentBook();
