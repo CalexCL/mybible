@@ -211,6 +211,7 @@ try {
   await page.locator('#verseList .verse-row').first().waitFor();
   await dispatchSwipe(110,295);
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
+  await page.locator('#passageTitle').click();
   await page.keyboard.press('Alt+ArrowRight');
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
   await page.keyboard.press('Alt+ArrowLeft');
