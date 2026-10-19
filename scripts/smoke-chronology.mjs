@@ -204,6 +204,16 @@ try {
   const verseFontAfter=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   assert.ok(verseFontAfter>verseFontBefore,'Bible A+ enlarges Scripture text');
   await page.locator('#bibleFontMinus').click();
+  const verseTouch=page.locator('#verseList .verse-row').first();
+  await verseTouch.dispatchEvent('pointerdown',{pointerType:'touch',clientX:10,clientY:10});
+  await page.waitForTimeout(950);
+  assert.ok(await verseTouch.evaluate(el=>el.classList.contains('verse-tools-visible')),'Touch hold reveals verse tools without opening drawer');
+  assert.equal(await page.locator('#studyDrawer.open').count(),0,'Long press does not open study drawer');
+  await verseTouch.dispatchEvent('pointerup',{pointerType:'touch'});
+  await verseTouch.click();
+  assert.equal(await page.locator('#studyDrawer.open').count(),1,'Single click opens verse study drawer');
+  await page.locator('#closeDrawer').click();
+  assert.equal(await page.locator('#verseList .verse-tools-visible').count(),0,'Closing drawer clears long-press tools');
   await page.locator('#verseList .verse-row').first().click();
   await page.locator('#closeDrawer').click();
   assert.equal(await page.locator('#verseList .verse-row.selected').count(),0,'Closing study drawer clears selected verse actions');
