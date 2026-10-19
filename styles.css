@@ -378,3 +378,9 @@ a{color:var(--blue)}
   #readerPage.mobile-reader-collapsed .reader-heading{padding-top:9px}
   #readerPage .verse-list{touch-action:pan-y;overscroll-behavior-x:contain}
 }
+
+@media(max-width:850px){
+  body:has(#readerPage.active.mobile-reader-collapsed) .topnav{display:none!important}
+  body:has(#readerPage.active.mobile-reader-collapsed) .main-content{padding-bottom:0}
+  body:has(#readerPage.active.mobile-reader-collapsed) .study-drawer{bottom:0}
+}
