@@ -350,6 +350,7 @@
   function bindVerseLongPress(list){
     let timer=null,startX=0,startY=0,held=false;
     const cancel=()=>{clearTimeout(timer);timer=null;};
+    list.onpointerout=e=>{const row=e.target.closest('.verse-row');if(row&&!row.contains(e.relatedTarget))row.classList.remove('verse-tools-dismissed');};
     list.onpointerdown=e=>{
       if(e.pointerType==='mouse'||e.target.closest('button'))return;
       const row=e.target.closest('.verse-row');if(!row)return;
@@ -358,7 +359,7 @@
     };
     list.onpointermove=e=>{if(Math.hypot(e.clientX-startX,e.clientY-startY)>12)cancel();};
     list.onpointerup=cancel;list.onpointercancel=cancel;list.onpointerleave=cancel;
-    list.addEventListener('contextmenu',e=>{if(e.target.closest('.verse-row'))e.preventDefault();});
+    list.oncontextmenu=e=>{if(e.target.closest('.verse-row'))e.preventDefault();};
     list.addEventListener('click',e=>{
       if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
     },true);
