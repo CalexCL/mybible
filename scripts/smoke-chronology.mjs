@@ -257,6 +257,10 @@ try {
   await page.locator('#studyDrawer .highlight-swatch[data-highlight-color="blue"]').click();
   assert.ok(await page.locator('#verseList .verse-row').first().evaluate(el=>el.classList.contains('highlighted')),'Blue color highlights passage');
   assert.match(await page.locator('#verseList .verse-row').first().getAttribute('style'),/90caf9/,'Blue is stored on verse');
+  await page.locator('#readerBackground').selectOption('dark');
+  const contrast=await page.locator('#verseList .verse-row.highlighted .verse-cell').first().evaluate(el=>({color:getComputedStyle(el).color,background:getComputedStyle(el.closest('.verse-row')).backgroundColor}));
+  assert.equal(contrast.color,'rgb(25, 35, 45)','Highlighted verses use dark lettering on dark Reader backgrounds');
+  await page.locator('#readerBackground').selectOption('current');
   await page.locator('#closeDrawer').click();
   assert.equal(await page.locator('#verseList .verse-row.selected').count(),0,'Closing study drawer clears selected verse actions');
   await page.locator('#verseList .verse-row').first().click();
