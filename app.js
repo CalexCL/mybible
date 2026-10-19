@@ -348,6 +348,8 @@
     clearVerseActions();
   }
   function bindVerseLongPress(list){
+    list.__verseLongPressAbort?.abort();
+    const controller=new AbortController();list.__verseLongPressAbort=controller;
     let timer=null,startX=0,startY=0,held=false;
     const cancel=()=>{clearTimeout(timer);timer=null;};
     list.onpointerout=e=>{const row=e.target.closest('.verse-row');if(row&&!row.contains(e.relatedTarget))row.classList.remove('verse-tools-dismissed');};
@@ -362,7 +364,7 @@
     list.oncontextmenu=e=>{if(e.target.closest('.verse-row'))e.preventDefault();};
     list.addEventListener('click',e=>{
       if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
-    },true);
+    },{capture:true,signal:controller.signal});
   }
   function toggleBookmark(ref){ if(personal.bookmarks[ref])delete personal.bookmarks[ref];else personal.bookmarks[ref]={created:Date.now()};savePersonal();renderPersonal();toast(personal.bookmarks[ref]?'已加入书签':'已移除书签'); }
   function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
