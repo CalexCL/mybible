@@ -384,3 +384,8 @@ a{color:var(--blue)}
   body:has(#readerPage.active.mobile-reader-collapsed) .main-content{padding-bottom:0}
   body:has(#readerPage.active.mobile-reader-collapsed) .study-drawer{bottom:0}
 }
+
+/* Readable dark text on every preset highlight, even with dark Bible backgrounds. */
+#readerPage .verse-row.highlighted .verse-cell{color:#19232d!important}
+#readerPage .verse-row.highlighted .verse-num{color:#273746!important}
+#readerPage[data-reader-background="dark"] .verse-row.highlighted{background:color-mix(in srgb,var(--verse-highlight,#f4d35e) 82%,#fff)!important}
