@@ -217,12 +217,6 @@ try {
   await page.locator('#readerBackground').selectOption('gray');
   await page.reload({waitUntil:'networkidle'});
   assert.equal(await page.locator('#readerBackground').inputValue(),'gray','Bible background persists after reload');
-  for(const bg of ['white','gray','dark','current']){
-    await page.locator('#readerBackground').selectOption(bg);
-    const textColor=await page.locator('#verseList .verse-row.highlighted .verse-cell').first().evaluate(el=>getComputedStyle(el).color);
-    assert.equal(textColor,'rgb(25, 35, 45)','Highlight text stays readable on '+bg+' background');
-  }
-  await page.locator('#readerBackground').selectOption('current');
   assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile reader menu preference restored after reload');
   await page.locator('#mobileReaderToggle').click();
   assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile reading toolbar collapses');
@@ -262,6 +256,13 @@ try {
   await page.locator('#studyDrawer .highlight-swatch[data-highlight-color="blue"]').click();
   assert.ok(await page.locator('#verseList .verse-row').first().evaluate(el=>el.classList.contains('highlighted')),'Blue color highlights passage');
   assert.match(await page.locator('#verseList .verse-row').first().getAttribute('style'),/90caf9/,'Blue is stored on verse');
+  for(const bg of ['white','gray','dark','current']){
+    await page.locator('#readerBackground').selectOption(bg);
+    const textColor=await page.locator('#verseList .verse-row.highlighted .verse-cell').first().evaluate(el=>getComputedStyle(el).color);
+    assert.equal(textColor,'rgb(25, 35, 45)','Highlight text stays readable on '+bg+' background');
+  }
+  await page.locator('#readerBackground').selectOption('current');
+
   await page.locator('#readerBackground').selectOption('dark');
   const contrast=await page.locator('#verseList .verse-row.highlighted .verse-cell').first().evaluate(el=>({color:getComputedStyle(el).color,background:getComputedStyle(el.closest('.verse-row')).backgroundColor}));
   assert.equal(contrast.color,'rgb(25, 35, 45)','Highlighted verses use dark lettering on dark Reader backgrounds');
