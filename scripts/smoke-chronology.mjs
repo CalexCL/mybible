@@ -211,6 +211,10 @@ try {
   await page.locator('#verseList .verse-row').first().waitFor();
   await dispatchSwipe(110,295);
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
+  await page.keyboard.press('Alt+ArrowRight');
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
+  await page.keyboard.press('Alt+ArrowLeft');
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
   await page.evaluate(()=>{const v=document.querySelector('#verseList .verse-row .zh-cell');const range=document.createRange();range.selectNodeContents(v);getSelection().removeAllRanges();getSelection().addRange(range);});
   await dispatchSwipe(310,130);
   assert.equal(await page.locator('#chapterSelect').inputValue(),'1','Selecting Scripture text prevents accidental chapter swipes');
