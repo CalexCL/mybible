@@ -208,6 +208,7 @@ try {
   };
   await dispatchSwipe(310,130);
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
+  await page.locator('#verseList .verse-row').first().waitFor();
   await dispatchSwipe(110,295);
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
   await page.evaluate(()=>{const v=document.querySelector('#verseList .verse-row .zh-cell');const range=document.createRange();range.selectNodeContents(v);getSelection().removeAllRanges();getSelection().addRange(range);});
