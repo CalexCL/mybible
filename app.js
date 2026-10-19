@@ -363,7 +363,7 @@
     list.onpointerup=()=>{cancel();if(held)setTimeout(()=>{held=false;},240);};list.onpointercancel=()=>{cancel();held=false;};list.onpointerleave=cancel;
     list.onscroll=()=>{cancel();held=false;clearVerseActions();};
     list.oncontextmenu=e=>{if(e.target.closest('.verse-row'))e.preventDefault();};
-    document.addEventListener('pointerdown',e=>{if(!list.contains(e.target)&&!$('#studyDrawer').contains(e.target))clearVerseActions();},{signal:controller.signal});
+    document.addEventListener('pointerdown',e=>{if(!list.contains(e.target)&&!$('#studyDrawer').contains(e.target)){cancel();held=false;clearVerseActions();}},{signal:controller.signal});
     list.addEventListener('click',e=>{
       if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
     },{capture:true,signal:controller.signal});
