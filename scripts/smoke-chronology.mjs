@@ -210,6 +210,10 @@ try {
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
   await dispatchSwipe(110,295);
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
+  await page.evaluate(()=>{const v=document.querySelector('#verseList .verse-row .zh-cell');const range=document.createRange();range.selectNodeContents(v);getSelection().removeAllRanges();getSelection().addRange(range);});
+  await dispatchSwipe(310,130);
+  assert.equal(await page.locator('#chapterSelect').inputValue(),'1','Selecting Scripture text prevents accidental chapter swipes');
+  await page.evaluate(()=>getSelection().removeAllRanges());
   for(const mode of ['white','dark','gray','current']){
     await page.locator('#readerBackground').selectOption(mode);
     assert.equal(await page.locator('#readerPage').getAttribute('data-reader-background'),mode,'Bible background '+mode+' selected');
