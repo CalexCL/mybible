@@ -269,7 +269,7 @@
     const passage=$('#verseList');
     let start=null;
     passage.addEventListener('touchstart',e=>{
-      if(e.touches.length!==1||e.target.closest('button,input,select,textarea,a')){start=null;return;}
+      if(!matchMedia('(max-width:850px)').matches||e.touches.length!==1||e.target.closest('button,input,select,textarea,a')){start=null;return;}
       const t=e.touches[0];start={x:t.clientX,y:t.clientY,time:Date.now(),moved:false};
     },{passive:true});
     passage.addEventListener('touchmove',e=>{
@@ -283,6 +283,8 @@
       const t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y,elapsed=Date.now()-start.time;
       start=null;
       if(elapsed>850||Math.abs(dx)<85||Math.abs(dx)<Math.abs(dy)*1.7||Math.abs(dy)>75)return;
+      // Ignore chapter swipes while selecting text, so copy/select stays intact.
+      if(window.getSelection()?.toString().trim())return;
       // Prevent a swipe from also activating a verse's click handler.
       passage.dataset.swipeUntil=String(Date.now()+500);
       moveChapter(dx<0?1:-1);
