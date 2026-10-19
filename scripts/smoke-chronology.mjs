@@ -207,6 +207,12 @@ try {
   await page.reload({waitUntil:'networkidle'});
   assert.equal(await page.locator('#readerBackground').inputValue(),'gray','Bible background persists after reload');
   await page.locator('#readerBackground').selectOption('current');
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile reader menus start collapsed');
+  await page.locator('#mobileReaderToggle').click();
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile reading toolbar expands');
+  await page.locator('#mobileReaderToggle').click();
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile toolbar collapses after reading controls');
+  await page.locator('#mobileReaderToggle').click();
   const verseFontBefore=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   await page.locator('#bibleFontPlus').click();
   const verseFontAfter=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
