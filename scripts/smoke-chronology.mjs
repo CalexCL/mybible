@@ -200,6 +200,16 @@ try {
   await page.locator('#mobileReaderToggle').click();
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
+  await page.locator('#verseList .verse-row').first().waitFor();
+  const swipeTarget=page.locator('#verseList');
+  const dispatchSwipe=async(fromX,toX)=>{
+    await swipeTarget.dispatchEvent('touchstart',{touches:[{identifier:1,clientX:fromX,clientY:280}]});
+    await swipeTarget.dispatchEvent('touchend',{changedTouches:[{identifier:1,clientX:toX,clientY:287}]});
+  };
+  await dispatchSwipe(310,130);
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
+  await dispatchSwipe(110,295);
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
   for(const mode of ['white','dark','gray','current']){
     await page.locator('#readerBackground').selectOption(mode);
     assert.equal(await page.locator('#readerPage').getAttribute('data-reader-background'),mode,'Bible background '+mode+' selected');
