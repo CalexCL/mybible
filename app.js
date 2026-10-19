@@ -278,6 +278,7 @@
       if(Math.abs(t.clientY-start.y)>45&&Math.abs(t.clientY-start.y)>Math.abs(t.clientX-start.x))start.moved=true;
     },{passive:true});
     passage.addEventListener('touchcancel',()=>{start=null;},{passive:true});
+    window.addEventListener('blur',()=>{start=null;},{passive:true});
     passage.addEventListener('touchend',e=>{
       if(!start||start.moved||!reader.classList.contains('active')||e.changedTouches.length!==1||$('#studyDrawer').classList.contains('open')){start=null;return;}
       const t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y,elapsed=Date.now()-start.time;
@@ -285,6 +286,7 @@
       if(elapsed>850||Math.abs(dx)<85||Math.abs(dx)<Math.abs(dy)*1.7||Math.abs(dy)>75)return;
       // Ignore chapter swipes while selecting text, so copy/select stays intact.
       if(window.getSelection()?.toString().trim())return;
+      if(document.querySelector('.modal:not(.hidden)')||document.querySelector('#bookSidebar.open'))return;
       // Prevent a swipe from also activating a verse's click handler.
       passage.dataset.swipeUntil=String(Date.now()+500);
       swipeNavigating=true;
@@ -293,6 +295,11 @@
     passage.addEventListener('click',e=>{
       if(Number(passage.dataset.swipeUntil||0)>Date.now()){e.preventDefault();e.stopImmediatePropagation();}
     },true);
+    document.addEventListener('keydown',e=>{
+      if(!reader.classList.contains('active')||!e.altKey||e.ctrlKey||e.metaKey||!['ArrowLeft','ArrowRight'].includes(e.key))return;
+      if(e.target.closest('input,textarea,select,[contenteditable="true"]')||document.querySelector('.modal:not(.hidden)')||$('#studyDrawer').classList.contains('open'))return;
+      e.preventDefault();moveChapter(e.key==='ArrowRight'?1:-1);
+    });
   }
 
   function savePosition(){
