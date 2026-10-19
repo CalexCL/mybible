@@ -217,6 +217,11 @@ try {
   await page.locator('#readerBackground').selectOption('gray');
   await page.reload({waitUntil:'networkidle'});
   assert.equal(await page.locator('#readerBackground').inputValue(),'gray','Bible background persists after reload');
+  for(const bg of ['white','gray','dark','current']){
+    await page.locator('#readerBackground').selectOption(bg);
+    const textColor=await page.locator('#verseList .verse-row.highlighted .verse-cell').first().evaluate(el=>getComputedStyle(el).color);
+    assert.equal(textColor,'rgb(25, 35, 45)','Highlight text stays readable on '+bg+' background');
+  }
   await page.locator('#readerBackground').selectOption('current');
   assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile reader menu preference restored after reload');
   await page.locator('#mobileReaderToggle').click();
