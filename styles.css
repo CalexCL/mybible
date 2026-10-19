@@ -389,3 +389,9 @@ a{color:var(--blue)}
 #readerPage .verse-row.highlighted .verse-cell{color:#19232d!important}
 #readerPage .verse-row.highlighted .verse-num{color:#273746!important}
 #readerPage[data-reader-background="dark"] .verse-row.highlighted{background:color-mix(in srgb,var(--verse-highlight,#f4d35e) 82%,#fff)!important}
+
+/* Contrast-safe verse highlights in all reader appearance modes. */
+#readerPage .verse-row.highlighted{background:color-mix(in srgb,var(--verse-highlight,#f4d35e) 82%,#ffffff)!important}
+#readerPage .verse-row.highlighted .verse-cell,#readerPage .verse-row.highlighted .verse-cell .verse-num{color:#19232d!important}
+#readerPage .verse-row.highlighted .verse-cell .muted{color:#405061!important}
+#readerPage .verse-row.highlighted:hover{filter:brightness(.985)}
