@@ -358,7 +358,7 @@
       timer=setTimeout(()=>{held=true;clearVerseActions();row.classList.add('verse-tools-visible');},850);
     };
     list.onpointermove=e=>{if(Math.hypot(e.clientX-startX,e.clientY-startY)>12)cancel();};
-    list.onpointerup=cancel;list.onpointercancel=cancel;list.onpointerleave=cancel;
+    list.onpointerup=()=>{cancel();if(held)setTimeout(()=>{held=false;},240);};list.onpointercancel=()=>{cancel();held=false;};list.onpointerleave=cancel;
     list.oncontextmenu=e=>{if(e.target.closest('.verse-row'))e.preventDefault();};
     list.addEventListener('click',e=>{
       if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
