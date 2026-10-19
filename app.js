@@ -7,7 +7,7 @@
   const $ = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const STORAGE = {
-    theme: 'csb.theme', font: 'csb.fontScale', uiScale:'csb.uiScale', audioRate:'csb.originalAudioRate', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position'
+    theme: 'csb.theme', font: 'csb.fontScale', uiScale:'csb.uiScale', audioRate:'csb.originalAudioRate', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position',readerBackground:'csb.readerBackground'
   };
   const themes = ['light','dark','sepia','oled'];
   const themeLabels = {light:'☀️ Light',dark:'🌙 Dark',sepia:'📜 Sepia',oled:'⚫ OLED'};
@@ -132,6 +132,7 @@
     $('#closeDrawer').addEventListener('click',closeVerseDrawer);
     $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
     $('#themeBtn').addEventListener('click',cycleTheme);
+    $('#readerBackground')?.addEventListener('change',e=>setReaderBackground(e.target.value));
     $('#bibleFontPlus')?.addEventListener('click',()=>changeFont(.08)); $('#bibleFontMinus')?.addEventListener('click',()=>changeFont(-.08)); $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
     $('#globalSearch').addEventListener('input',debounce(runSearch,170));
@@ -218,6 +219,7 @@
     const nextScale=Math.min(1.5,Math.max(.85,current+delta));
     localStorage.setItem(STORAGE.uiScale,nextScale.toFixed(2));
     applyUIScale();
+    setReaderBackground(localStorage.getItem(STORAGE.readerBackground)||'current');
     window.MyBibleAuth?.savePreferences?.({ui_scale:nextScale});
   }
   function resetUIScale(){
@@ -229,6 +231,12 @@
     const theme=localStorage.getItem(STORAGE.theme)||'light'; document.documentElement.dataset.theme=themes.includes(theme)?theme:'light';
     const font=Number(localStorage.getItem(STORAGE.font)||1); document.documentElement.style.setProperty('--font-scale',String(Math.min(1.5,Math.max(.82,font))));
     applyUIScale();
+  }
+  function setReaderBackground(value){
+    const selected=['current','white','dark','gray'].includes(value)?value:'current';
+    $('#readerPage').dataset.readerBackground=selected;
+    const control=$('#readerBackground');if(control)control.value=selected;
+    localStorage.setItem(STORAGE.readerBackground,selected);
   }
   function cycleTheme(){ const cur=document.documentElement.dataset.theme||'light'; const next=themes[(themes.indexOf(cur)+1)%themes.length]; document.documentElement.dataset.theme=next; localStorage.setItem(STORAGE.theme,next); window.MyBibleAuth?.savePreferences?.({theme:next}); toast(themeLabels[next]); }
   function changeFont(delta){ const root=document.documentElement; const v=Number(getComputedStyle(root).getPropertyValue('--font-scale'))||1; const nv=Math.min(1.5,Math.max(.82,v+delta)); root.style.setProperty('--font-scale',nv.toFixed(2)); localStorage.setItem(STORAGE.font,nv.toFixed(2)); window.MyBibleAuth?.savePreferences?.({font_scale:nv}); }
