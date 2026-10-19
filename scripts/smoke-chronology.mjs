@@ -197,6 +197,7 @@ try {
   await page.goto('http://127.0.0.1:8765/', { waitUntil: 'networkidle' });
   // Cross-reference navigation: singular Psalm and abbreviated Scripture book names.
   await page.evaluate(()=>document.querySelector('#globalSearch')?.blur());
+  await page.locator('#mobileReaderToggle').click();
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
   for(const mode of ['white','dark','gray','current']){
@@ -207,12 +208,11 @@ try {
   await page.reload({waitUntil:'networkidle'});
   assert.equal(await page.locator('#readerBackground').inputValue(),'gray','Bible background persists after reload');
   await page.locator('#readerBackground').selectOption('current');
-  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile reader menus start collapsed');
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile reader menu preference restored after reload');
   await page.locator('#mobileReaderToggle').click();
-  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile reading toolbar expands');
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile reading toolbar collapses');
   await page.locator('#mobileReaderToggle').click();
-  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'false','Mobile toolbar collapses after reading controls');
-  await page.locator('#mobileReaderToggle').click();
+  assert.equal(await page.locator('#mobileReaderToggle').getAttribute('aria-expanded'),'true','Mobile toolbar expands after reading controls');
   const verseFontBefore=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   await page.locator('#bibleFontPlus').click();
   const verseFontAfter=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
