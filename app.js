@@ -337,10 +337,10 @@
     const action=e.target.closest('[data-action]')?.dataset.action;
     if(action==='bookmark'){ e.stopPropagation(); toggleBookmark(ref); clearVerseActions(); return; }
     if(action==='highlight'){ e.stopPropagation(); toggleHighlight(ref,row); clearVerseActions(); return; }
-    state.selectedVerse=verse;state.selectedRef=ref; $('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
+    state.selectedVerse=verse;state.selectedRef=ref; document.querySelectorAll('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
   }
   function clearVerseActions(){
-    $('.verse-row').forEach(row=>row.classList.remove('selected','verse-tools-visible'));
+    document.querySelectorAll('.verse-row').forEach(row=>row.classList.remove('selected','verse-tools-visible'));
   }
   function closeVerseDrawer(){
     stopOriginalAudio();
