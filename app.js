@@ -357,7 +357,7 @@
       if(e.pointerType==='mouse'||e.target.closest('button'))return;
       const row=e.target.closest('.verse-row');if(!row)return;
       held=false;startX=e.clientX;startY=e.clientY;cancel();
-      timer=setTimeout(()=>{held=true;clearVerseActions();row.classList.add('verse-tools-visible');},850);
+      timer=setTimeout(()=>{held=true;clearVerseActions();row.classList.add('verse-tools-visible');},1100);
     };
     list.onpointermove=e=>{if(Math.hypot(e.clientX-startX,e.clientY-startY)>12)cancel();};
     list.onpointerup=()=>{cancel();if(held)setTimeout(()=>{held=false;},240);};list.onpointercancel=()=>{cancel();held=false;};list.onpointerleave=cancel;
