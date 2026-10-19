@@ -221,6 +221,13 @@ try {
   assert.equal(await page.locator('#studyDrawer.open').count(),1,'Single click opens verse study drawer');
   await page.locator('#closeDrawer').click();
   assert.equal(await page.locator('#verseList .verse-tools-visible').count(),0,'Closing drawer clears long-press tools');
+  await verseTouch.dispatchEvent('pointerdown',{pointerType:'touch',clientX:14,clientY:14});
+  await page.waitForTimeout(1200);
+  assert.equal(await page.locator('#verseList .verse-tools-visible').count(),1,'Long-press reveals controls');
+  await verseTouch.dispatchEvent('pointerup',{pointerType:'touch'});
+  await page.locator('#bibleFontPlus').click();
+  assert.equal(await page.locator('#verseList .verse-tools-visible').count(),0,'Outside controls dismiss revealed verse tools');
+  await page.locator('#bibleFontMinus').click();
   await page.locator('#verseList .verse-row').first().click();
   await page.locator('#closeDrawer').click();
   assert.equal(await page.locator('#verseList .verse-row.selected').count(),0,'Closing study drawer clears selected verse actions');
