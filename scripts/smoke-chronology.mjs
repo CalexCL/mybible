@@ -199,6 +199,14 @@ try {
   await page.evaluate(()=>document.querySelector('#globalSearch')?.blur());
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
+  const verseFontBefore=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  await page.locator('#bibleFontPlus').click();
+  const verseFontAfter=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  assert.ok(verseFontAfter>verseFontBefore,'Bible A+ enlarges Scripture text');
+  await page.locator('#bibleFontMinus').click();
+  await page.locator('#verseList .verse-row').first().click();
+  await page.locator('#closeDrawer').click();
+  assert.equal(await page.locator('#verseList .verse-row.selected').count(),0,'Closing study drawer clears selected verse actions');
   await page.locator('#verseList .verse-row').first().click();
   await page.locator('.drawer-tab[data-tab="crossrefs"]').click();
   const psalmChip=page.locator('#studyDrawer .drawer-ref[data-ref="Psalm 33:6"]');
