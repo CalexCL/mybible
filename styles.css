@@ -369,3 +369,12 @@ a{color:var(--blue)}
 #readerPage:not([data-reader-background="current"])[data-reader-background] .verse-cell{color:var(--reader-fg)}
 #readerPage:not([data-reader-background="current"])[data-reader-background] .verse-row.selected{background:color-mix(in srgb,var(--reader-fg) 10%,var(--reader-bg))}
 @media(max-width:850px){.reader-background-picker{order:3}.bible-font-controls{order:4}.reader-modes{order:5}.chapter-nav{order:6}}
+
+/* Smartphone reader: compact collapse/expand menu, leaving Scripture unobstructed. */
+.mobile-reader-toggle{display:none}
+@media(max-width:850px){
+  .mobile-reader-toggle{display:block;position:sticky;top:64px;z-index:23;width:100%;min-height:35px;text-align:center;border:1px solid var(--border);border-radius:0 0 9px 9px;background:var(--surface);color:var(--text);font-size:12px;font-weight:700}
+  #readerPage.mobile-reader-collapsed .reader-toolbar{display:none!important}
+  #readerPage.mobile-reader-collapsed .reader-heading{padding-top:9px}
+  #readerPage .verse-list{touch-action:pan-y;overscroll-behavior-x:contain}
+}
