@@ -129,10 +129,10 @@
     $('#chapterSelect').addEventListener('change',async e=>{state.chapter=+e.target.value; await renderReader();});
     $$('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,true)));
     $('#prevChapter').addEventListener('click',()=>moveChapter(-1)); $('#nextChapter').addEventListener('click',()=>moveChapter(1));
-    $('#closeDrawer').addEventListener('click',()=>{stopOriginalAudio();$('#studyDrawer').classList.remove('open');});
+    $('#closeDrawer').addEventListener('click',closeVerseDrawer);
     $$('.drawer-tab').forEach(b=>b.addEventListener('click',()=>switchDrawerTab(b.dataset.tab)));
     $('#themeBtn').addEventListener('click',cycleTheme);
-    $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
+    $('#bibleFontPlus')?.addEventListener('click',()=>changeFont(.08)); $('#bibleFontMinus')?.addEventListener('click',()=>changeFont(-.08)); $('#fontPlus').addEventListener('click',()=>changeFont(.08)); $('#fontMinus').addEventListener('click',()=>changeFont(-.08)); $('#uiFontPlus')?.addEventListener('click',()=>changeUIScale(.10)); $('#uiFontMinus')?.addEventListener('click',()=>changeUIScale(-.10)); $('#uiFontReset')?.addEventListener('click',resetUIScale);
     $('#searchBtn').addEventListener('click',openSearch); $('#closeSearch').addEventListener('click',closeSearch); $('#searchModal').addEventListener('click',e=>{if(e.target.id==='searchModal')closeSearch();});
     $('#globalSearch').addEventListener('input',debounce(runSearch,170));
     $('#collectionFilter').addEventListener('input',()=>renderCollection());
@@ -152,7 +152,7 @@
       const id=$('#studyId').value;if(!id)return;
       await window.MyBibleAuth.deleteStudy(id);closeStudyEditor();await renderSavedStudies();toast('研读已删除');
     });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); stopOriginalAudio(); $('#studyDrawer').classList.remove('open'); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSearch(); closeVocabStudy(); stopOriginalAudio(); closeVerseDrawer(); $('#bookSidebar').classList.remove('open');} if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();} });
   }
 
   const viewHistory=[];
@@ -326,6 +326,7 @@
     if(!max)html='<div class="loading">No verse data available for this chapter.</div>';
     list.innerHTML=html;
     list.onclick=handleVerseClick;
+    bindVerseLongPress(list);
     const nkjvLabel=state.mode==='parallel'?' + KJV':'';
     const sourceText=state.mode==='en'?'KJV · midvash/bible-data public-domain edition':zhResult.source==='structured-online'?`CUVS · structured public-domain transport${nkjvLabel}`:zhResult.source==='structured-cache'?`CUVS · cached structured text${nkjvLabel}`:`CUVS · uploaded PDF fallback${nkjvLabel}`;
     $('#chapterStatus').textContent=`${sourceText} · 点击任一节打开研读面板`; if(state.mode!=='zh'&&enResult.source==='unavailable'){notice.innerHTML='<strong>KJV 经文未能载入：</strong>请检查网络后重试，不会把缺失的英文经文当作 NKJV。';notice.classList.remove('hidden');}
@@ -334,9 +335,33 @@
   function handleVerseClick(e){
     const row=e.target.closest('.verse-row'); if(!row)return; const verse=+row.dataset.verse; const ref=canonicalRef(state.bookIndex,state.chapter,verse);
     const action=e.target.closest('[data-action]')?.dataset.action;
-    if(action==='bookmark'){ e.stopPropagation(); toggleBookmark(ref); return; }
-    if(action==='highlight'){ e.stopPropagation(); toggleHighlight(ref,row); return; }
-    state.selectedVerse=verse;state.selectedRef=ref; $$('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
+    if(action==='bookmark'){ e.stopPropagation(); toggleBookmark(ref); clearVerseActions(); return; }
+    if(action==='highlight'){ e.stopPropagation(); toggleHighlight(ref,row); clearVerseActions(); return; }
+    state.selectedVerse=verse;state.selectedRef=ref; $('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
+  }
+  function clearVerseActions(){
+    $('.verse-row').forEach(row=>row.classList.remove('selected','verse-tools-visible'));
+  }
+  function closeVerseDrawer(){
+    stopOriginalAudio();
+    $('#studyDrawer').classList.remove('open');
+    clearVerseActions();
+  }
+  function bindVerseLongPress(list){
+    let timer=null,startX=0,startY=0,held=false;
+    const cancel=()=>{clearTimeout(timer);timer=null;};
+    list.onpointerdown=e=>{
+      if(e.pointerType==='mouse'||e.target.closest('button'))return;
+      const row=e.target.closest('.verse-row');if(!row)return;
+      held=false;startX=e.clientX;startY=e.clientY;cancel();
+      timer=setTimeout(()=>{held=true;clearVerseActions();row.classList.add('verse-tools-visible');},850);
+    };
+    list.onpointermove=e=>{if(Math.hypot(e.clientX-startX,e.clientY-startY)>12)cancel();};
+    list.onpointerup=cancel;list.onpointercancel=cancel;list.onpointerleave=cancel;
+    list.addEventListener('contextmenu',e=>{if(e.target.closest('.verse-row'))e.preventDefault();});
+    list.addEventListener('click',e=>{
+      if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
+    },true);
   }
   function toggleBookmark(ref){ if(personal.bookmarks[ref])delete personal.bookmarks[ref];else personal.bookmarks[ref]={created:Date.now()};savePersonal();renderPersonal();toast(personal.bookmarks[ref]?'已加入书签':'已移除书签'); }
   function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
