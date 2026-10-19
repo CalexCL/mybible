@@ -210,6 +210,7 @@ try {
   assert.ok(await verseTouch.evaluate(el=>el.classList.contains('verse-tools-visible')),'Touch hold reveals verse tools without opening drawer');
   assert.equal(await page.locator('#studyDrawer.open').count(),0,'Long press does not open study drawer');
   await verseTouch.dispatchEvent('pointerup',{pointerType:'touch'});
+  await page.waitForTimeout(300);
   await verseTouch.click();
   assert.equal(await page.locator('#studyDrawer.open').count(),1,'Single click opens verse study drawer');
   await page.locator('#closeDrawer').click();
