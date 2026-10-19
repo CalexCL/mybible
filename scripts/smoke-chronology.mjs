@@ -199,6 +199,14 @@ try {
   await page.evaluate(()=>document.querySelector('#globalSearch')?.blur());
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
+  for(const mode of ['white','dark','gray','current']){
+    await page.locator('#readerBackground').selectOption(mode);
+    assert.equal(await page.locator('#readerPage').getAttribute('data-reader-background'),mode,'Bible background '+mode+' selected');
+  }
+  await page.locator('#readerBackground').selectOption('gray');
+  await page.reload({waitUntil:'networkidle'});
+  assert.equal(await page.locator('#readerBackground').inputValue(),'gray','Bible background persists after reload');
+  await page.locator('#readerBackground').selectOption('current');
   const verseFontBefore=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   await page.locator('#bibleFontPlus').click();
   const verseFontAfter=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
