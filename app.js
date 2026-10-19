@@ -340,7 +340,7 @@
     state.selectedVerse=verse;state.selectedRef=ref; document.querySelectorAll('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
   }
   function clearVerseActions(){
-    document.querySelectorAll('.verse-row').forEach(row=>row.classList.remove('selected','verse-tools-visible'));
+    document.querySelectorAll('.verse-row').forEach(row=>{if(row.matches(':hover'))row.classList.add('verse-tools-dismissed');row.classList.remove('selected','verse-tools-visible');});
   }
   function closeVerseDrawer(){
     stopOriginalAudio();
