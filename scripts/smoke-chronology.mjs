@@ -206,7 +206,7 @@ try {
   await page.locator('#bibleFontMinus').click();
   const verseTouch=page.locator('#verseList .verse-row').first();
   await verseTouch.dispatchEvent('pointerdown',{pointerType:'touch',clientX:10,clientY:10});
-  await page.waitForTimeout(950);
+  await page.waitForTimeout(1250);
   assert.ok(await verseTouch.evaluate(el=>el.classList.contains('verse-tools-visible')),'Touch hold reveals verse tools without opening drawer');
   assert.equal(await page.locator('#studyDrawer.open').count(),0,'Long press does not open study drawer');
   await verseTouch.dispatchEvent('pointerup',{pointerType:'touch'});
