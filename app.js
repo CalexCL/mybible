@@ -267,9 +267,9 @@
     apply(localStorage.getItem('csb.mobileReaderCollapsed')!=='0');
     toggle?.addEventListener('click',()=>apply(!reader.classList.contains('mobile-reader-collapsed')));
     const passage=$('#verseList');
-    let start=null;
+    let start=null,swipeNavigating=false;
     passage.addEventListener('touchstart',e=>{
-      if(!matchMedia('(max-width:850px)').matches||e.touches.length!==1||e.target.closest('button,input,select,textarea,a')){start=null;return;}
+      if(swipeNavigating||!matchMedia('(max-width:850px)').matches||e.touches.length!==1||e.target.closest('button,input,select,textarea,a')){start=null;return;}
       const t=e.touches[0];start={x:t.clientX,y:t.clientY,time:Date.now(),moved:false};
     },{passive:true});
     passage.addEventListener('touchmove',e=>{
@@ -287,7 +287,8 @@
       if(window.getSelection()?.toString().trim())return;
       // Prevent a swipe from also activating a verse's click handler.
       passage.dataset.swipeUntil=String(Date.now()+500);
-      moveChapter(dx<0?1:-1);
+      swipeNavigating=true;
+      Promise.resolve(moveChapter(dx<0?1:-1)).finally(()=>{swipeNavigating=false;});
     },{passive:true});
     passage.addEventListener('click',e=>{
       if(Number(passage.dataset.swipeUntil||0)>Date.now()){e.preventDefault();e.stopImmediatePropagation();}
