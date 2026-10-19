@@ -317,8 +317,8 @@
     }
     const max=Math.max(en.length,zh.length); let html='';
     for(let i=1;i<=max;i++){
-      const zv=zh.find(v=>+v.verse===i), ev=en.find(v=>+v.verse===i); const ref=canonicalRef(state.bookIndex,state.chapter,i); const isHi=!!personal.highlights[ref];
-      html+=`<div class="verse-row ${isHi?'highlighted':''}" data-verse="${i}">
+      const zv=zh.find(v=>+v.verse===i), ev=en.find(v=>+v.verse===i); const ref=canonicalRef(state.bookIndex,state.chapter,i); const isHi=!!personal.highlights[ref]; const hiStyle=isHi?' style="--verse-highlight:'+highlightColor(ref)+'"':'';
+      html+=`<div class="verse-row ${isHi?'highlighted':''}" data-verse="${i}"${hiStyle}>
         <div class="verse-cell zh-cell" data-side="zh"><span class="verse-num">${i}</span>${zv?escapeHTML(zv.text):'<span class="muted">—</span>'}<div class="verse-actions"><button class="mini-action" data-action="bookmark" title="Bookmark">🔖</button><button class="mini-action" data-action="highlight" title="Highlight">🖍</button><button class="mini-action" data-action="study" title="Study">✦</button></div></div>
         <div class="verse-cell en-cell" data-side="en"><span class="verse-num">${i}</span>${ev?escapeHTML(ev.text):'<span class="muted">—</span>'}</div>
       </div>`;
@@ -336,7 +336,7 @@
     const row=e.target.closest('.verse-row'); if(!row)return; const verse=+row.dataset.verse; const ref=canonicalRef(state.bookIndex,state.chapter,verse);
     const action=e.target.closest('[data-action]')?.dataset.action;
     if(action==='bookmark'){ e.stopPropagation(); toggleBookmark(ref); clearVerseActions(); return; }
-    if(action==='highlight'){ e.stopPropagation(); toggleHighlight(ref,row); clearVerseActions(); return; }
+    if(action==='highlight'){ e.stopPropagation(); state.selectedVerse=verse; state.selectedRef=ref; openDrawer(); switchDrawerTab('study'); clearVerseActions(); return; }
     state.selectedVerse=verse;state.selectedRef=ref; document.querySelectorAll('.verse-row').forEach(r=>r.classList.toggle('selected',r===row)); openDrawer();
   }
   function clearVerseActions(){
@@ -367,6 +367,20 @@
     list.addEventListener('click',e=>{
       if(held&&!e.target.closest('[data-action]')){e.stopImmediatePropagation();e.preventDefault();held=false;}
     },{capture:true,signal:controller.signal});
+  }
+  const HIGHLIGHT_COLORS={gold:'#f4d35e',yellow:'#fff176',orange:'#ffb86b',red:'#f28b82',pink:'#f7a8d7',purple:'#c4a7f3',blue:'#90caf9',cyan:'#80deea',green:'#a5d6a7',mint:'#b2dfdb'};
+  function highlightColor(ref){const value=personal.highlights[ref]?.color||'gold';return HIGHLIGHT_COLORS[value]||HIGHLIGHT_COLORS.gold;}
+  function highlightPalette(ref){
+    const selected=personal.highlights[ref]?.color||'gold';
+    return '<div class="highlight-palette" role="group" aria-label="经文标记颜色 · Highlight colors">'+Object.entries(HIGHLIGHT_COLORS).map(([name,hex])=>'<button type="button" class="highlight-swatch'+(personal.highlights[ref]&&selected===name?' chosen':'')+'" data-highlight-color="'+name+'" style="--swatch:'+hex+'" aria-label="'+name+'" title="'+name+'">'+(personal.highlights[ref]&&selected===name?'✓':'')+'</button>').join('')+'</div>';
+  }
+  function applyHighlight(ref,color){
+    if(!HIGHLIGHT_COLORS[color])return;
+    personal.highlights[ref]={color,created:personal.highlights[ref]?.created||Date.now()};
+    savePersonal();renderPersonal();
+    const row=document.querySelector('.verse-row[data-verse="'+state.selectedVerse+'"]');
+    if(row){row.classList.add('highlighted');row.style.setProperty('--verse-highlight',HIGHLIGHT_COLORS[color]);}
+    toast('经文标记颜色已更新 · Highlight saved');
   }
   function toggleBookmark(ref){ if(personal.bookmarks[ref])delete personal.bookmarks[ref];else personal.bookmarks[ref]={created:Date.now()};savePersonal();renderPersonal();toast(personal.bookmarks[ref]?'已加入书签':'已移除书签'); }
   function toggleHighlight(ref,row){ if(personal.highlights[ref])delete personal.highlights[ref];else personal.highlights[ref]={color:'gold',created:Date.now()};savePersonal();renderPersonal();row?.classList.toggle('highlighted',!!personal.highlights[ref]);toast(personal.highlights[ref]?'已标记经文':'已取消标记'); }
