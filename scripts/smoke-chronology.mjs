@@ -206,6 +206,10 @@ try {
   await page.locator('#bibleFontMinus').click();
   const verseFontReset=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   assert.ok(Math.abs(verseFontReset-verseFontBefore)<.2,'Bible A− restores font size after A+');
+  await page.reload({waitUntil:'networkidle'});
+  await page.locator('#verseList .verse-row').first().waitFor();
+  const persistedFont=await page.locator('.verse-cell').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  assert.ok(Math.abs(persistedFont-verseFontReset)<.2,'Bible font preference persists after reload');
   const verseTouch=page.locator('#verseList .verse-row').first();
   await verseTouch.dispatchEvent('pointerdown',{pointerType:'touch',clientX:10,clientY:10});
   await page.waitForTimeout(1250);
