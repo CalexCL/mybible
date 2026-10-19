@@ -355,3 +355,17 @@ a{color:var(--blue)}
 
 /* Ten-color Scripture highlighting */
 .verse-row.highlighted{background:color-mix(in srgb,var(--verse-highlight,#f4d35e) 30%,var(--surface))!important;box-shadow:inset 4px 0 0 var(--verse-highlight,#f4d35e)}.highlight-palette{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}.highlight-swatch{background:var(--swatch);width:33px;height:33px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--border);font-size:17px;cursor:pointer;color:#253041;font-weight:bold}.highlight-swatch.chosen{box-shadow:0 0 0 2px var(--text)}
+
+/* Reader-only background options, independent from the application theme. */
+.reader-background-picker{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:700;color:var(--muted)}
+.reader-background-picker select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px;min-height:39px}
+#readerPage[data-reader-background="white"]{--reader-bg:#fff;--reader-fg:#20252c;--reader-line:#e5e7eb}
+#readerPage[data-reader-background="dark"]{--reader-bg:#20242c;--reader-fg:#eff1f5;--reader-line:#4b5563}
+#readerPage[data-reader-background="gray"]{--reader-bg:#eceef1;--reader-fg:#252b32;--reader-line:#cfd4dc}
+#readerPage:not([data-reader-background="current"])[data-reader-background]{background:var(--reader-bg);color:var(--reader-fg);border-radius:12px}
+#readerPage:not([data-reader-background="current"])[data-reader-background] .verse-list{background:var(--reader-bg);border-color:var(--reader-line)}
+#readerPage:not([data-reader-background="current"])[data-reader-background] .verse-row{border-color:var(--reader-line)}
+#readerPage:not([data-reader-background="current"])[data-reader-background] .verse-cell + .verse-cell{border-color:var(--reader-line)}
+#readerPage:not([data-reader-background="current"])[data-reader-background] .verse-cell{color:var(--reader-fg)}
+#readerPage:not([data-reader-background="current"])[data-reader-background] .verse-row.selected{background:color-mix(in srgb,var(--reader-fg) 10%,var(--reader-bg))}
+@media(max-width:850px){.reader-background-picker{order:3}.bible-font-controls{order:4}.reader-modes{order:5}.chapter-nav{order:6}}
