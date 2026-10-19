@@ -229,6 +229,10 @@ try {
   assert.equal(await page.locator('#verseList .verse-tools-visible').count(),0,'Outside controls dismiss revealed verse tools');
   await page.locator('#bibleFontMinus').click();
   await page.locator('#verseList .verse-row').first().click();
+  assert.equal(await page.locator('#studyDrawer .highlight-swatch').count(),10,'Ten Scripture highlight colors available');
+  await page.locator('#studyDrawer .highlight-swatch[data-highlight-color="blue"]').click();
+  assert.ok(await page.locator('#verseList .verse-row').first().evaluate(el=>el.classList.contains('highlighted')),'Blue color highlights passage');
+  assert.match(await page.locator('#verseList .verse-row').first().getAttribute('style'),/90caf9/,'Blue is stored on verse');
   await page.locator('#closeDrawer').click();
   assert.equal(await page.locator('#verseList .verse-row.selected').count(),0,'Closing study drawer clears selected verse actions');
   await page.locator('#verseList .verse-row').first().click();
