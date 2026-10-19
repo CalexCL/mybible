@@ -219,7 +219,6 @@
     const nextScale=Math.min(1.5,Math.max(.85,current+delta));
     localStorage.setItem(STORAGE.uiScale,nextScale.toFixed(2));
     applyUIScale();
-    setReaderBackground(localStorage.getItem(STORAGE.readerBackground)||'current');
     window.MyBibleAuth?.savePreferences?.({ui_scale:nextScale});
   }
   function resetUIScale(){
@@ -231,6 +230,7 @@
     const theme=localStorage.getItem(STORAGE.theme)||'light'; document.documentElement.dataset.theme=themes.includes(theme)?theme:'light';
     const font=Number(localStorage.getItem(STORAGE.font)||1); document.documentElement.style.setProperty('--font-scale',String(Math.min(1.5,Math.max(.82,font))));
     applyUIScale();
+    setReaderBackground(localStorage.getItem(STORAGE.readerBackground)||'current');
   }
   function setReaderBackground(value){
     const selected=['current','white','dark','gray'].includes(value)?value:'current';
