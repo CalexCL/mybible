@@ -56,6 +56,7 @@
         this.client.from('bible_highlights').select('verse_ref,color,created_at').eq('user_id', uid)
       ]);
       for (const result of [notes, bookmarks, highlights]) if (result.error) throw result.error;
+      this.snapshot={bible_notes:new Set((notes.data||[]).map(r=>r.verse_ref)),bible_bookmarks:new Set((bookmarks.data||[]).map(r=>r.verse_ref)),bible_highlights:new Set((highlights.data||[]).map(r=>r.verse_ref))};
       const cloud = {
         notes: Object.fromEntries((notes.data || []).map(r => [r.verse_ref, { text: r.note_text, updated: Date.parse(r.updated_at) || Date.now() }])),
         bookmarks: Object.fromEntries((bookmarks.data || []).map(r => [r.verse_ref, { created: Date.parse(r.created_at) || Date.now() }])),
@@ -88,20 +89,28 @@
       const bookmarkRows = Object.entries(data.bookmarks || {}).map(([verse_ref]) => ({ user_id: uid, verse_ref }));
       const highlightRows = Object.entries(data.highlights || {}).map(([verse_ref, v]) => ({ user_id: uid, verse_ref, color: v.color || 'gold' }));
 
-      // This simple compatibility adapter replaces each user's current study layer.
-      // Future versions can use finer-grained upsert/delete calls for large datasets.
+      // Incremental synchronization: do not clear complete tables before writes.
+      // Preserve cloud data on other devices and only remove refs previously loaded here.
       const tables = [
         ['bible_notes', noteRows],
         ['bible_bookmarks', bookmarkRows],
         ['bible_highlights', highlightRows]
       ];
+      if (!this.snapshot) this.snapshot = {};
       for (const [table, rows] of tables) {
-        const del = await this.client.from(table).delete().eq('user_id', uid);
-        if (del.error) throw del.error;
+        const previous = this.snapshot[table] || new Set();
+        const current = new Set(rows.map(row => row.verse_ref));
         if (rows.length) {
-          const ins = await this.client.from(table).insert(rows);
-          if (ins.error) throw ins.error;
+          const { error } = await this.client.from(table).upsert(rows,{onConflict:'user_id,verse_ref'});
+          if (error) throw error;
         }
+        for (const verseRef of previous) {
+          if (!current.has(verseRef)) {
+            const {error}=await this.client.from(table).delete().eq('user_id',uid).eq('verse_ref',verseRef);
+            if(error)throw error;
+          }
+        }
+        this.snapshot[table] = current;
       }
     }
 
