@@ -1,8 +1,11 @@
-const CACHE_NAME = 'mybible-shell-v132';
+const CACHE_NAME = 'mybible-shell-v133';
 const APP_SHELL = [
   './',
   './index.html',
   './chronology.html',
+  './data/books.json',
+  './data/study.json',
+  './data/cuvs_local.json',
   './data/people_chronology.json',
   './styles.css',
   './app.js',
