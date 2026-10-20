@@ -322,8 +322,8 @@
     state.client.auth.onAuthStateChange(async(event,session)=>{
       const previousUserId=state.user?.id||null;
       state.user=session?.user||null;
-      if(previousUserId!==(state.user?.id||null)&&event!=='INITIAL_SESSION'){location.reload();return;}
       if(event==='PASSWORD_RECOVERY'){ open('reset'); return; }
+      if(previousUserId!==(state.user?.id||null)&&event!=='INITIAL_SESSION'){location.reload();return; }
       if(state.user) await loadContext();
       updateAccountButton();
     });
