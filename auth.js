@@ -189,12 +189,14 @@
 
   async function savePreferences(partial={}){
     if(!state.user) return;
-    const row={user_id:state.user.id,theme:partial.theme||localStorage.getItem('csb.theme')||'light',
+    const row={user_id:state.user.id, ...{last_book:state.preferences?.last_book||null,last_chapter:state.preferences?.last_chapter||null,last_mode:state.preferences?.last_mode||null},theme:partial.theme||localStorage.getItem('csb.theme')||'light',
       font_scale:Number(partial.font_scale||localStorage.getItem('csb.fontScale')||1),ui_scale:Number(partial.ui_scale||localStorage.getItem('csb.uiScale')||1),audio_rate:Number(partial.audio_rate||localStorage.getItem('csb.originalAudioRate')||1),updated_at:new Date().toISOString()};
     if(partial.last_book!==undefined) row.last_book=partial.last_book;
     if(partial.last_chapter!==undefined) row.last_chapter=partial.last_chapter;
     if(partial.last_mode!==undefined) row.last_mode=partial.last_mode;
-    await state.client.from('user_preferences').upsert(row,{onConflict:'user_id'});
+    const {error}=await state.client.from('user_preferences').upsert(row,{onConflict:'user_id'});
+    if(error){console.warn('[MyBible] cloud preferences save failed:',error.message);return;}
+    state.preferences={...(state.preferences||{}),...row};
   }
 
   async function saveReadingPosition(pos={}){
