@@ -72,7 +72,9 @@ assert.ok(readerSource.includes("if(window.MyBibleAuth?.user)"),'Signed-in cloud
 const accountSource=read('auth.js');
 assert.ok(accountSource.includes("previousUserId!==(state.user?.id||null)"),'Account switching forces personal data reload');
 assert.ok(read('auth.js').indexOf("if(event==='PASSWORD_RECOVERY')") < read('auth.js').indexOf("if(previousUserId!=="),'Password recovery is handled before identity-change reload');
-assert.ok(read('auth.js').includes("?auth_action=reset_password"),'Recovery redirect must identify reset flow');
+assert.ok(read('auth.js').includes("redirectUrl()+'reset.html'"),'Recovery email must link to dedicated reset page');
+assert.ok(read('reset.html').includes('exchangeCodeForSession'),'Reset page must support PKCE recovery');
+assert.ok(read('reset.html').includes("type:'recovery'"),'Reset page must support token-hash recovery');
 assert.ok(read('auth.js').includes("if(recoveryMode)"),'Recovery callback must preserve reset UI after session refresh');
 assert.ok(read('auth.js').includes("cleanRecoveryLink();"),'Successful reset must clear recovery URL');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
