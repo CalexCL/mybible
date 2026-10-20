@@ -70,6 +70,7 @@
         '<button class="auth-primary" type="submit">保存 · Save</button>'+
         '<button class="auth-secondary" type="button" id="authLogout">退出登录 · Sign Out</button>';
       links.innerHTML='<div class="auth-sync-status">☁ Cloud sync active · 云端同步已启用</div>';
+      links.innerHTML+='<button type="button" id="authGuestImport">Import guest study data · 导入本机资料</button>';
       form.onsubmit=saveProfile;
       form.querySelector('#authLogout').onclick=logout;
     } else {
