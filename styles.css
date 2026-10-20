@@ -395,3 +395,5 @@ a{color:var(--blue)}
 #readerPage .verse-row.highlighted .verse-cell,#readerPage .verse-row.highlighted .verse-cell .verse-num{color:#19232d!important}
 #readerPage .verse-row.highlighted .verse-cell .muted{color:#405061!important}
 #readerPage .verse-row.highlighted:hover{filter:brightness(.985)}
+
+.reader-chapter-position{font-size:12px;font-weight:700;color:var(--muted);margin:5px 0}.reader-chapter-guide{display:none;color:var(--muted);font-size:11px;margin:5px 0}.chapter-nav button:disabled{opacity:.4;cursor:not-allowed}@media(max-width:850px){.reader-chapter-guide{display:block}.reader-heading{gap:8px}#readerPage.mobile-reader-collapsed .reader-chapter-guide{margin-top:4px}}
