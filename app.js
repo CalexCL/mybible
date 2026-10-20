@@ -362,7 +362,7 @@
 
   async function renderReader(){
     savePosition(); renderBookNavigation(); syncChapterSelect();
-    const b=currentBook(); $('#testamentKicker').textContent=b.testament==='OT'?'旧约 · OLD TESTAMENT':'新约 · NEW TESTAMENT'; $('#passageTitle').textContent=`${b.chinese} · ${b.english} ${state.chapter}`; $('#chapterStatus').textContent='正在载入经文与研读层…';
+    const b=currentBook(); const pos=$('#readerChapterPosition');if(pos)pos.textContent='第 '+state.chapter+' / '+b.chapters+' 章 · Chapter '+state.chapter+' of '+b.chapters; $('#prevChapter').disabled=state.bookIndex===0&&state.chapter===1;$('#nextChapter').disabled=state.bookIndex===state.books.length-1&&state.chapter===b.chapters; $('#testamentKicker').textContent=b.testament==='OT'?'旧约 · OLD TESTAMENT':'新约 · NEW TESTAMENT'; $('#passageTitle').textContent=`${b.chinese} · ${b.english} ${state.chapter}`; $('#chapterStatus').textContent='正在载入经文与研读层…';
     const list=$('#verseList'); list.className=`verse-list ${state.mode==='zh'?'zh-only':state.mode==='en'?'en-only':''}`; list.innerHTML='<div class="loading"><div class="spinner"></div>正在载入经文…</div>';
     const currentBookIndex=state.bookIndex,currentChapter=state.chapter; const [enResult,zhResult]=await Promise.all([state.mode==='zh'?Promise.resolve({verses:[],source:'not-needed'}):getEnglishChapter(),state.mode==='en'?Promise.resolve({verses:[],source:'not-needed'}):getChineseChapter()]); if(currentBookIndex!==state.bookIndex||currentChapter!==state.chapter)return; state.englishChapter=enResult.verses; const en=enResult.verses,zh=zhResult.verses;
     const notice=$('#scriptureNotice'); notice.classList.add('hidden');
