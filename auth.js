@@ -7,6 +7,18 @@
 
   function esc(v=''){ return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
   function redirectUrl(){ return location.origin + location.pathname; }
+  function isRecoveryLink(){
+    const query=new URLSearchParams(location.search), fragment=new URLSearchParams(location.hash.slice(1));
+    return query.get('auth_action')==='reset_password'||query.get('type')==='recovery'||fragment.get('type')==='recovery';
+  }
+  function cleanRecoveryLink(){
+    const url=new URL(location.href);
+    url.searchParams.delete('auth_action');
+    url.searchParams.delete('type');
+    url.searchParams.delete('code');
+    history.replaceState(null,'',url.pathname+url.search);
+  }
+  let recoveryMode=isRecoveryLink();
   function message(text,type='info'){ const el=document.querySelector('#authMessage'); if(!el)return; el.hidden=false; el.textContent=text; el.className='auth-message '+type; }
   function clearMessage(){ const el=document.querySelector('#authMessage'); if(el){el.hidden=true;el.textContent='';} }
 
@@ -125,7 +137,7 @@
   async function forgot(e){
     e.preventDefault(); clearMessage();
     const f=new FormData(e.currentTarget);
-    const {error}=await state.client.auth.resetPasswordForEmail(String(f.get('email')).trim(),{redirectTo:redirectUrl()});
+    const {error}=await state.client.auth.resetPasswordForEmail(String(f.get('email')).trim(),{redirectTo:redirectUrl()+'?auth_action=reset_password'});
     if(error) return message(error.message,'error');
     message('密码重设邮件已发送。请检查邮箱。','success');
   }
@@ -135,8 +147,10 @@
     const f=new FormData(e.currentTarget);
     const {error}=await state.client.auth.updateUser({password:String(f.get('password'))});
     if(error) return message(error.message,'error');
-    message('密码已更新。','success');
-    setTimeout(()=>render('profile'),600);
+    recoveryMode=false;
+    cleanRecoveryLink();
+    message('密码已成功更新 · Password updated successfully.','success');
+    setTimeout(()=>render('profile'),900);
   }
 
   async function logout(){ await state.client.auth.signOut(); location.reload(); }
@@ -319,14 +333,29 @@
     state.user=data?.session?.user||null;
     await loadContext();
     ensureModal(); updateAccountButton();
-    state.client.auth.onAuthStateChange(async(event,session)=>{
+    state.client.auth.onAuthStateChange((event,session)=>{
       const previousUserId=state.user?.id||null;
       state.user=session?.user||null;
-      if(event==='PASSWORD_RECOVERY'){ open('reset'); return; }
-      if(previousUserId!==(state.user?.id||null)&&event!=='INITIAL_SESSION'){location.reload();return; }
-      if(state.user) await loadContext();
-      updateAccountButton();
+      if(event==='PASSWORD_RECOVERY')recoveryMode=true;
+      // Recovery URLs also work when Supabase delivers SIGNED_IN instead of PASSWORD_RECOVERY.
+      if(recoveryMode){
+        if(session?.user)open('reset');
+        else if(event==='SIGNED_OUT')open('forgot');
+        return;
+      }
+      if(previousUserId!==(state.user?.id||null)&&event!=='INITIAL_SESSION'){location.reload();return;}
+      if(state.user)void loadContext().then(updateAccountButton).catch(console.warn);
+      else updateAccountButton();
     });
+    // An email reset callback may already have been processed by getSession().
+    if(recoveryMode){
+      const {data:recoverySession,error:recoveryError}=await state.client.auth.getSession();
+      if(recoverySession?.session?.user)open('reset');
+      else {
+        open('forgot');
+        message(recoveryError?.message||'Recovery link invalid or expired. Request a new password reset email.','error');
+      }
+    }
   }
 
   window.MyBibleAuth={
