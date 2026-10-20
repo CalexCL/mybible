@@ -63,5 +63,9 @@ assert.ok(appSource.includes("Psalms:['Psalm','Psa','Pss']"),'Psalms aliases req
 assert.ok(appSource.includes("Matthew:['Matt','Mt']"),'Common book abbreviations must be supported');
 assert.ok(!/(?<!\$)\$\([^\n;]*?\)\.forEach\s*\(/.test(appSource), 'A single-element $ selector is incorrectly used with forEach');
 assert.ok(!/\$\$\$\(/.test(appSource), 'Undefined $$$ selector breaks app startup');
+const backendSource = read('backend.js');
+assert.ok(backendSource.includes("onConflict:'user_id,verse_ref'"),'Cloud study sync must upsert by user and verse');
+assert.ok(!backendSource.includes("this.client.from(table).delete().eq('user_id', uid)"),'Cloud study sync must never delete entire user collections');
+assert.ok(backendSource.includes("this.saveQueue=pending"),'Cloud study saves must be serialized');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
