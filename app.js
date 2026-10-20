@@ -45,7 +45,14 @@
 
   async function loadPersonal(){
     backend = await window.MyBibleBackend.createBackend();
-    const data = await backend.loadStudyData();
+    let data;
+    try{data=await backend.loadStudyData();}
+    catch(error){
+      console.warn('[MyBible] Cloud study data cannot be loaded; continuing with local reader data:',error);
+      backend=new window.MyBibleBackend.LocalStudyBackend();
+      await backend.init();
+      data=await backend.loadStudyData();
+    }
     personal.notes = data.notes || {};
     personal.bookmarks = data.bookmarks || {};
     personal.highlights = data.highlights || {};
