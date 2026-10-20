@@ -314,7 +314,7 @@
     let bi=state.bookIndex,ch=state.chapter+dir;
     if(ch<1){if(bi===0)return;bi--;ch=state.books[bi].chapters;}
     if(ch>state.books[bi].chapters){if(bi===65)return;bi++;ch=1;}
-    state.bookIndex=bi;state.chapter=ch;populateSelectors();renderBookNavigation();await renderReader(); $('#mainContent').scrollTop=0;
+    state.bookIndex=bi;state.chapter=ch;populateSelectors();renderBookNavigation();await renderReader(); $('#mainContent').scrollTop=0; window.scrollTo({top:0,behavior:'instant'});
   }
 
   async function getChineseChapter(){
