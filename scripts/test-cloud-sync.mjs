@@ -4,11 +4,13 @@ import vm from 'node:vm';
 
 const tables={bible_notes:[{user_id:'u1',verse_ref:'Genesis 1:1',note_text:'Original',updated_at:new Date().toISOString()}],bible_bookmarks:[],bible_highlights:[]};
 const writes=[];
+let offline=false;
 const client={
  from(table){
   return {
-   select(){return {eq(){return Promise.resolve({data:tables[table].map(x=>({...x})),error:null})}}},
+   select(){return {eq(){return Promise.resolve(offline?{data:null,error:new Error('offline')}:{data:tables[table].map(x=>({...x})),error:null})}}},
    upsert(rows){
+    if(offline)return Promise.resolve({error:new Error('offline')});
     writes.push({type:'upsert',table,refs:Array.from(rows,r=>r.verse_ref)});
     for(const row of rows){const i=tables[table].findIndex(x=>x.user_id===row.user_id&&x.verse_ref===row.verse_ref);if(i>=0)tables[table][i]={...tables[table][i],...row};else tables[table].push({...row});}
     return Promise.resolve({error:null});
@@ -44,4 +46,19 @@ const p2=backend.saveStudyData({...state,notes:{'Genesis 1:1':{text:'Last'}}});
 await Promise.all([p1,p2]);
 assert.equal(tables.bible_notes[0].note_text,'Last','Rapid saves keep newest note');
 assert.equal(writes.filter(w=>w.type==='delete'&&w.ref==='Genesis 1:1').length,0);
+offline=true;
+const offlineState={...state,notes:{'Genesis 1:1':{text:'Offline note'}}};
+await assert.rejects(backend.saveStudyData(offlineState),/offline/);
+assert.equal(JSON.parse(storage.get('mybible.cloudBackup.u1')).pending,true,'Failed sync stores recoverable pending changes');
+const newSession=new window.MyBibleBackend.SupabaseStudyBackend({});
+await newSession.init();
+const recovered=await newSession.loadStudyData();
+assert.equal(recovered.notes['Genesis 1:1'].text,'Offline note','Offline restart restores signed-in notes');
+offline=false;
+const restoredSession=new window.MyBibleBackend.SupabaseStudyBackend({});
+await restoredSession.init();
+const reconciled=await restoredSession.loadStudyData();
+assert.equal(reconciled.notes['Genesis 1:1'].text,'Offline note','Reconnect sends pending changes to cloud');
+assert.equal(tables.bible_notes[0].note_text,'Offline note','Cloud receives preserved offline note');
+assert.equal(JSON.parse(storage.get('mybible.cloudBackup.u1')).pending,false,'Successful reconnect clears pending flag');
 console.log('PASS cloud sync: non-destructive per-verse saves, targeted delete and queued updates');
