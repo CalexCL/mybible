@@ -49,9 +49,14 @@
     try{data=await backend.loadStudyData();}
     catch(error){
       console.warn('[MyBible] Cloud study data cannot be loaded; continuing with local reader data:',error);
-      backend=new window.MyBibleBackend.LocalStudyBackend();
-      await backend.init();
-      data=await backend.loadStudyData();
+      if(window.MyBibleAuth?.user){
+        // Do not show another account's guest records when the signed-in cloud is unavailable.
+        data={notes:{},bookmarks:{},highlights:{}};
+      }else{
+        backend=new window.MyBibleBackend.LocalStudyBackend();
+        await backend.init();
+        data=await backend.loadStudyData();
+      }
     }
     personal.notes = data.notes || {};
     personal.bookmarks = data.bookmarks || {};
