@@ -9,7 +9,7 @@ const client={
   return {
    select(){return {eq(){return Promise.resolve({data:tables[table].map(x=>({...x})),error:null})}}},
    upsert(rows){
-    writes.push({type:'upsert',table,refs:rows.map(r=>r.verse_ref)});
+    writes.push({type:'upsert',table,refs:Array.from(rows,r=>r.verse_ref)});
     for(const row of rows){const i=tables[table].findIndex(x=>x.user_id===row.user_id&&x.verse_ref===row.verse_ref);if(i>=0)tables[table][i]={...tables[table][i],...row};else tables[table].push({...row});}
     return Promise.resolve({error:null});
    },
