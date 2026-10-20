@@ -137,7 +137,7 @@
   async function forgot(e){
     e.preventDefault(); clearMessage();
     const f=new FormData(e.currentTarget);
-    const {error}=await state.client.auth.resetPasswordForEmail(String(f.get('email')).trim(),{redirectTo:redirectUrl()+'?auth_action=reset_password'});
+    const {error}=await state.client.auth.resetPasswordForEmail(String(f.get('email')).trim(),{redirectTo:redirectUrl()+'reset.html'});
     if(error) return message(error.message,'error');
     message('密码重设邮件已发送。请检查邮箱。','success');
   }
