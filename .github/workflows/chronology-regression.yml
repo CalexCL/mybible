@@ -11,6 +11,9 @@ on:
       - 'scripts/smoke-chronology.mjs'
       - 'scripts/smoke-bilingual.mjs'
       - 'app.js'
+      - 'auth.js'
+      - 'backend.js'
+      - 'scripts/test-cloud-sync.mjs'
       - 'config.js'
       - 'index.html'
       - '.github/workflows/chronology-regression.yml'
@@ -21,6 +24,9 @@ on:
       - 'data/study.json'
       - 'service-worker.js'
       - 'scripts/test-chronology.mjs'
+      - 'scripts/test-cloud-sync.mjs'
+      - 'backend.js'
+      - 'auth.js'
   workflow_dispatch:
 permissions:
   contents: read
@@ -35,6 +41,8 @@ jobs:
           node-version: '22'
       - name: Validate Chronology and JavaScript
         run: node scripts/test-chronology.mjs
+      - name: Verify non-destructive personal cloud sync
+        run: node scripts/test-cloud-sync.mjs
       - name: Check main app syntax
         run: node --check app.js
       - name: Check PWA service worker syntax
