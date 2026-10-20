@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reset Password · MyBible</title>
+<style>body{margin:0;background:#f3eee3;color:#282722;font:16px/1.6 system-ui,-apple-system,sans-serif;display:grid;place-items:center;min-height:100vh;padding:18px;box-sizing:border-box}main{width:min(420px,100%);background:#fff;padding:30px;border-radius:18px;box-shadow:0 8px 35px #0002}h1{font-size:25px;margin:0 0 8px}p{margin:5px 0 16px}label{display:block;margin-top:14px}input{box-sizing:border-box;width:100%;padding:12px;margin-top:5px;font:inherit;border:1px solid #b7b1a8;border-radius:8px}button{width:100%;margin-top:20px;padding:12px;background:#65503c;color:white;border:0;border-radius:8px;font:inherit;cursor:pointer}button:disabled{opacity:.6}a{color:#5d4632}#status{min-height:24px}#resetForm[hidden]{display:none}</style>
+</head>
+<body><main><h1>MyBible · 设置新密码</h1><p>Reset your password securely.</p><p id="status" role="status" aria-live="polite">Verifying recovery link…</p><form id="resetForm" hidden><label>New password · 新密码<input name="password" type="password" minlength="8" autocomplete="new-password" required></label><label>Confirm password · 确认密码<input name="confirm" type="password" minlength="8" autocomplete="new-password" required></label><button type="submit">Update Password · 更新密码</button></form><p><a href="./">Return to MyBible · 返回圣经</a></p></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./config.js"></script>
+<script>
+(async()=>{
+const status=document.getElementById('status'),form=document.getElementById('resetForm');
+const fail=(m)=>{status.textContent=m;form.hidden=true;};
+const cfg=window.MYBIBLE_CONFIG?.backend?.supabase,apiKey=cfg?.publishableKey||cfg?.anonKey;
+if(!cfg?.url||!apiKey||!window.supabase?.createClient){fail('Authentication is temporarily unavailable. Please try again later.');return;}
+const query=new URLSearchParams(location.search),hash=new URLSearchParams(location.hash.slice(1));
+if(query.get('error')||hash.get('error')){fail(query.get('error_description')||hash.get('error_description')||'The password reset link has expired. Request a new link.');return;}
+const hasRecoveryProof=query.has('code')||query.has('token_hash')||hash.has('access_token');
+if(!hasRecoveryProof){fail('No valid recovery token was found. Request a fresh reset link from MyBible.');return;}
+const client=window.supabase.createClient(cfg.url,apiKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+try{
+let error=null;
+if(query.get('token_hash'))({error}=await client.auth.verifyOtp({token_hash:query.get('token_hash'),type:'recovery'}));
+else if(query.get('code'))({error}=await client.auth.exchangeCodeForSession(query.get('code')));
+else ({error}=await client.auth.setSession({access_token:hash.get('access_token'),refresh_token:hash.get('refresh_token')}));
+if(error)throw error;
+const {data,error:sessionError}=await client.auth.getUser();
+if(sessionError||!data?.user)throw sessionError||new Error('Recovery session could not be verified.');
+history.replaceState(null,'',location.pathname);
+status.textContent='Link verified. Please enter your new password. · 链接已验证，请输入新密码。';
+form.hidden=false;
+form.onsubmit=async e=>{
+e.preventDefault();
+const values=new FormData(form),pass=String(values.get('password')),confirm=String(values.get('confirm'));
+if(pass!==confirm){status.textContent='Passwords do not match. · 两次密码不一致。';return;}
+const button=form.querySelector('button');button.disabled=true;
+const {error:saveError}=await client.auth.updateUser({password:pass});
+if(saveError){status.textContent=saveError.message;button.disabled=false;return;}
+form.hidden=true;
+status.textContent='Password updated successfully! · 密码已更新成功。请返回 MyBible 登录。';
+await client.auth.signOut();
+};
+}catch(e){fail('Reset link could not be verified: '+(e?.message||'Expired or invalid link')+'. Request a new email from MyBible.');}
+})();
+</script></body></html>
