@@ -20,12 +20,12 @@ window.MYBIBLE_CONFIG = Object.freeze({
     }
   },
   backend: {
-    // Credentials are recorded below, but cloud sync stays disabled until Auth UI is enabled.
-    // This prevents accidental write failures and keeps the current localStorage experience working.
-    provider: 'local',
+    // Guests remain local-only; signed-in readers synchronize their own study data.
+    // Only a public browser anon/publishable key is used, with user-scoped RLS.
+    provider: 'supabase',
     supabase: {
       configured: true,
-      enabled: false,
+      enabled: true,
       url: 'https://ongvhjmriytpkmthaide.supabase.co',
       anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZ3Zoam1yaXl0cGttdGhhaWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MDgwOTEsImV4cCI6MjEwNDI4NDA5MX0.DbvHZ849KjwNtbvCfQRZsbTbkkXh9oWolF_FE1-odV4',
       schema: 'public'
