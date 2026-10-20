@@ -47,15 +47,32 @@
       return { provider: this.name, authenticated: true, userId: this.user.id };
     }
 
+    backupKey(){return 'mybible.cloudBackup.'+this.user.id;}
+    saveBackup(data,pending){
+      const clone=x=>JSON.parse(JSON.stringify(x));
+      localStorage.setItem(this.backupKey(),JSON.stringify({data:clone(data),base:clone(this.lastSynced||{notes:{},bookmarks:{},highlights:{}}),pending:!!pending}));
+    }
+
     async loadStudyData() {
       if (!this.client || !this.user) throw new Error('Supabase backend is not initialized.');
       const uid = this.user.id;
-      const [notes, bookmarks, highlights] = await Promise.all([
-        this.client.from('bible_notes').select('verse_ref,note_text,updated_at').eq('user_id', uid),
-        this.client.from('bible_bookmarks').select('verse_ref,created_at').eq('user_id', uid),
-        this.client.from('bible_highlights').select('verse_ref,color,created_at').eq('user_id', uid)
-      ]);
-      for (const result of [notes, bookmarks, highlights]) if (result.error) throw result.error;
+      const backup=safeParse(localStorage.getItem(this.backupKey()),null);
+      let notes,bookmarks,highlights;
+      try{
+        [notes,bookmarks,highlights]=await Promise.all([
+          this.client.from('bible_notes').select('verse_ref,note_text,updated_at').eq('user_id', uid),
+          this.client.from('bible_bookmarks').select('verse_ref,created_at').eq('user_id', uid),
+          this.client.from('bible_highlights').select('verse_ref,color,created_at').eq('user_id', uid)
+        ]);
+        for(const result of [notes,bookmarks,highlights])if(result.error)throw result.error;
+      }catch(error){
+        if(backup?.data){
+          console.warn('[MyBible] Cloud temporarily unavailable; using this reader’s saved device copy.');
+          this.lastSynced=backup.base||{notes:{},bookmarks:{},highlights:{}};
+          return backup.data;
+        }
+        throw error;
+      }
       this.snapshot={bible_notes:new Set((notes.data||[]).map(r=>r.verse_ref)),bible_bookmarks:new Set((bookmarks.data||[]).map(r=>r.verse_ref)),bible_highlights:new Set((highlights.data||[]).map(r=>r.verse_ref))};
       const cloud = {
         notes: Object.fromEntries((notes.data || []).map(r => [r.verse_ref, { text: r.note_text, updated: Date.parse(r.updated_at) || Date.now() }])),
@@ -64,6 +81,20 @@
       };
 
       this.lastSynced=JSON.parse(JSON.stringify(cloud));
+      if(backup?.pending&&backup.data){
+        const merged=JSON.parse(JSON.stringify(cloud));
+        for(const category of ['notes','bookmarks','highlights']){
+          const base=backup.base?.[category]||{},desired=backup.data[category]||{};
+          for(const key of new Set([...Object.keys(base),...Object.keys(desired)])){
+            if(JSON.stringify(base[key])===JSON.stringify(desired[key]))continue;
+            if(Object.hasOwn(desired,key))merged[category][key]=desired[key];
+            else delete merged[category][key];
+          }
+        }
+        try{await this.saveStudyData(merged);return merged;}
+        catch(error){console.warn('[MyBible] Pending study changes remain on this device:',error);return backup.data;}
+      }
+      this.saveBackup(cloud,false);
       const migrationKey = 'mybible.cloudMigrated.' + uid;
       const local = {
         notes: safeParse(localStorage.getItem(KEYS.notes), {}),
@@ -90,7 +121,7 @@
     async saveStudyData(data) {
       // Serialize rapid taps so older saves cannot overwrite newer selections.
       const captured=JSON.parse(JSON.stringify(data));
-      const pending=(this.saveQueue||Promise.resolve()).catch(()=>{}).then(()=>this.persistStudyData(captured));
+      const pending=(this.saveQueue||Promise.resolve()).catch(()=>{}).then(()=>this.persistStudyData(captured)).then(()=>{this.saveBackup(captured,false);}).catch(error=>{this.saveBackup(captured,true);throw error;});
       this.saveQueue=pending;
       return pending;
     }
