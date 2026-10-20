@@ -201,6 +201,7 @@ try {
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
   assert.match(await page.locator('#readerChapterPosition').innerText(),/Chapter 1 of/,'Reader shows chapter progress');
+  assert.match(await page.locator('#readerChapterPosition').getAttribute('aria-label'),/chapter 1 of/i,'Screen readers receive chapter progress label');
   assert.equal(await page.locator('#prevChapter').isDisabled(),true,'Previous chapter disabled at Bible opening');
   await page.locator('#verseList .verse-row').first().waitFor();
   const swipeTarget=page.locator('#verseList');
