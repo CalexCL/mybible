@@ -71,5 +71,6 @@ const readerSource = read('app.js');
 assert.ok(readerSource.includes("if(window.MyBibleAuth?.user)"),'Signed-in cloud failure cannot show guest data');
 const accountSource=read('auth.js');
 assert.ok(accountSource.includes("previousUserId!==(state.user?.id||null)"),'Account switching forces personal data reload');
+assert.ok(read('auth.js').indexOf("if(event==='PASSWORD_RECOVERY')") < read('auth.js').indexOf("if(previousUserId!=="),'Password recovery is handled before identity-change reload');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
