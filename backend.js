@@ -72,6 +72,10 @@
       const cloudHasData = Object.values(cloud).some(group => Object.keys(group || {}).length);
       const localHasData = Object.values(local).some(group => Object.keys(group || {}).length);
 
+      if (!localStorage.getItem(migrationKey) && cloudHasData && localHasData) {
+        // Never silently overwrite cloud data or discard unsynced local work.
+        console.warn('[MyBible] Local study data retained separately; existing cloud data takes precedence.');
+      }
       if (!localStorage.getItem(migrationKey) && !cloudHasData && localHasData) {
         await this.saveStudyData(local);
         localStorage.setItem(migrationKey, '1');
