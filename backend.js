@@ -63,6 +63,7 @@
         highlights: Object.fromEntries((highlights.data || []).map(r => [r.verse_ref, { color: r.color || 'gold', created: Date.parse(r.created_at) || Date.now() }]))
       };
 
+      this.lastSynced=JSON.parse(JSON.stringify(cloud));
       const migrationKey = 'mybible.cloudMigrated.' + uid;
       const local = {
         notes: safeParse(localStorage.getItem(KEYS.notes), {}),
@@ -104,25 +105,33 @@
       // Incremental synchronization: do not clear complete tables before writes.
       // Preserve cloud data on other devices and only remove refs previously loaded here.
       const tables = [
-        ['bible_notes', noteRows],
-        ['bible_bookmarks', bookmarkRows],
-        ['bible_highlights', highlightRows]
+        ['bible_notes',noteRows,'notes'],
+        ['bible_bookmarks',bookmarkRows,'bookmarks'],
+        ['bible_highlights',highlightRows,'highlights']
       ];
-      if (!this.snapshot) this.snapshot = {};
-      for (const [table, rows] of tables) {
-        const previous = this.snapshot[table] || new Set();
-        const current = new Set(rows.map(row => row.verse_ref));
-        if (rows.length) {
-          const { error } = await this.client.from(table).upsert(rows,{onConflict:'user_id,verse_ref'});
-          if (error) throw error;
+      if(!this.lastSynced)this.lastSynced={notes:{},bookmarks:{},highlights:{}};
+      for(const [table,rows,field] of tables){
+        const previous=this.lastSynced[field]||{};
+        const current=data[field]||{};
+        // Write only changed verse records. Other devices' unrelated records remain untouched.
+        const changed=rows.filter(row=>{
+          const old=previous[row.verse_ref];
+          if(!old)return true;
+          if(field==='notes')return old.text!==row.note_text;
+          if(field==='highlights')return (old.color||'gold')!==row.color;
+          return false;
+        });
+        if(changed.length){
+          const {error}=await this.client.from(table).upsert(changed,{onConflict:'user_id,verse_ref'});
+          if(error)throw error;
         }
-        for (const verseRef of previous) {
-          if (!current.has(verseRef)) {
+        for(const verseRef of Object.keys(previous)){
+          if(!Object.hasOwn(current,verseRef)){
             const {error}=await this.client.from(table).delete().eq('user_id',uid).eq('verse_ref',verseRef);
             if(error)throw error;
           }
         }
-        this.snapshot[table] = current;
+        this.lastSynced[field]=JSON.parse(JSON.stringify(current));
       }
     }
 
