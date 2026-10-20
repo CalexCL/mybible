@@ -397,3 +397,6 @@ a{color:var(--blue)}
 #readerPage .verse-row.highlighted:hover{filter:brightness(.985)}
 
 .reader-chapter-position{font-size:12px;font-weight:700;color:var(--muted);margin:5px 0}.reader-chapter-guide{display:none;color:var(--muted);font-size:11px;margin:5px 0}.chapter-nav button:disabled{opacity:.4;cursor:not-allowed}@media(max-width:850px){.reader-chapter-guide{display:block}.reader-heading{gap:8px}#readerPage.mobile-reader-collapsed .reader-chapter-guide{margin-top:4px}}
+
+/* Always-visible slim chapter controls in smartphone reading mode. */
+.mobile-reader-quickbar{display:none}@media(max-width:850px){.mobile-reader-quickbar{display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:stretch;position:sticky;top:64px;z-index:24;background:var(--surface)}.mobile-reader-quickbar .mobile-reader-toggle{position:static;width:100%;border-radius:0}.mobile-chapter-arrow{min-height:38px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:25px;font-weight:700;cursor:pointer}.mobile-chapter-arrow:disabled{opacity:.35;cursor:not-allowed}}
