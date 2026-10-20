@@ -8,7 +8,7 @@ let offline=false;
 const client={
  from(table){
   return {
-   select(){return {eq(){return Promise.resolve(offline?{data:null,error:new Error('offline')}:{data:tables[table].map(x=>({...x})),error:null})}}},
+   select(){return {eq(field,value){return Promise.resolve(offline?{data:null,error:new Error('offline')}:{data:tables[table].filter(x=>x[field]===value).map(x=>({...x})),error:null})}}},
    upsert(rows){
     if(offline)return Promise.resolve({error:new Error('offline')});
     writes.push({type:'upsert',table,refs:Array.from(rows,r=>r.verse_ref)});
@@ -71,4 +71,24 @@ assert.equal(outcome.conflicts,1);
 assert.equal(tables.bible_notes.find(r=>r.verse_ref==='Genesis 1:1').note_text,'Offline note');
 assert.equal(tables.bible_notes.find(r=>r.verse_ref==='Genesis 1:3').note_text,'Guest new');
 assert.ok(storage.get('csb.notes').includes('Guest new'),'Guest backup is retained');
+// Account switching: cloud reads, writes and offline backups are user-specific.
+tables.bible_notes.push({user_id:'u2',verse_ref:'Genesis 1:1',note_text:'Other reader',updated_at:new Date().toISOString()});
+window.MyBibleAuth.user={id:'u2'};
+const second=new window.MyBibleBackend.SupabaseStudyBackend({});
+await second.init();
+const secondData=await second.loadStudyData();
+assert.equal(secondData.notes['Genesis 1:1'].text,'Other reader','Another reader loads only their own notes');
+assert.ok(!secondData.notes['Genesis 1:3'],'First reader guest import stays private');
+secondData.highlights['John 3:16']={color:'green'};
+await second.saveStudyData(secondData);
+assert.ok(tables.bible_highlights.some(r=>r.user_id==='u2'&&r.verse_ref==='John 3:16'));
+assert.ok(!tables.bible_highlights.some(r=>r.user_id==='u1'&&r.verse_ref==='John 3:16'));
+assert.ok(storage.has('mybible.cloudBackup.u2'),'Second reader gets separate backup');
+assert.notEqual(storage.get('mybible.cloudBackup.u1'),storage.get('mybible.cloudBackup.u2'));
+window.MyBibleAuth.user={id:'u1'};
+const firstAgain=new window.MyBibleBackend.SupabaseStudyBackend({});
+await firstAgain.init();
+const returned=await firstAgain.loadStudyData();
+assert.equal(returned.notes['Genesis 1:1'].text,'Offline note','Original account restores original data');
+assert.ok(!returned.highlights['John 3:16'],'Other reader highlight stays isolated');
 console.log('PASS cloud sync: non-destructive per-verse saves, targeted delete and queued updates');
