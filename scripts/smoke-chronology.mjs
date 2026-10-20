@@ -203,6 +203,11 @@ try {
   assert.match(await page.locator('#readerChapterPosition').innerText(),/Chapter 1 of/,'Reader shows chapter progress');
   assert.match(await page.locator('#readerChapterPosition').getAttribute('aria-label'),/chapter 1 of/i,'Screen readers receive chapter progress label');
   assert.equal(await page.locator('#prevChapter').isDisabled(),true,'Previous chapter disabled at Bible opening');
+  assert.equal(await page.locator('#mobilePrevChapter').isDisabled(),true,'Mobile previous arrow disabled at Bible opening');
+  await page.locator('#mobileNextChapter').click();
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
+  await page.locator('#mobilePrevChapter').click();
+  await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
   await page.locator('#verseList .verse-row').first().waitFor();
   const swipeTarget=page.locator('#verseList');
   const dispatchSwipe=async(fromX,toX)=>{
