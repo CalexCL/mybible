@@ -323,7 +323,7 @@
   }
 
   async function getChineseChapter(){
-    const b=currentBook(), cacheKey=`${b.osis}:${state.chapter}`;
+    const b=currentBook(), chapterNumber=state.chapter, bookIndex=state.bookIndex, cacheKey=`${b.osis}:${chapterNumber}`;
     const saved=loadJSON(`csb.cuvs.${cacheKey}`,null); if(validScriptureVerses(saved?.verses))return {verses:saved.verses,source:'structured-cache'};
     try{
       let bookData=state.chineseBookCache.get(b.osis);
@@ -333,20 +333,20 @@
         const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),3500);
         const r=await fetch(url,{signal:controller.signal,cache:'force-cache'}); clearTimeout(timer); if(!r.ok)throw new Error('network'); bookData=await r.json(); state.chineseBookCache.set(b.osis,bookData);
       }
-      const ch=bookData.chapters.find(x=>+x.chapter===state.chapter); if(!ch||!Array.isArray(ch.verses))throw new Error('missing chapter');
+      const ch=bookData.chapters.find(x=>+x.chapter===chapterNumber); if(!ch||!Array.isArray(ch.verses))throw new Error('missing chapter');
       const verses=ch.verses.map(v=>({verse:+(v.number??v.verse),text:String(v.text||'')}));
       if(!validScriptureVerses(verses))throw new Error('Invalid CUVS verse ordering');
       try{localStorage.setItem(`csb.cuvs.${cacheKey}`,JSON.stringify({verses}));}catch{}
       return {verses,source:'structured-online'};
     }catch(err){
-      const local=state.cuvsLocal[state.bookIndex]?.chapters?.[state.chapter-1];
+      const local=state.cuvsLocal[bookIndex]?.chapters?.[chapterNumber-1];
       if(local?.verified && local.verses?.length)return {verses:local.verses,source:'uploaded-pdf-fallback'};
       return {verses:[],source:'unavailable'};
     }
   }
 
   async function getEnglishChapter(){
-    const b=currentBook(), key=b.osis+':'+state.chapter;
+    const b=currentBook(), chapterNumber=state.chapter, key=b.osis+':'+chapterNumber;
     const cached=loadJSON('mybible.kjv.'+key,null);
     if(validScriptureVerses(cached?.verses))return {verses:cached.verses,source:'structured-cache'};
     try{
@@ -359,7 +359,7 @@
         if(bookData.version!=='kjv'||!Array.isArray(bookData.chapters))throw new Error('Unexpected KJV schema');
         state.englishBookCache.set(b.osis,bookData);
       }
-      const chapter=bookData.chapters.find(c=>Number(c.chapter)===state.chapter);
+      const chapter=bookData.chapters.find(c=>Number(c.chapter)===chapterNumber);
       if(!chapter||!Array.isArray(chapter.verses))throw new Error('KJV chapter missing');
       const verses=chapter.verses.map(v=>({verse:Number(v.number),text:String(v.text||'')}));
       if(!verses.length||verses.some((v,i)=>v.verse!==i+1||!v.text))throw new Error('Invalid KJV verse ordering');
