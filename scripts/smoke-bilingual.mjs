@@ -28,7 +28,8 @@ try{
  // Verify the service worker precaches the Reader's structural data before offline use.
  await page.waitForFunction(()=>navigator.serviceWorker?.controller||false,{timeout:20000});
  const offlineAssets=await page.evaluate(async()=>{
-   const c=await caches.open('mybible-shell-v133');
+   const names=(await caches.keys()).filter(n=>n.startsWith('mybible-shell-v')).sort((a,b)=>Number(b.split('-v').pop())-Number(a.split('-v').pop()));
+   const c=await caches.open(names[0]);
    return Promise.all(['./index.html','./data/books.json','./data/study.json','./data/cuvs_local.json'].map(async p=>({path:p,cached:!!(await c.match(p))})));
  });
  assert.ok(offlineAssets.every(item=>item.cached),'Core Reader files must be cached for offline access: '+JSON.stringify(offlineAssets));
