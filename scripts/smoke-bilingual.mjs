@@ -24,6 +24,7 @@ try{
  await page.locator('.mode-btn[data-mode="parallel"]').click();
  await page.locator('#verseList .en-cell').first().getByText('In the beginning was the Word',{exact:false}).waitFor();
  assert.ok(await page.locator('#verseList .zh-cell').count()>0);
+ assert.ok(await page.locator('#verseList .verse-row').count()>0,'A verified Bible chapter renders verses');
  assert.deepEqual(errors,[],'Browser runtime errors');
  console.log('PASS English KJV and Chinese-KJV parallel modes, NKJV license-locked');
 }finally{await browser.close();}
