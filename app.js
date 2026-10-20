@@ -340,7 +340,7 @@
       return {verses,source:'structured-online'};
     }catch(err){
       const local=state.cuvsLocal[bookIndex]?.chapters?.[chapterNumber-1];
-      if(local?.verified && local.verses?.length)return {verses:local.verses,source:'uploaded-pdf-fallback'};
+      if(local?.verified && validScriptureVerses(local.verses))return {verses:local.verses,source:'uploaded-pdf-fallback'};
       return {verses:[],source:'unavailable'};
     }
   }
@@ -388,7 +388,7 @@
         <div class="verse-cell en-cell" data-side="en"><span class="verse-num">${i}</span>${ev?escapeHTML(ev.text):'<span class="muted">—</span>'}</div>
       </div>`;
     }
-    if(!max)html='<div class="loading">No verse data available for this chapter.</div>';
+    if(!max)html='<div class="loading" role="status">当前章节尚无可验证的经文资料 · Verified Scripture unavailable for this chapter. Please connect to the internet and retry.</div>';
     list.innerHTML=html;
     list.onclick=handleVerseClick;
     bindVerseLongPress(list);
