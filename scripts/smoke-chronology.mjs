@@ -206,6 +206,7 @@ try {
   assert.equal(await page.locator('#mobilePrevChapter').isDisabled(),true,'Mobile previous arrow disabled at Bible opening');
   await page.locator('#mobileNextChapter').click();
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='2');
+  assert.equal(await page.locator('#studyDrawer.open').count(),0,'Chapter navigation leaves no stale verse study panel');
   assert.match(await page.locator('#readerChapterPosition').innerText(),/Chapter 2 of/,'Chapter progress updates with mobile navigation');
   await page.locator('#mobilePrevChapter').click();
   await page.waitForFunction(()=>document.querySelector('#chapterSelect')?.value==='1');
