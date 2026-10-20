@@ -36,7 +36,7 @@
   async function savePersonal(){
     if (backend) {
       try { await backend.saveStudyData(personal); return; }
-      catch (err) { console.warn('[MyBible] personal-data save failed:', err); }
+      catch (err) { console.warn('[MyBible] personal-data save failed:', err); if(backend.name==='supabase'){toast('Cloud temporarily unavailable · Changes saved on this device');return;} }
     }
     localStorage.setItem(STORAGE.notes, JSON.stringify(personal.notes));
     localStorage.setItem(STORAGE.bookmarks, JSON.stringify(personal.bookmarks));
