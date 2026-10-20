@@ -118,6 +118,28 @@
       return cloud;
     }
 
+    async importGuestData(){
+      if(!this.user||!this.client)throw new Error('Sign in before importing guest study data.');
+      const guest={
+        notes:safeParse(localStorage.getItem(KEYS.notes),{}),
+        bookmarks:safeParse(localStorage.getItem(KEYS.bookmarks),{}),
+        highlights:safeParse(localStorage.getItem(KEYS.highlights),{})
+      };
+      const cloud=await this.loadStudyData();
+      const merged={};
+      const counts={added:0,conflicts:0};
+      for(const category of ['notes','bookmarks','highlights']){
+        merged[category]={...(cloud[category]||{})};
+        for(const [ref,value] of Object.entries(guest[category]||{})){
+          if(Object.hasOwn(merged[category],ref)){counts.conflicts++;continue;}
+          merged[category][ref]=value;counts.added++;
+        }
+      }
+      if(counts.added)await this.saveStudyData(merged);
+      // Guest data remains untouched for rollback; cloud records always win conflicts.
+      return {data:merged,...counts};
+    }
+
     async saveStudyData(data) {
       // Serialize rapid taps so older saves cannot overwrite newer selections.
       const captured=JSON.parse(JSON.stringify(data));
