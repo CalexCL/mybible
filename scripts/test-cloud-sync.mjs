@@ -61,4 +61,14 @@ const reconciled=await restoredSession.loadStudyData();
 assert.equal(reconciled.notes['Genesis 1:1'].text,'Offline note','Reconnect sends pending changes to cloud');
 assert.equal(tables.bible_notes[0].note_text,'Offline note','Cloud receives preserved offline note');
 assert.equal(JSON.parse(storage.get('mybible.cloudBackup.u1')).pending,false,'Successful reconnect clears pending flag');
+// Explicit import must never overwrite existing cloud notes.
+storage.set('csb.notes',JSON.stringify({'Genesis 1:1':{text:'Guest conflict'},'Genesis 1:3':{text:'Guest new'}}));
+const importer=new window.MyBibleBackend.SupabaseStudyBackend({});
+await importer.init();
+const outcome=await importer.importGuestData();
+assert.equal(outcome.added,1);
+assert.equal(outcome.conflicts,1);
+assert.equal(tables.bible_notes.find(r=>r.verse_ref==='Genesis 1:1').note_text,'Offline note');
+assert.equal(tables.bible_notes.find(r=>r.verse_ref==='Genesis 1:3').note_text,'Guest new');
+assert.ok(storage.get('csb.notes').includes('Guest new'),'Guest backup is retained');
 console.log('PASS cloud sync: non-destructive per-verse saves, targeted delete and queued updates');
