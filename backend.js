@@ -87,6 +87,14 @@
     }
 
     async saveStudyData(data) {
+      // Serialize rapid taps so older saves cannot overwrite newer selections.
+      const captured=JSON.parse(JSON.stringify(data));
+      const pending=(this.saveQueue||Promise.resolve()).catch(()=>{}).then(()=>this.persistStudyData(captured));
+      this.saveQueue=pending;
+      return pending;
+    }
+
+    async persistStudyData(data) {
       if (!this.client || !this.user) throw new Error('Supabase backend is not initialized.');
       const uid = this.user.id;
       const noteRows = Object.entries(data.notes || {}).map(([verse_ref, v]) => ({ user_id: uid, verse_ref, note_text: v.text || '' }));
