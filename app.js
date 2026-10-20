@@ -317,9 +317,13 @@
     state.bookIndex=bi;state.chapter=ch;populateSelectors();renderBookNavigation();await renderReader(); $('#mainContent').scrollTop=0; window.scrollTo({top:0,behavior:'instant'});
   }
 
+  function validScriptureVerses(verses){
+    return Array.isArray(verses)&&verses.length>0&&verses.every((v,i)=>Number(v?.verse)===i+1&&typeof v.text==='string'&&v.text.trim().length>0);
+  }
+
   async function getChineseChapter(){
     const b=currentBook(), cacheKey=`${b.osis}:${state.chapter}`;
-    const saved=loadJSON(`csb.cuvs.${cacheKey}`,null); if(saved?.verses?.length)return {verses:saved.verses,source:'structured-cache'};
+    const saved=loadJSON(`csb.cuvs.${cacheKey}`,null); if(validScriptureVerses(saved?.verses))return {verses:saved.verses,source:'structured-cache'};
     try{
       let bookData=state.chineseBookCache.get(b.osis);
       if(!bookData){
@@ -328,8 +332,9 @@
         const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),3500);
         const r=await fetch(url,{signal:controller.signal,cache:'force-cache'}); clearTimeout(timer); if(!r.ok)throw new Error('network'); bookData=await r.json(); state.chineseBookCache.set(b.osis,bookData);
       }
-      const ch=bookData.chapters.find(x=>+x.chapter===state.chapter); if(!ch)throw new Error('missing chapter');
-      const verses=ch.verses.map(v=>({verse:+(v.number??v.verse),text:v.text}));
+      const ch=bookData.chapters.find(x=>+x.chapter===state.chapter); if(!ch||!Array.isArray(ch.verses))throw new Error('missing chapter');
+      const verses=ch.verses.map(v=>({verse:+(v.number??v.verse),text:String(v.text||'')}));
+      if(!validScriptureVerses(verses))throw new Error('Invalid CUVS verse ordering');
       try{localStorage.setItem(`csb.cuvs.${cacheKey}`,JSON.stringify({verses}));}catch{}
       return {verses,source:'structured-online'};
     }catch(err){
@@ -342,7 +347,7 @@
   async function getEnglishChapter(){
     const b=currentBook(), key=b.osis+':'+state.chapter;
     const cached=loadJSON('mybible.kjv.'+key,null);
-    if(cached?.verses?.length)return {verses:cached.verses,source:'structured-cache'};
+    if(validScriptureVerses(cached?.verses))return {verses:cached.verses,source:'structured-cache'};
     try{
       let bookData=state.englishBookCache.get(b.osis);
       if(!bookData){
@@ -362,11 +367,13 @@
     }catch(err){console.warn('[MyBible] KJV temporarily unavailable',err);return {verses:[],source:'unavailable'};}
   }
 
+  let readerRenderSequence=0;
   async function renderReader(){
+    const renderSequence=++readerRenderSequence;
     savePosition(); renderBookNavigation(); syncChapterSelect();
     const b=currentBook(); const pos=$('#readerChapterPosition');if(pos)pos.textContent='第 '+state.chapter+' / '+b.chapters+' 章 · Chapter '+state.chapter+' of '+b.chapters; $('#prevChapter').disabled=state.bookIndex===0&&state.chapter===1;$('#nextChapter').disabled=state.bookIndex===state.books.length-1&&state.chapter===b.chapters;if($('#mobilePrevChapter'))$('#mobilePrevChapter').disabled=$('#prevChapter').disabled;if($('#mobileNextChapter'))$('#mobileNextChapter').disabled=$('#nextChapter').disabled; $('#testamentKicker').textContent=b.testament==='OT'?'旧约 · OLD TESTAMENT':'新约 · NEW TESTAMENT'; $('#passageTitle').textContent=`${b.chinese} · ${b.english} ${state.chapter}`; $('#chapterStatus').textContent='正在载入经文与研读层…';
     const list=$('#verseList'); list.className=`verse-list ${state.mode==='zh'?'zh-only':state.mode==='en'?'en-only':''}`; list.innerHTML='<div class="loading"><div class="spinner"></div>正在载入经文…</div>';
-    const currentBookIndex=state.bookIndex,currentChapter=state.chapter; const [enResult,zhResult]=await Promise.all([state.mode==='zh'?Promise.resolve({verses:[],source:'not-needed'}):getEnglishChapter(),state.mode==='en'?Promise.resolve({verses:[],source:'not-needed'}):getChineseChapter()]); if(currentBookIndex!==state.bookIndex||currentChapter!==state.chapter)return; state.englishChapter=enResult.verses; const en=enResult.verses,zh=zhResult.verses;
+    const currentBookIndex=state.bookIndex,currentChapter=state.chapter,currentMode=state.mode; const [enResult,zhResult]=await Promise.all([state.mode==='zh'?Promise.resolve({verses:[],source:'not-needed'}):getEnglishChapter(),state.mode==='en'?Promise.resolve({verses:[],source:'not-needed'}):getChineseChapter()]); if(renderSequence!==readerRenderSequence||currentBookIndex!==state.bookIndex||currentChapter!==state.chapter||currentMode!==state.mode)return; state.englishChapter=enResult.verses; const en=enResult.verses,zh=zhResult.verses;
     const notice=$('#scriptureNotice'); notice.classList.add('hidden');
     if(state.mode!=='en'){
       if(zhResult.source==='uploaded-pdf-fallback') {notice.innerHTML='<strong>离线回退：</strong> 当前中文章来自所附 CUVS PDF 的结构化抽取，并通过本章节数检查；联网时会优先使用结构化 CUVS 镜像。';notice.classList.remove('hidden');}
