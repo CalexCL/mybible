@@ -200,6 +200,8 @@ try {
   await page.locator('#mobileReaderToggle').click();
   await page.locator('#bookSelect').selectOption('0');
   await page.locator('#chapterSelect').selectOption('1');
+  assert.match(await page.locator('#readerChapterPosition').innerText(),/Chapter 1 of/,'Reader shows chapter progress');
+  assert.equal(await page.locator('#prevChapter').isDisabled(),true,'Previous chapter disabled at Bible opening');
   await page.locator('#verseList .verse-row').first().waitFor();
   const swipeTarget=page.locator('#verseList');
   const dispatchSwipe=async(fromX,toX)=>{
