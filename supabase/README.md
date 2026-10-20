@@ -1,29 +1,32 @@
-# Supabase readiness
+# MyBible Supabase — Batch 2 status (2026-10-20)
 
-The public GitHub Pages build uses browser `localStorage` by default. The app already talks to a small storage-adapter interface so the personal layer can later move to Supabase without rewriting the Bible reader.
+MyBible connects to the existing **mybible** Supabase project. The public browser configuration uses a publishable/legacy anon key, never a service-role key.
 
-## Planned cloud data
+## Current behavior
 
-- Notes
-- Bookmarks
-- Highlights
-- Later: prayer journal, reading progress, study collections, settings and signed-in profiles
+- Guests: device-only notes, bookmarks, and highlights in localStorage.
+- Signed-in readers: user-scoped cloud study data, reading position and supported preferences.
+- Personal note, bookmark and highlight writes are serialized and performed per verse. No full-table deletion is used.
+- Signed-in reader data is backed up locally under a per-user key. Pending offline edits are reconciled on reconnection; unrelated remote verses are preserved.
+- A signed-in reader can continue using a locally cached data copy when cloud reads are temporarily unavailable.
+- Source columns are guarded by Row Level Security, verified against the live database on 2026-10-20.
 
-## To enable later
+## Important limitations
 
-1. Create a Supabase project.
-2. Run `supabase/schema.sql` in the SQL editor.
-3. Add the official Supabase browser client to `index.html`.
-4. Add your **project URL** and **anon/publishable key** in `config.js`.
-5. Set `backend.provider` to `supabase` and `backend.supabase.enabled` to `true`.
-6. Add authentication UI (email magic link, OAuth, etc.).
+- Do not claim that real two-device synchronization is accepted until login, updates, offline editing, account switching, and conflict handling are tested using real test accounts.
+- When an account already contains cloud study data and this browser has separate guest data, the adapter **does not silently merge or overwrite** those datasets. Guest/local data remains intact pending an explicit import workflow.
+- Last edit to the same verse on two devices is resolved by cloud update ordering; user-facing conflict resolution is not yet implemented.
+- The signed-in cloud backup is stored on the browser device, so users should protect their devices.
+- Never bulk-clear personal study tables or disable RLS to work around synchronization errors.
+- NKJV Scripture remains license-locked; this cloud integration does not change content licensing.
 
-Never publish a service-role key in GitHub Pages or any browser code. Row Level Security in `schema.sql` ensures signed-in users can only access their own personal study records.
+## Verification
 
-## Project configuration recorded (2026-09-07)
+GitHub Actions runs `scripts/test-cloud-sync.mjs` on backend/auth changes, covering per-verse writes, deletion, queued updates, offline persistence, and recovery. Browser smoke/regression tests cover Reader behavior. The live database table/RLS inspection is read-only, and no existing user records were modified during this rollout.
 
-The GitHub Pages client configuration now contains the supplied Supabase project URL and legacy `anon` key in `config.js`.
+## Remaining Batch 2 acceptance
 
-Cloud sync is intentionally **not enabled yet**. `backend.provider` remains `local` and `backend.supabase.enabled` remains `false` until the authentication UI is implemented and the SQL schema/RLS policies have been applied.
-
-The supplied key is a legacy browser `anon` key. Supabase is migrating browser apps toward the newer `sb_publishable_...` key format, so replace it with a publishable key when convenient. Never put a `service_role` or `sb_secret_...` key in this repository or any GitHub Pages JavaScript.
+1. Test registration/email verification/login/logout/password recovery.
+2. Test two-device updates and reconnection with dedicated dummy accounts.
+3. Implement an explicit, reviewable guest-to-account import for browsers already holding local study data alongside nonempty cloud accounts.
+4. Verify privacy and account-switch isolation, resolve remaining cloud preference integration gaps.
