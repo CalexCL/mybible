@@ -311,6 +311,7 @@
   }
   function setMode(mode,render=true){ if((mode==='en'||mode==='parallel')&&!CONFIG.scripture?.kjv?.enabled){toast('KJV 经文来源尚未启用');return;} state.mode=mode; $$('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode)); savePosition(); if(render)renderReader(); }
   async function moveChapter(dir){
+    if($('#studyDrawer')?.classList.contains('open'))closeVerseDrawer();
     let bi=state.bookIndex,ch=state.chapter+dir;
     if(ch<1){if(bi===0)return;bi--;ch=state.books[bi].chapters;}
     if(ch>state.books[bi].chapters){if(bi===65)return;bi++;ch=1;}
