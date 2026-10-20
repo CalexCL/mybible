@@ -71,6 +71,18 @@
         '<button class="auth-secondary" type="button" id="authLogout">退出登录 · Sign Out</button>';
       links.innerHTML='<div class="auth-sync-status">☁ Cloud sync active · 云端同步已启用</div>';
       links.innerHTML+='<button type="button" id="authGuestImport">Import guest study data · 导入本机资料</button>';
+      links.querySelector('#authGuestImport').onclick=async()=>{
+        const approved=window.confirm('Import local notes, bookmarks and highlights? Existing cloud entries will be preserved.');
+        if(!approved)return;
+        const button=links.querySelector('#authGuestImport');
+        button.disabled=true;
+        try{
+          const store=await window.MyBibleBackend.createBackend();
+          const outcome=await store.importGuestData();
+          message('Imported '+outcome.added+' new items; '+outcome.conflicts+' existing entries kept.','success');
+          setTimeout(()=>location.reload(),900);
+        }catch(error){message(error.message,'error');button.disabled=false;}
+      };
       form.onsubmit=saveProfile;
       form.querySelector('#authLogout').onclick=logout;
     } else {
