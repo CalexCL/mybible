@@ -83,8 +83,11 @@
     // Curated add-on data is kept separate from the baseline; never replace or mutate cloud records.
     try {
       const batch4=await fetchJSON('data/study_batch4.json');
-      for(const [ref,words] of Object.entries(batch4.originalWords||{})){
+      for(const [ref,sourceWords] of Object.entries(batch4.originalWords||{})){
+        let words=sourceWords;
         if(!Array.isArray(words))continue;
+        // Quarantine lexical candidates until their verse forms are source-reviewed.
+        words=words.filter(w=>w.verification!=='review-required');
         const existing=state.study.originalWords[ref]||[];
         const seen=new Set(existing.map(w=>String(w.strong||'')+'|'+String(w.original||'')));
         state.study.originalWords[ref]=existing.concat(words.filter(w=>{
@@ -726,7 +729,7 @@
       if(btn)markAudioButton(btn,true);
       utter.onend=()=>{if(btn)markAudioButton(btn,false);finish();};
       utter.onerror=()=>{if(btn)markAudioButton(btn,false);finish();};
-      try{window.speechSynthesis.speak(utter);}catch{if(btn)markAudioButton(btn,false);finish();}
+      try{window.speechSynthesis.cancel();window.speechSynthesis.resume();window.speechSynthesis.speak(utter);}catch{if(btn)markAudioButton(btn,false);finish();}
     });
   }
 
