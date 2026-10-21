@@ -93,5 +93,6 @@ assert.deepEqual(invalidReferences,[],'Curated cross-reference index must have n
 assert.ok(Object.keys(referenceIndex).length>=45,'Expanded cross-reference network has at least 45 source groups');
 for(const ref of ['Isaiah 40:3','Jeremiah 31:31-34','Zechariah 9:9','Psalm 118:22'])assert.ok(Array.isArray(referenceIndex[ref])&&referenceIndex[ref].length,'New OT/NT cross-reference '+ref+' is indexed');
 console.log('PASS cross-reference source integrity: '+Object.keys(referenceIndex).length+' source groups');
+assert.ok(read('app.js').includes("s[m[0].length]"),'Cross-reference range matching checks verse token boundaries');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
