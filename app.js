@@ -7,7 +7,7 @@
   const $ = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const STORAGE = {
-    theme: 'csb.theme', font: 'csb.fontScale', uiScale:'csb.uiScale', audioRate:'csb.originalAudioRate', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position',readerBackground:'csb.readerBackground'
+    theme: 'csb.theme', font: 'csb.fontScale', uiScale:'csb.uiScale', audioRate:'csb.originalAudioRate',audioVolume:'csb.originalAudioVolume', notes:'csb.notes', bookmarks:'csb.bookmarks', highlights:'csb.highlights', position:'csb.position',readerBackground:'csb.readerBackground'
   };
   const themes = ['light','dark','sepia','oled'];
   const themeLabels = {light:'☀️ Light',dark:'🌙 Dark',sepia:'📜 Sepia',oled:'⚫ OLED'};
@@ -562,6 +562,17 @@
     window.MyBibleAuth?.savePreferences?.({audio_rate:n});
     document.querySelectorAll('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
   }
+  function originalAudioVolume(){
+    const n=Number(localStorage.getItem(STORAGE.audioVolume)||1);
+    return [0.75,1,1.5,2].includes(n)?n:1;
+  }
+  function setOriginalAudioVolume(value){
+    const n=Number(value);
+    if(![0.75,1,1.5,2].includes(n))return;
+    localStorage.setItem(STORAGE.audioVolume,String(n));
+    document.querySelectorAll('.audio-volume-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.volume)===n));
+    if(window.__myBibleAudioGain)window.__myBibleAudioGain.gain.value=n;
+  }
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
     if(lang.includes('greek'))return 'el-GR';
@@ -624,11 +635,26 @@
       const finish=()=>{if(settled)return;settled=true;if(window.__myBibleAudioResolve===finish)window.__myBibleAudioResolve=null;resolve();};
       window.__myBibleAudioResolve=finish;
       const rate=originalAudioRate();
+      const volume=originalAudioVolume();
       if(word.audioUrl){
         try{
           const audio=new Audio(word.audioUrl);
           window.__myBibleWordAudio=audio;
           audio.playbackRate=rate;
+          audio.volume=Math.min(1,volume);
+          window.__myBibleAudioGain=null;
+          if(volume>1 && (window.AudioContext||window.webkitAudioContext)){
+            try{
+              const ctx=new (window.AudioContext||window.webkitAudioContext)();
+              const source=ctx.createMediaElementSource(audio);
+              const gain=ctx.createGain();
+              gain.gain.value=volume;
+              source.connect(gain).connect(ctx.destination);
+              window.__myBibleAudioGain=gain;
+              audio.addEventListener('ended',()=>ctx.close().catch(()=>{}),{once:true});
+              audio.addEventListener('error',()=>ctx.close().catch(()=>{}),{once:true});
+            }catch{audio.volume=1;}
+          }
           if(btn)markAudioButton(btn,true);
           audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
           audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
@@ -648,6 +674,7 @@
         if(lang)utter.lang=lang;
       }
       utter.rate=rate;
+      utter.volume=Math.min(1,volume); // Device speech output cannot exceed OS maximum.
       if(!voice)utter.lang='en-US'; // Latin transliteration only; not an original-language pronunciation.
       if(btn)markAudioButton(btn,true);
       utter.onend=()=>{if(btn)markAudioButton(btn,false);finish();};
@@ -690,13 +717,14 @@
       <div class="source-foot">SCRIPTURE 与 STUDY DATA 严格分层。研读资料不会修改经文。</div>`;
       $('#drawerBookmark')?.addEventListener('click',()=>{toggleBookmark(ref);renderDrawer();}); $('#drawerHighlight')?.addEventListener('click',()=>{if(personal.highlights[ref]){delete personal.highlights[ref];savePersonal();renderPersonal();const row=document.querySelector('.verse-row[data-verse="'+state.selectedVerse+'"]');row?.classList.remove('highlighted');row?.style.removeProperty('--verse-highlight');renderDrawer();}else{applyHighlight(ref,'gold');renderDrawer();}}); body.querySelectorAll('.highlight-swatch').forEach(btn=>btn.addEventListener('click',()=>{applyHighlight(ref,btn.dataset.highlightColor);renderDrawer();})); $('#drawerCross')?.addEventListener('click',()=>switchDrawerTab('crossrefs')); $('#drawerConnections')?.addEventListener('click',()=>switchDrawerTab('connections')); $('#drawerOriginal')?.addEventListener('click',()=>switchDrawerTab('original'));
     } else if(state.selectedTab==='original'){
-      const stepUrl=stepBibleUrl(), rate=originalAudioRate();
-      body.innerHTML=words.length?`<div class="original-audio-toolbar"><div><strong>🔊 原文字词发音 · Pronunciation</strong><div class="muted">优先使用策展录音；没有录音时检查装置语言语音。若装置没有对应 Greek/Hebrew voice，则只朗读现有 transliteration，并明确标示为 fallback。</div><div class="audio-voice-status">${voiceAvailabilitySummary(words).map(v=>`<span class="audio-status-chip ${v.status}">${escapeHTML(v.label)}</span>`).join('')}</div></div><div class="original-audio-actions"><div class="audio-rate-controls"><button class="audio-rate-btn ${rate===0.75?'active':''}" data-rate="0.75">0.75×</button><button class="audio-rate-btn ${rate===1?'active':''}" data-rate="1">1×</button><button class="audio-rate-btn ${rate===1.25?'active':''}" data-rate="1.25">1.25×</button></div><div class="audio-sequence-controls"><button id="playIndexedWords" class="quiet-btn" type="button">▶ 播放已收录字词</button><button id="stopOriginalAudio" class="quiet-btn" type="button">■ 停止</button></div></div></div>`+words.map((w,i)=>{
+      const stepUrl=stepBibleUrl(), rate=originalAudioRate(), volume=originalAudioVolume();
+      body.innerHTML=words.length?`<div class="original-audio-toolbar"><div><strong>🔊 原文字词发音 · Pronunciation</strong><div class="muted">优先使用策展录音；没有录音时检查装置语言语音。若装置没有对应 Greek/Hebrew voice，则只朗读现有 transliteration，并明确标示为 fallback。</div><div class="audio-voice-status">${voiceAvailabilitySummary(words).map(v=>`<span class="audio-status-chip ${v.status}">${escapeHTML(v.label)}</span>`).join('')}</div></div><div class="original-audio-actions"><div class="audio-rate-controls"><button class="audio-rate-btn ${rate===0.75?'active':''}" data-rate="0.75">0.75×</button><button class="audio-rate-btn ${rate===1?'active':''}" data-rate="1">1×</button><button class="audio-rate-btn ${rate===1.25?'active':''}" data-rate="1.25">1.25×</button></div><div class="audio-rate-controls" aria-label="Audio volume"><span>🔉 音量</span><button class="audio-volume-btn ${volume===0.75?'active':''}" data-volume="0.75">75%</button><button class="audio-volume-btn ${volume===1?'active':''}" data-volume="1">100%</button><button class="audio-volume-btn ${volume===1.5?'active':''}" data-volume="1.5">150%</button><button class="audio-volume-btn ${volume===2?'active':''}" data-volume="2">200%</button></div><div class="muted" style="font-size:12px">150–200% boost: compatible recordings only. Device voices are limited by phone media volume.</div><div class="audio-sequence-controls"><button id="playIndexedWords" class="quiet-btn" type="button">▶ 播放已收录字词</button><button id="stopOriginalAudio" class="quiet-btn" type="button">■ 停止</button></div></div></div>`+words.map((w,i)=>{
         const lex=w.strong?lookupGreekLexicon(w.strong):null;
         return `<div class="word-card"><div class="word-title-row"><div class="word-original">${escapeHTML(w.original)}</div><button class="word-audio-btn" type="button" data-audio-index="${i}" title="播放发音 · Play pronunciation">🔊</button></div><div class="word-meta"><span>${escapeHTML(w.language)}</span>${w.strong?`<span>${escapeHTML(w.strong)}</span>`:''}<span>${escapeHTML(w.transliteration)}</span></div><div class="word-gloss">${escapeHTML(w.glossZh)} · ${escapeHTML(w.glossEn)}</div><div class="audio-source-note">${escapeHTML(audioSystemLabel(w))}</div>${lex?`<div class="lexicon-brief"><div class="card-meta">STEPBible TBESG · ${escapeHTML(lex.pos||'')}</div><strong>${escapeHTML(lex.lemma)} · ${escapeHTML(lex.transliteration)}</strong><p>${escapeHTML(lex.briefZh)} · ${escapeHTML(lex.briefEn)}</p></div>`:''}<div class="source-foot">Source layer: ${escapeHTML(lex?'STEPBible TBESG · CC BY 4.0':w.source+' / Tyndale House reference framework')}</div></div>`;
       }).join('')+`<div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">打开当前经节的 Hebrew / Aramaic / Greek、词形与词汇研读。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div>`:`<div class="empty-state">本节的本机原文卡尚未导入。</div><div class="study-section external-study-card"><div><strong>STEP Bible · Full Original-Language Tools</strong><p class="muted">MyBible 会直接打开当前经节，作为完整原文资料导入前的安全研读入口。</p></div><a class="primary-btn external-study-link" target="_blank" rel="noopener" href="${escapeHTML(stepUrl)}">打开当前经节 ↗</a></div><div class="source-foot">外部原文研读：STEP Bible / Tyndale House。MyBible 不会把外部注释混入经文本身。</div>`;
       $$('.word-audio-btn',body).forEach(btn=>btn.addEventListener('click',()=>playOriginalWord(words[Number(btn.dataset.audioIndex)],btn)));
-      $$('.audio-rate-btn',body).forEach(btn=>btn.addEventListener('click',()=>setOriginalAudioRate(Number(btn.dataset.rate))));
+      $('.audio-rate-btn',body).forEach(btn=>btn.addEventListener('click',()=>setOriginalAudioRate(Number(btn.dataset.rate))));
+      $('.audio-volume-btn',body).forEach(btn=>btn.addEventListener('click',()=>setOriginalAudioVolume(Number(btn.dataset.volume))));
     } else if(state.selectedTab==='crossrefs'){
       const direct=crossRefs.filter(x=>x.direction==='direct');
       const reverse=crossRefs.filter(x=>x.direction==='reverse');

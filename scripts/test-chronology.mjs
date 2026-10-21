@@ -612,6 +612,10 @@ for(const [source,targets] of Object.entries(batch3CanonicalQuotationChecks)){
 }
 assert.ok(appSource.includes("typeof window.speechSynthesis?.getVoices!=='function'"),'Missing speech engine APIs must be handled');
 assert.ok(appSource.includes("words.some(w=>w.language===lang&&w.audioUrl)"),'Mixed curated audio groups must be detected');
+assert.ok(appSource.includes("audioVolume:'csb.originalAudioVolume'"),'Persist audio volume');
+assert.ok(appSource.includes("utter.volume=Math.min(1,volume)"),'TTS obeys system volume limit');
+assert.ok(appSource.includes("gain.gain.value=volume"),'Recorded audio gain available');
+assert.ok(appSource.includes('data-volume="2"'),'Recorded audio boost control exists');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
