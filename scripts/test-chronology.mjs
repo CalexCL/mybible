@@ -164,7 +164,7 @@ for(const words of originalWordGroups){
   for(const word of words){
     assert.ok(['Greek','Hebrew','Aramaic'].includes(word.language),'Unknown audio language: '+word.language);
     assert.ok(typeof word.original==='string'&&word.original.trim(),'Original-language audio item lacks original script');
-    assert.ok(!word.audioUrl||/^https:\\/\\//.test(word.audioUrl),'Curated audio URLs must use HTTPS');
+    assert.ok(!word.audioUrl||String(word.audioUrl).startsWith('https://'),'Curated audio URLs must use HTTPS');
   }
 }
 assert.ok(appSource.includes("document.querySelectorAll('.audio-rate-btn').forEach("),'Audio speed button update must use multi-element selector');
