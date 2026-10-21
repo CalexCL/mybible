@@ -596,7 +596,8 @@
       const word=words.find(w=>String(w.language||'')===lang);
       if(word?.audioUrl)return {lang,status:'curated',label:lang+' audio ready'};
       const voice=voiceForWord(word);
-      return voice?{lang,status:'device',label:lang+' device voice ready'}:{lang,status:'fallback',label:lang+' transliteration fallback'};
+      if(voice)return {lang,status:'device',label:lang+' device voice ready'};
+      return word?.transliteration?{lang,status:'fallback',label:lang+' transliteration approximation only'}:{lang,status:'unavailable',label:lang+' audio unavailable on this device'};
     });
   }
   function markAudioButton(btn,playing){
@@ -630,7 +631,7 @@
           if(btn)markAudioButton(btn,true);
           audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
           audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
-          audio.play().catch(()=>finish());
+          audio.play().catch(()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();});
           return;
         }catch{finish();return;}
       }

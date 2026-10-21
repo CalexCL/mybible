@@ -250,6 +250,94 @@ for(const [source,targets] of Object.entries(batch3NextQuotationLinks)){
 assert.ok(appSource.includes("if(lang.includes('aramaic'))return '';"),'Aramaic must not be relabelled as Hebrew TTS');
 assert.ok(appSource.includes("if(!prefix)return null;"),'Absent language must not match arbitrary device voices');
 assert.ok(appSource.includes("===lang.toLowerCase()"),'Preferred voice must match language locale');
+const batch3ScriptureLinks={
+  "Genesis 12:1-3": [
+    "Acts 7:2-3",
+    "Hebrews 11:8"
+  ],
+  "Genesis 21:12": [
+    "Romans 9:7",
+    "Hebrews 11:18"
+  ],
+  "Exodus 9:16": [
+    "Romans 9:17"
+  ],
+  "Exodus 19:6": [
+    "1 Peter 2:9",
+    "Revelation 1:6"
+  ],
+  "Deuteronomy 19:15": [
+    "Matthew 18:16",
+    "2 Corinthians 13:1"
+  ],
+  "Deuteronomy 21:23": [
+    "Galatians 3:13"
+  ],
+  "Deuteronomy 24:1": [
+    "Matthew 19:7",
+    "Mark 10:4"
+  ],
+  "Psalm 2:1-2": [
+    "Acts 4:25-26"
+  ],
+  "Psalm 8:2": [
+    "Matthew 21:16"
+  ],
+  "Psalm 16:8-11": [
+    "Acts 2:25-28"
+  ],
+  "Psalm 18:49": [
+    "Romans 15:9"
+  ],
+  "Psalm 19:4": [
+    "Romans 10:18"
+  ],
+  "Psalm 44:22": [
+    "Romans 8:36"
+  ],
+  "Psalm 51:4": [
+    "Romans 3:4"
+  ],
+  "Psalm 69:22-23": [
+    "Romans 11:9-10"
+  ],
+  "Psalm 117:1": [
+    "Romans 15:11"
+  ],
+  "Psalm 118:22-23": [
+    "Matthew 21:42",
+    "Mark 12:10-11",
+    "Luke 20:17",
+    "Acts 4:11",
+    "1 Peter 2:7"
+  ],
+  "Isaiah 10:22-23": [
+    "Romans 9:27-28"
+  ],
+  "Isaiah 11:10": [
+    "Romans 15:12"
+  ],
+  "Isaiah 52:7": [
+    "Romans 10:15"
+  ],
+  "Isaiah 53:1": [
+    "John 12:38",
+    "Romans 10:16"
+  ],
+  "Isaiah 65:1": [
+    "Romans 10:20"
+  ],
+  "Isaiah 65:2": [
+    "Romans 10:21"
+  ]
+};
+for(const [source,targets] of Object.entries(batch3ScriptureLinks)){
+  assert.ok(Array.isArray(referenceIndex[source]),'New Scripture source missing: '+source);
+  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'New Scripture target missing: '+source+' -> '+target);
+}
+assert.ok(appSource.includes("status:'unavailable'"),'Voice availability must distinguish no playable transliteration');
+assert.ok(appSource.includes("audio.play().catch(()=>{if(btn)markAudioButton(btn,false)"),'Audio play rejection must reset playing state');
+console.log('PASS added Scripture-reference source groups: '+Object.keys(batch3ScriptureLinks).length);
 console.log('PASS Batch 3 next Scripture links: '+Object.keys(batch3NextQuotationLinks).length+' groups');
 console.log('PASS Batch 3 direct Scripture quotation links: '+Object.keys(batch3QuotationLinks).length+' groups');
 console.log('PASS cross-reference source integrity: '+Object.keys(referenceIndex).length+' source groups');
