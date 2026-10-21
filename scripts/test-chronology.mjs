@@ -629,6 +629,9 @@ assert.ok(appSource.includes('window.__myBibleAudioContext.close().catch(()=>{})
 assert.ok(read('scripts/smoke-chronology.mjs').includes("locator('#mobileAudioVolume').selectOption('1.5')"),'Mobile volume browser interaction test required');
 assert.ok(read('scripts/smoke-chronology.mjs').includes("if(!(await page.locator('#bookSelect').isVisible()))"),'Smoke test must restore expanded reader menus before chapter selection');
 assert.ok(read('scripts/smoke-chronology.mjs').includes("Audio dock must not overlap Hide Menus"),'Responsive audio overlap regression test required');
+assert.ok(appSource.includes("addEventListener('voiceschanged',refreshOriginalAudioVoices)"),'Original language voice availability must refresh when device voices become ready');
+assert.ok(appSource.includes('id="originalAudioVoiceStatus"'),'Audio status region must be refreshable');
+assert.ok(appSource.includes("$('#refreshOriginalAudioVoices')?.addEventListener('click'"),'Manual refresh button must be connected');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
