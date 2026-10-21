@@ -559,7 +559,8 @@
     const n=Number(rate);
     if(![0.75,1,1.25].includes(n))return;
     localStorage.setItem(STORAGE.audioRate,String(n));
-    $$('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
+    window.MyBibleAuth?.savePreferences?.({audio_rate:n});
+    $('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
   }
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
@@ -635,12 +636,14 @@
       const lang=audioLanguage(word);
       const voice=voiceForWord(word);
       const spoken=voice?String(word.original||word.transliteration||''):String(word.transliteration||word.original||'');
+      if(!voice&&!word.transliteration){finish();return;}
       const utter=new SpeechSynthesisUtterance(spoken);
       if(voice){
         utter.voice=voice;
         if(lang)utter.lang=lang;
       }
       utter.rate=rate;
+      if(!voice)utter.lang='en-US'; // Latin transliteration only; not an original-language pronunciation.
       if(btn)markAudioButton(btn,true);
       utter.onend=()=>{if(btn)markAudioButton(btn,false);finish();};
       utter.onerror=()=>{if(btn)markAudioButton(btn,false);finish();};
