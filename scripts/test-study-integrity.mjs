@@ -4,7 +4,7 @@ const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const base=JSON.parse(read('data/study.json'));
 const extra=JSON.parse(read('data/study_batch4.json'));
 const books=JSON.parse(read('data/books.json'));
-const bookNames=new Set(books.map(b=>b.english));
+const bookNames=new Set([...books.map(b=>b.english),'Psalm']);
 const refPattern=/^(.+?) (\d+):(\d+)(?:-(\d+)(?::(\d+))?)?$/;
 function checkRef(ref){
   const m=String(ref).match(refPattern);
