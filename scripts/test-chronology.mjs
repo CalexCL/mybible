@@ -632,6 +632,7 @@ assert.ok(read('scripts/smoke-chronology.mjs').includes("Audio dock must not ove
 assert.ok(appSource.includes("addEventListener('voiceschanged',refreshOriginalAudioVoices)"),'Original language voice availability must refresh when device voices become ready');
 assert.ok(appSource.includes('id="originalAudioVoiceStatus"'),'Audio status region must be refreshable');
 assert.ok(appSource.includes("$('#refreshOriginalAudioVoices')?.addEventListener('click'"),'Manual refresh button must be connected');
+assert.ok(appSource.includes("body.querySelectorAll('.word-audio-btn').forEach"),'Audio controls need a multi-element selector');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
