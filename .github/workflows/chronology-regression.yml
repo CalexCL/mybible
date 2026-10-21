@@ -6,6 +6,8 @@ on:
       - 'chronology.html'
       - 'data/people_chronology.json'
       - 'data/study.json'
+      - 'data/study_batch4.json'
+      - 'scripts/test-study-integrity.mjs'
       - 'service-worker.js'
       - 'scripts/test-chronology.mjs'
       - 'scripts/smoke-chronology.mjs'
@@ -22,6 +24,8 @@ on:
       - 'chronology.html'
       - 'data/people_chronology.json'
       - 'data/study.json'
+      - 'data/study_batch4.json'
+      - 'scripts/test-study-integrity.mjs'
       - 'service-worker.js'
       - 'scripts/test-chronology.mjs'
       - 'scripts/test-cloud-sync.mjs'
@@ -43,6 +47,8 @@ jobs:
         run: node scripts/test-chronology.mjs
       - name: Verify non-destructive personal cloud sync
         run: node scripts/test-cloud-sync.mjs
+      - name: Validate original-language and cross-reference add-on
+        run: node scripts/test-study-integrity.mjs
       - name: Check main app syntax
         run: node --check app.js
       - name: Check PWA service worker syntax
