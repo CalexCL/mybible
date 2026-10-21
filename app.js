@@ -574,6 +574,7 @@
     const global=$('#globalAudioVolume');if(global)global.value=String(n);
     const mobile=$('#mobileAudioVolume');if(mobile)mobile.value=String(n);
     if(window.__myBibleAudioGain)window.__myBibleAudioGain.gain.value=n;
+    if(window.__myBibleWordAudio)window.__myBibleWordAudio.volume=Math.min(1,n);
   }
   const globalAudioVolume=$('#globalAudioVolume');
   if(globalAudioVolume){globalAudioVolume.value=String(originalAudioVolume());globalAudioVolume.addEventListener('change',()=>setOriginalAudioVolume(globalAudioVolume.value));}
@@ -628,6 +629,7 @@
       try{window.__myBibleWordAudio.pause();window.__myBibleWordAudio.currentTime=0;}catch{}
       window.__myBibleWordAudio=null;
     }
+    if(window.__myBibleAudioContext){try{window.__myBibleAudioContext.close().catch(()=>{});}catch{}window.__myBibleAudioContext=null;window.__myBibleAudioGain=null;}
     if('speechSynthesis' in window)window.speechSynthesis.cancel();
     if(window.__myBibleAudioResolve){const done=window.__myBibleAudioResolve;window.__myBibleAudioResolve=null;done();}
     markAudioButton(null,false);
@@ -657,14 +659,16 @@
               gain.gain.value=volume;
               source.connect(gain).connect(ctx.destination);
               window.__myBibleAudioGain=gain;
-              audio.addEventListener('ended',()=>ctx.close().catch(()=>{}),{once:true});
-              audio.addEventListener('error',()=>ctx.close().catch(()=>{}),{once:true});
+              window.__myBibleAudioContext=ctx;
+              const release=()=>{if(window.__myBibleAudioContext===ctx){window.__myBibleAudioContext=null;window.__myBibleAudioGain=null;}ctx.close().catch(()=>{});};
+              audio.addEventListener('ended',release,{once:true});
+              audio.addEventListener('error',release,{once:true});
             }catch{audio.volume=1;}
           }
           if(btn)markAudioButton(btn,true);
           audio.onended=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
           audio.onerror=()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();};
-          audio.play().catch(()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;finish();});
+          audio.play().catch(()=>{if(btn)markAudioButton(btn,false);window.__myBibleWordAudio=null;if(window.__myBibleAudioContext){try{window.__myBibleAudioContext.close().catch(()=>{});}catch{}window.__myBibleAudioContext=null;window.__myBibleAudioGain=null;}finish();});
           return;
         }catch{finish();return;}
       }
