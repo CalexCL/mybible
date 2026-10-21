@@ -169,6 +169,88 @@ for(const words of originalWordGroups){
 }
 assert.ok(appSource.includes("document.querySelectorAll('.audio-rate-btn').forEach("),'Audio speed button update must use multi-element selector');
 assert.ok(appSource.includes("if(!voice)utter.lang='en-US'"),'Romanized audio fallback must not masquerade as Greek/Hebrew audio');
+const batch3NextQuotationLinks={
+  "Genesis 2:7": [
+    "1 Corinthians 15:45"
+  ],
+  "Genesis 15:5": [
+    "Romans 4:18",
+    "Hebrews 11:12"
+  ],
+  "Exodus 16:4": [
+    "John 6:31-32"
+  ],
+  "Leviticus 19:2": [
+    "1 Peter 1:16"
+  ],
+  "Deuteronomy 32:35": [
+    "Romans 12:19",
+    "Hebrews 10:30"
+  ],
+  "Psalm 14:1-3": [
+    "Romans 3:10-12"
+  ],
+  "Psalm 24:1": [
+    "1 Corinthians 10:26"
+  ],
+  "Psalm 32:1-2": [
+    "Romans 4:7-8"
+  ],
+  "Psalm 40:6-8": [
+    "Hebrews 10:5-7"
+  ],
+  "Psalm 68:18": [
+    "Ephesians 4:8"
+  ],
+  "Psalm 91:11-12": [
+    "Matthew 4:6",
+    "Luke 4:10-11"
+  ],
+  "Psalm 104:4": [
+    "Hebrews 1:7"
+  ],
+  "Psalm 110:1": [
+    "Matthew 22:44",
+    "Mark 12:36",
+    "Luke 20:42-43",
+    "Acts 2:34-35",
+    "Hebrews 1:13"
+  ],
+  "Isaiah 8:14": [
+    "Romans 9:33",
+    "1 Peter 2:8"
+  ],
+  "Isaiah 25:8": [
+    "1 Corinthians 15:54",
+    "Revelation 21:4"
+  ],
+  "Isaiah 29:13": [
+    "Matthew 15:8-9",
+    "Mark 7:6-7"
+  ],
+  "Isaiah 45:23": [
+    "Romans 14:11",
+    "Philippians 2:10-11"
+  ],
+  "Isaiah 54:13": [
+    "John 6:45"
+  ],
+  "Isaiah 64:4": [
+    "1 Corinthians 2:9"
+  ],
+  "Jeremiah 9:24": [
+    "1 Corinthians 1:31",
+    "2 Corinthians 10:17"
+  ]
+};
+for(const [source,targets] of Object.entries(batch3NextQuotationLinks)){
+  assert.ok(Array.isArray(referenceIndex[source]),'Batch 3 next source missing: '+source);
+  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Batch 3 next link missing: '+source+' -> '+target);
+}
+assert.ok(appSource.includes("if(lang.includes('aramaic'))return '';"),'Aramaic must not be relabelled as Hebrew TTS');
+assert.ok(appSource.includes("if(!prefix)return null;"),'Absent language must not match arbitrary device voices');
+assert.ok(appSource.includes("===lang.toLowerCase()"),'Preferred voice must match language locale');
+console.log('PASS Batch 3 next Scripture links: '+Object.keys(batch3NextQuotationLinks).length+' groups');
 console.log('PASS Batch 3 direct Scripture quotation links: '+Object.keys(batch3QuotationLinks).length+' groups');
 console.log('PASS cross-reference source integrity: '+Object.keys(referenceIndex).length+' source groups');
 assert.ok(read('app.js').includes("s[m[0].length]"),'Cross-reference range matching checks verse token boundaries');

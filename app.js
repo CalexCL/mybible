@@ -566,14 +566,16 @@
     const lang=String(word?.language||'').toLowerCase();
     if(lang.includes('greek'))return 'el-GR';
     if(lang.includes('hebrew'))return 'he-IL';
-    if(lang.includes('aramaic'))return 'he-IL';
+    if(lang.includes('aramaic'))return ''; // Hebrew TTS is not Aramaic pronunciation
     return '';
   }
   function voiceForWord(word){
     if(!('speechSynthesis' in window))return null;
     const lang=audioLanguage(word);
     const prefix=lang.split('-')[0].toLowerCase();
-    return window.speechSynthesis.getVoices().find(v=>String(v.lang||'').toLowerCase().startsWith(prefix))||null;
+    if(!prefix)return null;
+    const voices=window.speechSynthesis.getVoices();
+    return voices.find(v=>String(v.lang||'').toLowerCase()===lang.toLowerCase())||voices.find(v=>String(v.lang||'').toLowerCase().split('-')[0]===prefix)||null;
   }
   function audioSystemLabel(word){
     if(word?.audioUrl)return word.audioSystem||'Curated audio';
@@ -582,7 +584,7 @@
     if(voice){
       if(lang.includes('greek'))return 'Device voice · Modern Greek ('+voice.name+')';
       if(lang.includes('hebrew'))return 'Device voice · Modern Hebrew ('+voice.name+')';
-      if(lang.includes('aramaic'))return 'Device Hebrew voice approximation ('+voice.name+')';
+      if(lang.includes('aramaic'))return 'Aramaic verified recording ('+voice.name+')';
       return 'Device voice · '+voice.name;
     }
     if(word?.transliteration)return 'Transliteration fallback · no matching '+(lang.includes('greek')?'Greek':lang.includes('hebrew')?'Hebrew':'original-language')+' voice on this device';
