@@ -192,6 +192,22 @@ try {
   await page.locator('#detail').getByText('Moses',{exact:false}).waitFor();
   assert.match(page.url(),/chronology.html\?person=Moses/);
 
+  // Batch 3: mobile and desktop volume selectors must remain operable in real browsers.
+  await page.goto('http://127.0.0.1:8765/', {waitUntil:'networkidle'});
+  await page.locator('#mobileAudioVolume').waitFor();
+  assert.ok(await page.locator('#mobileAudioVolume').isVisible(),'Mobile audio control should be visible');
+  await page.locator('#mobileAudioVolume').selectOption('1.5');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('csb.originalAudioVolume')),'1.5','Mobile volume persists');
+  await page.locator('#mobileReaderToggle').click();
+  assert.ok(await page.locator('#mobileAudioVolume').isVisible(),'Mobile volume visible after Hide Menus');
+  await page.locator('#mobileAudioVolume').selectOption('2');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('csb.originalAudioVolume')),'2','Collapsed menu volume works');
+  await page.setViewportSize({width:1280,height:900});
+  assert.ok(await page.locator('#globalAudioVolume').isVisible(),'Desktop audio control should be visible');
+  assert.equal(await page.locator('#globalAudioVolume').inputValue(),'2','Desktop and smartphone selectors stay synchronized');
+  await page.locator('#globalAudioVolume').selectOption('1');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('csb.originalAudioVolume')),'1','Desktop volume persists');
+  await page.setViewportSize({width:390,height:844});
   await page.goto('http://127.0.0.1:8765/chronology.html?person=David', { waitUntil: 'networkidle' });
   assert.match(await page.locator('#detail').innerText(), /David|大卫/);
   await page.goto('http://127.0.0.1:8765/', { waitUntil: 'networkidle' });

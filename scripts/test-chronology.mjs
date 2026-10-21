@@ -626,6 +626,7 @@ assert.ok(read('styles.css').includes('.mobile-audio-dock{display:flex;position:
 assert.ok(appSource.includes("mobileAudioVolume.addEventListener('change'"),'Mobile volume control must have a change handler');
 assert.ok(appSource.includes('window.__myBibleWordAudio.volume=Math.min(1,n)'),'Volume selector should update currently playing recordings');
 assert.ok(appSource.includes('window.__myBibleAudioContext.close().catch(()=>{})'),'Stopping recordings must release audio graph resources');
+assert.ok(read('scripts/smoke-chronology.mjs').includes("locator('#mobileAudioVolume').selectOption('1.5')"),'Mobile volume browser interaction test required');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
