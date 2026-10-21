@@ -400,3 +400,8 @@ a{color:var(--blue)}
 
 /* Always-visible slim chapter controls in smartphone reading mode. */
 .mobile-reader-quickbar{display:none}@media(max-width:850px){.mobile-reader-quickbar{display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:stretch;position:sticky;top:64px;z-index:24;background:var(--surface)}.mobile-reader-quickbar .mobile-reader-toggle{position:static;width:100%;border-radius:0}.mobile-chapter-arrow{min-height:38px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:25px;font-weight:700;cursor:pointer}.mobile-chapter-arrow:disabled{opacity:.35;cursor:not-allowed}}
+
+/* Persistently visible audio volume control on computer and smartphone */
+.top-actions .global-audio-volume{display:inline-flex!important;align-items:center;gap:5px;padding:4px 7px;border:1px solid var(--border);border-radius:9px;white-space:nowrap;font-size:12px;color:var(--text);background:var(--surface)}
+.global-audio-volume select{max-width:78px;border:1px solid var(--border);border-radius:6px;padding:5px 2px;color:var(--text);background:var(--surface)}
+@media(max-width:700px){.top-actions .global-audio-volume{padding:3px 4px;gap:3px}.global-audio-volume span{display:none}.global-audio-volume select{max-width:65px;font-size:12px}.top-actions{gap:3px}}

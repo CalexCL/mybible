@@ -571,8 +571,11 @@
     if(![0.75,1,1.5,2].includes(n))return;
     localStorage.setItem(STORAGE.audioVolume,String(n));
     document.querySelectorAll('.audio-volume-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.volume)===n));
+    const global=$('#globalAudioVolume');if(global)global.value=String(n);
     if(window.__myBibleAudioGain)window.__myBibleAudioGain.gain.value=n;
   }
+  const globalAudioVolume=$('#globalAudioVolume');
+  if(globalAudioVolume){globalAudioVolume.value=String(originalAudioVolume());globalAudioVolume.addEventListener('change',()=>setOriginalAudioVolume(globalAudioVolume.value));}
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
     if(lang.includes('greek'))return 'el-GR';
