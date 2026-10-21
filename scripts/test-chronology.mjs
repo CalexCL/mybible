@@ -490,7 +490,7 @@ for(const [source,targets] of Object.entries(batch3HebrewsActsLinks)){
  assert.ok(Array.isArray(referenceIndex[source]),'Scripture source not indexed: '+source);
  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Scripture target not indexed: '+source+' -> '+target);
 }
-assert.ok(appSource.includes('try{window.speechSynthesis.speak(utter);}catch'),'Speech engine errors must settle audio state');
+assert.ok(appSource.includes('window.speechSynthesis.speak(utter);}catch'),'Speech engine errors must settle audio state');
 const batch3MoreLinks={
   "Genesis 28:12": [
     "John 1:51"
