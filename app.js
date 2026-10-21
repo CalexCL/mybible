@@ -497,7 +497,7 @@
     const escaped=target.book.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     const re=new RegExp('^'+escaped+'\\s+(\\d+)(?::(\\d+))?(?:-(?:(\\d+):)?(\\d+))?','i');
     const m=s.match(re);
-    if(!m)return false;
+    if(!m || (s[m[0].length] && /[0-9A-Za-z:]/.test(s[m[0].length])))return false;
     const startCh=Number(m[1]), startV=m[2]?Number(m[2]):1;
     const endCh=m[3]?Number(m[3]):startCh;
     const endV=m[4]?Number(m[4]):(m[2]?startV:999);
