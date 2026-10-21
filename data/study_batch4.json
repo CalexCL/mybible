@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "batch": "2026-10-21-batch4",
+    "source": "STEPBible / Tyndale House verse lexical review (CC BY 4.0 source reference); explicit NT quotations checked against OT book/chapter/verse",
+    "licence": "https://creativecommons.org/licenses/by/4.0/",
+    "sourceUrl": "https://github.com/STEPBible/STEPBible-Data",
+    "pronunciationCaution": "Text-to-speech voices are modern-language approximations; no claim of ancient reconstructed pronunciation or curated recording."
+  },
+  "originalWords": {
+    "Genesis 12:2": [
+      {
+        "original": "בְּרָכָה",
+        "transliteration": "berakhah",
+        "strong": "H1293",
+        "glossZh": "祝福",
+        "glossEn": "blessing",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Deuteronomy 6:4": [
+      {
+        "original": "שְׁמַע",
+        "transliteration": "shema",
+        "strong": "H8085",
+        "glossZh": "听",
+        "glossEn": "hear / listen",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      },
+      {
+        "original": "אֶחָד",
+        "transliteration": "echad",
+        "strong": "H259",
+        "glossZh": "一、独一",
+        "glossEn": "one",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Psalm 119:105": [
+      {
+        "original": "נֵר",
+        "transliteration": "ner",
+        "strong": "H5216",
+        "glossZh": "灯",
+        "glossEn": "lamp",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      },
+      {
+        "original": "אוֹר",
+        "transliteration": "or",
+        "strong": "H216",
+        "glossZh": "光",
+        "glossEn": "light",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Proverbs 3:5": [
+      {
+        "original": "בָּטַח",
+        "transliteration": "batach",
+        "strong": "H982",
+        "glossZh": "信靠",
+        "glossEn": "trust",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Isaiah 40:31": [
+      {
+        "original": "קָוָה",
+        "transliteration": "qavah",
+        "strong": "H6960",
+        "glossZh": "等候、盼望",
+        "glossEn": "wait / hope",
+        "language": "Hebrew",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Matthew 5:3": [
+      {
+        "original": "μακάριοι",
+        "transliteration": "makarioi",
+        "strong": "G3107",
+        "glossZh": "有福的",
+        "glossEn": "blessed",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Luke 2:11": [
+      {
+        "original": "σωτήρ",
+        "transliteration": "sōtēr",
+        "strong": "G4990",
+        "glossZh": "救主",
+        "glossEn": "Savior",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "John 1:1": [
+      {
+        "original": "λόγος",
+        "transliteration": "logos",
+        "strong": "G3056",
+        "glossZh": "道、话语",
+        "glossEn": "word",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "John 1:14": [
+      {
+        "original": "σὰρξ",
+        "transliteration": "sarx",
+        "strong": "G4561",
+        "glossZh": "肉身",
+        "glossEn": "flesh",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "John 3:16": [
+      {
+        "original": "ἠγάπησεν",
+        "transliteration": "ēgapēsen",
+        "strong": "G25",
+        "glossZh": "爱（动词）",
+        "glossEn": "loved",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Romans 3:23": [
+      {
+        "original": "ἥμαρτον",
+        "transliteration": "hēmarton",
+        "strong": "G264",
+        "glossZh": "犯了罪",
+        "glossEn": "sinned",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Ephesians 2:8": [
+      {
+        "original": "χάριτί",
+        "transliteration": "chariti",
+        "strong": "G5485",
+        "glossZh": "恩典",
+        "glossEn": "grace",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      },
+      {
+        "original": "πίστεως",
+        "transliteration": "pisteōs",
+        "strong": "G4102",
+        "glossZh": "信心",
+        "glossEn": "faith",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Galatians 5:22": [
+      {
+        "original": "ἀγάπη",
+        "transliteration": "agapē",
+        "strong": "G26",
+        "glossZh": "爱",
+        "glossEn": "love",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      },
+      {
+        "original": "εἰρήνη",
+        "transliteration": "eirēnē",
+        "strong": "G1515",
+        "glossZh": "和平、平安",
+        "glossEn": "peace",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Philippians 4:7": [
+      {
+        "original": "εἰρήνη",
+        "transliteration": "eirēnē",
+        "strong": "G1515",
+        "glossZh": "平安",
+        "glossEn": "peace",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Revelation 22:13": [
+      {
+        "original": "Ἄλφα",
+        "transliteration": "alpha",
+        "strong": "G1",
+        "glossZh": "阿拉法",
+        "glossEn": "Alpha",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      },
+      {
+        "original": "Ὦ",
+        "transliteration": "ō",
+        "strong": "G5598",
+        "glossZh": "俄梅戛（希腊字母）",
+        "glossEn": "Omega",
+        "language": "Greek",
+        "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ]
+  },
+  "crossReferences": {
+    "Matthew 1:23": [
+      "Isaiah 7:14"
+    ],
+    "Matthew 2:6": [
+      "Micah 5:2"
+    ],
+    "Matthew 2:15": [
+      "Hosea 11:1"
+    ],
+    "Matthew 2:18": [
+      "Jeremiah 31:15"
+    ],
+    "Matthew 3:3": [
+      "Isaiah 40:3"
+    ],
+    "Matthew 4:4": [
+      "Deuteronomy 8:3"
+    ],
+    "Matthew 4:6": [
+      "Psalm 91:11-12"
+    ],
+    "Matthew 4:7": [
+      "Deuteronomy 6:16"
+    ],
+    "Matthew 4:10": [
+      "Deuteronomy 6:13"
+    ],
+    "Matthew 8:17": [
+      "Isaiah 53:4"
+    ],
+    "Matthew 12:17-21": [
+      "Isaiah 42:1-4"
+    ],
+    "Matthew 21:5": [
+      "Zechariah 9:9",
+      "Isaiah 62:11"
+    ],
+    "Luke 4:18-19": [
+      "Isaiah 61:1-2"
+    ],
+    "John 12:38": [
+      "Isaiah 53:1"
+    ],
+    "Acts 2:17-21": [
+      "Joel 2:28-32"
+    ],
+    "Acts 8:32-33": [
+      "Isaiah 53:7-8"
+    ],
+    "Romans 4:3": [
+      "Genesis 15:6"
+    ],
+    "Romans 10:13": [
+      "Joel 2:32"
+    ],
+    "1 Corinthians 15:54": [
+      "Isaiah 25:8"
+    ],
+    "Hebrews 8:8-12": [
+      "Jeremiah 31:31-34"
+    ],
+    "1 Peter 2:6": [
+      "Isaiah 28:16"
+    ]
+  }
+}
