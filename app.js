@@ -509,22 +509,19 @@
   }
   function collectCrossReferences(){
     const index=state.study?.crossReferences||{};
+    const target=normalizeRefText(state.selectedRef||'');
     const found=new Map();
     const add=(ref,direction)=>{
       const clean=normalizeRefText(ref);
-      if(!clean)return;
+      if(!clean||clean===target||refTouchesSelection(clean))return;
       const prev=found.get(clean);
-      if(!prev || (prev.direction==='reverse'&&direction==='direct')) found.set(clean,{ref:clean,direction});
+      if(!prev||(prev.direction==='reverse'&&direction==='direct'))found.set(clean,{ref:clean,direction});
     };
     Object.entries(index).forEach(([source,targets])=>{
-      if(refTouchesSelection(source)){
-        (targets||[]).forEach(t=>add(t,'direct'));
-      }
-      (targets||[]).forEach(t=>{
-        if(refTouchesSelection(t)) add(source,'reverse');
-      });
+      if(refTouchesSelection(source))(Array.isArray(targets)?targets:[]).forEach(t=>add(t,'direct'));
+      (Array.isArray(targets)?targets:[]).forEach(t=>{if(refTouchesSelection(t))add(source,'reverse');});
     });
-    return [...found.values()];
+    return [...found.values()].sort((a,b)=>(a.direction==='direct'?0:1)-(b.direction==='direct'?0:1));
   }
 
   function itemTouchesSelection(item){
