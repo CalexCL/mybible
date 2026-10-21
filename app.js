@@ -80,6 +80,25 @@
       fetchJSON('data/books.json'), nkjvPromise, fetchJSON(CONFIG.scripture?.cuvs?.localDataUrl || 'data/cuvs_local.json'), fetchJSON('data/study.json')
     ]);
     state.books=books; state.nkjv=nkjv; state.cuvsLocal=cuvsLocal; state.study=study;
+    // Curated add-on data is kept separate from the baseline; never replace or mutate cloud records.
+    try {
+      const batch4=await fetchJSON('data/study_batch4.json');
+      for(const [ref,words] of Object.entries(batch4.originalWords||{})){
+        if(!Array.isArray(words))continue;
+        const existing=state.study.originalWords[ref]||[];
+        const seen=new Set(existing.map(w=>String(w.strong||'')+'|'+String(w.original||'')));
+        state.study.originalWords[ref]=existing.concat(words.filter(w=>{
+          const key=String(w.strong||'')+'|'+String(w.original||'');
+          if(seen.has(key))return false;seen.add(key);return true;
+        }));
+      }
+      for(const [ref,refs] of Object.entries(batch4.crossReferences||{})){
+        const existing=state.study.crossReferences[ref]||[];
+        state.study.crossReferences[ref]=[...new Set([...existing,...(Array.isArray(refs)?refs:[])])];
+      }
+      state.study.meta.addon=batch4.meta;
+    }catch(error){console.warn('[MyBible] Supplementary study data unavailable; baseline remains active:',error);}
+
     try { state.chronology=await fetchJSON('data/people_chronology.json'); } catch(err) { console.warn('[MyBible] Chronology unavailable:',err); }
     let pos=loadJSON(STORAGE.position,{bookIndex:0,chapter:1,mode:'parallel'});
     const cloudPrefs=window.MyBibleAuth?.preferences||null;
