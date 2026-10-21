@@ -587,7 +587,7 @@
       if(lang.includes('aramaic'))return 'Aramaic verified recording ('+voice.name+')';
       return 'Device voice · '+voice.name;
     }
-    if(word?.transliteration)return 'Transliteration fallback · no matching '+(lang.includes('greek')?'Greek':lang.includes('hebrew')?'Hebrew':'original-language')+' voice on this device';
+    if(word?.transliteration)return 'Latin transliteration approximation · not a verified '+(lang.includes('greek')?'Greek':lang.includes('hebrew')?'Hebrew':'original-language')+' pronunciation';
     return 'Audio unavailable on this device';
   }
   function voiceAvailabilitySummary(words=[]){
@@ -640,6 +640,7 @@
       const voice=voiceForWord(word);
       const spoken=voice?String(word.original||word.transliteration||''):String(word.transliteration||word.original||'');
       if(!voice&&!word.transliteration){finish();return;}
+      if(!voice&&!/^[\x00-\x7F]*$/.test(String(word.transliteration||''))){finish();return;} // avoid mispronouncing non-Latin script with English TTS
       const utter=new SpeechSynthesisUtterance(spoken);
       if(voice){
         utter.voice=voice;

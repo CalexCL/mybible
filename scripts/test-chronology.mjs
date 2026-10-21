@@ -337,6 +337,78 @@ for(const [source,targets] of Object.entries(batch3ScriptureLinks)){
 }
 assert.ok(appSource.includes("status:'unavailable'"),'Voice availability must distinguish no playable transliteration');
 assert.ok(appSource.includes("audio.play().catch(()=>{if(btn)markAudioButton(btn,false)"),'Audio play rejection must reset playing state');
+const nextBatchLinks={
+  "Genesis 17:5": [
+    "Romans 4:17"
+  ],
+  "Genesis 18:10": [
+    "Romans 9:9"
+  ],
+  "Genesis 25:23": [
+    "Romans 9:12"
+  ],
+  "Exodus 33:19": [
+    "Romans 9:15"
+  ],
+  "Leviticus 18:5": [
+    "Romans 10:5",
+    "Galatians 3:12"
+  ],
+  "Deuteronomy 9:4": [
+    "Romans 10:6"
+  ],
+  "Deuteronomy 30:12-14": [
+    "Romans 10:6-8"
+  ],
+  "Deuteronomy 32:21": [
+    "Romans 10:19"
+  ],
+  "Psalm 5:9": [
+    "Romans 3:13"
+  ],
+  "Psalm 10:7": [
+    "Romans 3:14"
+  ],
+  "Psalm 36:1": [
+    "Romans 3:18"
+  ],
+  "Psalm 69:9": [
+    "John 2:17",
+    "Romans 15:3"
+  ],
+  "Psalm 143:2": [
+    "Romans 3:20",
+    "Galatians 2:16"
+  ],
+  "Isaiah 1:9": [
+    "Romans 9:29"
+  ],
+  "Isaiah 29:16": [
+    "Romans 9:20"
+  ],
+  "Isaiah 40:13": [
+    "Romans 11:34",
+    "1 Corinthians 2:16"
+  ],
+  "Isaiah 52:15": [
+    "Romans 15:21"
+  ],
+  "Isaiah 59:7-8": [
+    "Romans 3:15-17"
+  ],
+  "Isaiah 59:20-21": [
+    "Romans 11:26-27"
+  ],
+  "Jeremiah 18:6": [
+    "Romans 9:21"
+  ]
+};
+for(const [source,targets] of Object.entries(nextBatchLinks)){
+  assert.ok(Array.isArray(referenceIndex[source]),'Batch 3 reference source missing: '+source);
+  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Batch 3 target missing: '+source+' -> '+target);
+}
+assert.ok(appSource.includes('Latin transliteration approximation'),'Fallback audio must not imply original-language pronunciation');
+console.log('PASS Batch 3 additional reference links: '+Object.keys(nextBatchLinks).length);
 console.log('PASS added Scripture-reference source groups: '+Object.keys(batch3ScriptureLinks).length);
 console.log('PASS Batch 3 next Scripture links: '+Object.keys(batch3NextQuotationLinks).length+' groups');
 console.log('PASS Batch 3 direct Scripture quotation links: '+Object.keys(batch3QuotationLinks).length+' groups');
