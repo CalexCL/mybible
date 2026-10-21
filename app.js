@@ -630,10 +630,11 @@
       const matching=words.filter(w=>String(w.language||'')===lang);
       const recordings=matching.filter(w=>w.audioUrl).length;
       if(recordings===matching.length)return {lang,status:'curated',label:lang+' curated audio for all '+recordings+' indexed words'};
-      if(recordings>0){const remaining=matching.find(w=>!w.audioUrl);const fallback=voiceForWord(remaining)?'device voice':'transliteration fallback';return {lang,status:'curated',label:lang+' curated audio '+recordings+'/'+matching.length+'; remaining: '+fallback};}
+      if(recordings>0){const pending=matching.filter(w=>!w.audioUrl);const device=pending.filter(w=>voiceForWord(w)).length;const fallback=pending.filter(w=>!voiceForWord(w)&&w.transliteration).length;const unavailable=pending.length-device-fallback;return {lang,status:'curated',label:lang+' curated '+recordings+'/'+matching.length+' · device voices '+device+' · transliteration '+fallback+' · unavailable '+unavailable};}
       const voice=voiceForWord(word);
       if(voice)return {lang,status:'device',label:lang+' device voice ready'};
-      return word?.transliteration?{lang,status:'fallback',label:lang+' transliteration approximation only'}:{lang,status:'unavailable',label:lang+' audio unavailable on this device'};
+      const usable=matching.filter(w=>w.transliteration).length;
+      return usable?{lang,status:'fallback',label:lang+' transliteration fallback '+usable+'/'+matching.length+' words (not original pronunciation)'}:{lang,status:'unavailable',label:lang+' audio unavailable on this device'};
     });
   }
   function markAudioButton(btn,playing){

@@ -612,7 +612,8 @@ for(const [source,targets] of Object.entries(batch3CanonicalQuotationChecks)){
 }
 assert.ok(appSource.includes("typeof window.speechSynthesis?.getVoices!=='function'"),'Missing speech engine APIs must be handled');
 assert.ok(appSource.includes("const recordings=matching.filter(w=>w.audioUrl).length"),'Mixed curated audio groups must be counted accurately');
-assert.ok(appSource.includes("remaining: '+fallback"),'Partial recording coverage must disclose fallback type');
+assert.ok(appSource.includes("device voices '+device"),'Partial audio report must count actual device voices');
+assert.ok(appSource.includes("unavailable '+unavailable"),'Partial audio report must disclose unavailable words');
 assert.ok(appSource.includes("audioVolume:'csb.originalAudioVolume'"),'Persist audio volume');
 assert.ok(appSource.includes("utter.volume=Math.min(1,volume)"),'TTS obeys system volume limit');
 assert.ok(appSource.includes("gain.gain.value=volume"),'Recorded audio gain available');
