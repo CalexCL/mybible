@@ -491,6 +491,72 @@ for(const [source,targets] of Object.entries(batch3HebrewsActsLinks)){
  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Scripture target not indexed: '+source+' -> '+target);
 }
 assert.ok(appSource.includes('try{window.speechSynthesis.speak(utter);}catch'),'Speech engine errors must settle audio state');
+const batch3MoreLinks={
+  "Genesis 28:12": [
+    "John 1:51"
+  ],
+  "Exodus 12:46": [
+    "John 19:36"
+  ],
+  "Exodus 16:18": [
+    "2 Corinthians 8:15"
+  ],
+  "Deuteronomy 17:6": [
+    "Hebrews 10:28"
+  ],
+  "Deuteronomy 27:26": [
+    "Galatians 3:10"
+  ],
+  "Psalm 34:12-16": [
+    "1 Peter 3:10-12"
+  ],
+  "Psalm 116:10": [
+    "2 Corinthians 4:13"
+  ],
+  "Psalm 118:6": [
+    "Hebrews 13:6"
+  ],
+  "Psalm 132:11": [
+    "Acts 2:30"
+  ],
+  "Proverbs 25:21-22": [
+    "Romans 12:20"
+  ],
+  "Isaiah 6:1-10": [
+    "John 12:39-41"
+  ],
+  "Isaiah 8:12-13": [
+    "1 Peter 3:14-15"
+  ],
+  "Isaiah 22:22": [
+    "Revelation 3:7"
+  ],
+  "Isaiah 28:11-12": [
+    "1 Corinthians 14:21"
+  ],
+  "Isaiah 49:8": [
+    "2 Corinthians 6:2"
+  ],
+  "Isaiah 53:4": [
+    "Matthew 8:17"
+  ],
+  "Isaiah 66:1-2": [
+    "Acts 7:49-50"
+  ],
+  "Jeremiah 31:34": [
+    "Hebrews 8:12",
+    "Hebrews 10:17"
+  ],
+  "Habakkuk 1:5": [
+    "Acts 13:41"
+  ]
+};
+for(const [source,targets] of Object.entries(batch3MoreLinks)){
+ assert.ok(Array.isArray(referenceIndex[source]),'Missing source '+source);
+ for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Missing cross reference '+source+' -> '+target);
+}
+assert.ok(appSource.includes('try{voices=window.speechSynthesis.getVoices()||[];}catch{return null;}'),'Speech voice discovery must fail safely');
+console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
 console.log('PASS Batch 3 additional reference links: '+Object.keys(nextBatchLinks).length);
 console.log('PASS added Scripture-reference source groups: '+Object.keys(batch3ScriptureLinks).length);

@@ -574,7 +574,8 @@
     const lang=audioLanguage(word);
     const prefix=lang.split('-')[0].toLowerCase();
     if(!prefix)return null;
-    const voices=window.speechSynthesis.getVoices();
+    let voices=[];
+    try{voices=window.speechSynthesis.getVoices()||[];}catch{return null;}
     return voices.find(v=>String(v.lang||'').toLowerCase()===lang.toLowerCase())||voices.find(v=>String(v.lang||'').toLowerCase().split('-')[0]===prefix)||null;
   }
   function audioSystemLabel(word){
