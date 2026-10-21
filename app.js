@@ -570,7 +570,7 @@
     return '';
   }
   function voiceForWord(word){
-    if(!('speechSynthesis' in window))return null;
+    if(!('speechSynthesis' in window)||typeof window.speechSynthesis?.getVoices!=='function')return null;
     const lang=audioLanguage(word);
     const prefix=lang.split('-')[0].toLowerCase();
     if(!prefix)return null;
@@ -595,7 +595,7 @@
     const langs=[...new Set(words.map(w=>String(w.language||'')).filter(Boolean))];
     return langs.map(lang=>{
       const word=words.find(w=>String(w.language||'')===lang);
-      if(word?.audioUrl)return {lang,status:'curated',label:lang+' audio ready'};
+      if(words.some(w=>w.language===lang&&w.audioUrl))return {lang,status:'curated',label:lang+' curated audio available for some indexed words'};
       const voice=voiceForWord(word);
       if(voice)return {lang,status:'device',label:lang+' device voice ready'};
       return word?.transliteration?{lang,status:'fallback',label:lang+' transliteration approximation only'}:{lang,status:'unavailable',label:lang+' audio unavailable on this device'};

@@ -556,6 +556,63 @@ for(const [source,targets] of Object.entries(batch3MoreLinks)){
  for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Missing cross reference '+source+' -> '+target);
 }
 assert.ok(appSource.includes('try{voices=window.speechSynthesis.getVoices()||[];}catch{return null;}'),'Speech voice discovery must fail safely');
+const batch3CanonicalQuotationChecks={
+  "Genesis 5:2": [
+    "Matthew 19:4",
+    "Mark 10:6"
+  ],
+  "Exodus 3:6": [
+    "Matthew 22:32",
+    "Mark 12:26",
+    "Luke 20:37",
+    "Acts 7:32"
+  ],
+  "Exodus 20:12": [
+    "Matthew 15:4",
+    "Mark 7:10",
+    "Ephesians 6:2-3"
+  ],
+  "Deuteronomy 6:5": [
+    "Matthew 22:37",
+    "Mark 12:30",
+    "Luke 10:27"
+  ],
+  "Deuteronomy 18:15": [
+    "Acts 3:22",
+    "Acts 7:37"
+  ],
+  "Psalm 16:10": [
+    "Acts 2:27",
+    "Acts 13:35"
+  ],
+  "Psalm 22:1": [
+    "Matthew 27:46",
+    "Mark 15:34"
+  ],
+  "Psalm 110:1": [
+    "Matthew 22:44",
+    "Mark 12:36",
+    "Luke 20:42-43",
+    "Acts 2:34-35",
+    "Hebrews 1:13"
+  ],
+  "Isaiah 40:3": [
+    "Matthew 3:3",
+    "Mark 1:3",
+    "Luke 3:4",
+    "John 1:23"
+  ],
+  "Malachi 4:5-6": [
+    "Luke 1:17"
+  ]
+};
+for(const [source,targets] of Object.entries(batch3CanonicalQuotationChecks)){
+ assert.ok(Array.isArray(referenceIndex[source]),'Quotation source missing: '+source);
+ for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Quotation link missing: '+source+' -> '+target);
+}
+assert.ok(appSource.includes("typeof window.speechSynthesis?.getVoices!=='function'"),'Missing speech engine APIs must be handled');
+assert.ok(appSource.includes("words.some(w=>w.language===lang&&w.audioUrl)"),'Mixed curated audio groups must be detected');
+console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
 console.log('PASS Batch 3 additional reference links: '+Object.keys(nextBatchLinks).length);
