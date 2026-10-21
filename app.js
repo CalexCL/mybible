@@ -560,7 +560,7 @@
     if(![0.75,1,1.25].includes(n))return;
     localStorage.setItem(STORAGE.audioRate,String(n));
     window.MyBibleAuth?.savePreferences?.({audio_rate:n});
-    $('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
+    document.querySelectorAll('.audio-rate-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.rate)===n));
   }
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
