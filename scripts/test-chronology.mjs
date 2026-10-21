@@ -77,5 +77,7 @@ assert.ok(read('reset.html').includes('exchangeCodeForSession'),'Reset page must
 assert.ok(read('reset.html').includes("type:'recovery'"),'Reset page must support token-hash recovery');
 assert.ok(read('auth.js').includes("if(recoveryMode)"),'Recovery callback must preserve reset UI after session refresh');
 assert.ok(read('auth.js').includes("cleanRecoveryLink();"),'Successful reset must clear recovery URL');
+assert.ok(read('app.js').includes("clean===target||refTouchesSelection(clean)"),'Cross reference list excludes self links');
+assert.ok(read('app.js').includes("Array.isArray(targets)?targets:[]"),'Cross references tolerate malformed index entries');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
