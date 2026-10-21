@@ -408,6 +408,90 @@ for(const [source,targets] of Object.entries(nextBatchLinks)){
   for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Batch 3 target missing: '+source+' -> '+target);
 }
 assert.ok(appSource.includes('Latin transliteration approximation'),'Fallback audio must not imply original-language pronunciation');
+const batch3HebrewsActsLinks={
+  "Genesis 26:4": [
+    "Acts 3:25",
+    "Galatians 3:8"
+  ],
+  "Exodus 20:13-17": [
+    "Matthew 19:18-19",
+    "Romans 13:9"
+  ],
+  "Leviticus 19:18": [
+    "Matthew 22:39",
+    "Mark 12:31",
+    "Romans 13:9",
+    "Galatians 5:14",
+    "James 2:8"
+  ],
+  "Numbers 14:21": [
+    "Hebrews 3:17-19"
+  ],
+  "Deuteronomy 4:35": [
+    "Mark 12:32"
+  ],
+  "Deuteronomy 32:43": [
+    "Romans 15:10",
+    "Hebrews 1:6"
+  ],
+  "Psalm 2:9": [
+    "Revelation 2:27",
+    "Revelation 12:5",
+    "Revelation 19:15"
+  ],
+  "Psalm 22:22": [
+    "Hebrews 2:12"
+  ],
+  "Psalm 45:6-7": [
+    "Hebrews 1:8-9"
+  ],
+  "Psalm 95:7-8": [
+    "Hebrews 3:7-8",
+    "Hebrews 4:7"
+  ],
+  "Psalm 110:4": [
+    "Hebrews 5:6",
+    "Hebrews 7:17",
+    "Hebrews 7:21"
+  ],
+  "Proverbs 3:34": [
+    "James 4:6",
+    "1 Peter 5:5"
+  ],
+  "Isaiah 8:17-18": [
+    "Hebrews 2:13"
+  ],
+  "Isaiah 35:3": [
+    "Hebrews 12:12"
+  ],
+  "Isaiah 49:6": [
+    "Acts 13:47"
+  ],
+  "Isaiah 55:3": [
+    "Acts 13:34"
+  ],
+  "Jeremiah 31:33": [
+    "Hebrews 8:10",
+    "Hebrews 10:16"
+  ],
+  "Hosea 1:10": [
+    "Romans 9:26",
+    "1 Peter 2:10"
+  ],
+  "Hosea 2:23": [
+    "Romans 9:25",
+    "1 Peter 2:10"
+  ],
+  "Zechariah 11:12-13": [
+    "Matthew 27:9-10"
+  ]
+};
+for(const [source,targets] of Object.entries(batch3HebrewsActsLinks)){
+ assert.ok(Array.isArray(referenceIndex[source]),'Scripture source not indexed: '+source);
+ for(const target of targets)assert.ok(referenceIndex[source].includes(target),'Scripture target not indexed: '+source+' -> '+target);
+}
+assert.ok(appSource.includes('try{window.speechSynthesis.speak(utter);}catch'),'Speech engine errors must settle audio state');
+console.log('PASS expanded Hebrews and Acts cross-reference checks');
 console.log('PASS Batch 3 additional reference links: '+Object.keys(nextBatchLinks).length);
 console.log('PASS added Scripture-reference source groups: '+Object.keys(batch3ScriptureLinks).length);
 console.log('PASS Batch 3 next Scripture links: '+Object.keys(batch3NextQuotationLinks).length+' groups');

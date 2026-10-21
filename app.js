@@ -651,7 +651,7 @@
       if(btn)markAudioButton(btn,true);
       utter.onend=()=>{if(btn)markAudioButton(btn,false);finish();};
       utter.onerror=()=>{if(btn)markAudioButton(btn,false);finish();};
-      window.speechSynthesis.speak(utter);
+      try{window.speechSynthesis.speak(utter);}catch{if(btn)markAudioButton(btn,false);finish();}
     });
   }
 
