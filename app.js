@@ -572,10 +572,13 @@
     localStorage.setItem(STORAGE.audioVolume,String(n));
     document.querySelectorAll('.audio-volume-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.volume)===n));
     const global=$('#globalAudioVolume');if(global)global.value=String(n);
+    const mobile=$('#mobileAudioVolume');if(mobile)mobile.value=String(n);
     if(window.__myBibleAudioGain)window.__myBibleAudioGain.gain.value=n;
   }
   const globalAudioVolume=$('#globalAudioVolume');
   if(globalAudioVolume){globalAudioVolume.value=String(originalAudioVolume());globalAudioVolume.addEventListener('change',()=>setOriginalAudioVolume(globalAudioVolume.value));}
+  const mobileAudioVolume=$('#mobileAudioVolume');
+  if(mobileAudioVolume){mobileAudioVolume.value=String(originalAudioVolume());mobileAudioVolume.addEventListener('change',()=>setOriginalAudioVolume(mobileAudioVolume.value));}
   function audioLanguage(word){
     const lang=String(word?.language||'').toLowerCase();
     if(lang.includes('greek'))return 'el-GR';

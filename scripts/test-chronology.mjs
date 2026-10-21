@@ -617,9 +617,12 @@ assert.ok(appSource.includes("utter.volume=Math.min(1,volume)"),'TTS obeys syste
 assert.ok(appSource.includes("gain.gain.value=volume"),'Recorded audio gain available');
 assert.ok(appSource.includes('data-volume="2"'),'Recorded audio boost control exists');
 const indexSource=read('index.html');
-assert.ok(indexSource.includes('id="globalAudioVolume"'),'Audio volume control must be present in persistent main header');
+assert.ok(indexSource.includes('id="globalAudioVolume"'),'Desktop audio selector must be present');
+assert.ok(indexSource.includes('id="mobileAudioVolume"'),'Mobile audio selector must be present outside the header');
 assert.ok(appSource.includes("globalAudioVolume.addEventListener('change'"),'Global desktop/mobile volume selector must be interactive');
-assert.ok(read('styles.css').includes('.global-audio-volume'),'Volume control requires visible responsive styling');
+assert.ok(read('styles.css').includes('.global-audio-volume'),'Desktop volume requires styling');
+assert.ok(read('styles.css').includes('.mobile-audio-dock{display:flex;position:fixed'),'Mobile volume dock must be fixed and visible');
+assert.ok(appSource.includes("mobileAudioVolume.addEventListener('change'"),'Mobile volume control must have a change handler');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');
