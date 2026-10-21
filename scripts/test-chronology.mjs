@@ -633,6 +633,8 @@ assert.ok(appSource.includes("addEventListener('voiceschanged',refreshOriginalAu
 assert.ok(appSource.includes('id="originalAudioVoiceStatus"'),'Audio status region must be refreshable');
 assert.ok(appSource.includes("$('#refreshOriginalAudioVoices')?.addEventListener('click'"),'Manual refresh button must be connected');
 assert.ok(appSource.includes("body.querySelectorAll('.word-audio-btn').forEach"),'Audio controls need a multi-element selector');
+assert.ok(appSource.includes("document.querySelectorAll('#drawerBody .word-card')"),'Voice refresh must update only word cards inside the original-language drawer');
+assert.ok(appSource.includes("recordings+'/'+matching.length"),'Audio source coverage should disclose partial recordings');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');
 console.log('PASS expanded Hebrews and Acts cross-reference checks');

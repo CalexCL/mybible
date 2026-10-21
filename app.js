@@ -602,7 +602,7 @@
     const words=state.study?.originalWords?.[state.selectedRef]||[];
     if(!status||!words.length)return;
     status.innerHTML=voiceAvailabilitySummary(words).map(v=>'<span class="audio-status-chip '+escapeHTML(v.status)+'">'+escapeHTML(v.label)+'</span>').join('');
-    document.querySelectorAll('.word-card').forEach((card,i)=>{
+    document.querySelectorAll('#drawerBody .word-card').forEach((card,i)=>{
       const label=card.querySelector('.audio-source-note');
       if(label&&words[i])label.textContent=audioSystemLabel(words[i]);
     });
@@ -627,7 +627,10 @@
     const langs=[...new Set(words.map(w=>String(w.language||'')).filter(Boolean))];
     return langs.map(lang=>{
       const word=words.find(w=>String(w.language||'')===lang);
-      if(words.some(w=>w.language===lang&&w.audioUrl))return {lang,status:'curated',label:lang+' curated audio available for some indexed words'};
+      const matching=words.filter(w=>String(w.language||'')===lang);
+      const recordings=matching.filter(w=>w.audioUrl).length;
+      if(recordings===matching.length)return {lang,status:'curated',label:lang+' curated audio for all '+recordings+' indexed words'};
+      if(recordings>0)return {lang,status:'curated',label:lang+' curated audio for '+recordings+'/'+matching.length+' words; others use device voice or fallback'};
       const voice=voiceForWord(word);
       if(voice)return {lang,status:'device',label:lang+' device voice ready'};
       return word?.transliteration?{lang,status:'fallback',label:lang+' transliteration approximation only'}:{lang,status:'unavailable',label:lang+' audio unavailable on this device'};
