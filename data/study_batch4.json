@@ -1,10 +1,11 @@
 {
   "meta": {
     "batch": "2026-10-21-batch4",
-    "source": "STEPBible / Tyndale House verse lexical review (CC BY 4.0 source reference); explicit NT quotations checked against OT book/chapter/verse",
+    "source": "STEPBible Data CC BY 4.0 attribution; curated reference candidates with separate verification status",
     "licence": "https://creativecommons.org/licenses/by/4.0/",
     "sourceUrl": "https://github.com/STEPBible/STEPBible-Data",
-    "pronunciationCaution": "Text-to-speech voices are modern-language approximations; no claim of ancient reconstructed pronunciation or curated recording."
+    "pronunciationCaution": "Text-to-speech voices are modern-language approximations; no claim of ancient reconstructed pronunciation or curated recording.",
+    "qualityNote": "New Batch 5 entries require source-form and verse alignment review before being labelled verified; Strong identifiers are provisional candidates."
   },
   "originalWords": {
     "Genesis 12:2": [
@@ -215,6 +216,182 @@
         "glossEn": "Omega",
         "language": "Greek",
         "source": "STEP Bible / verse-level reviewed; modern device TTS is approximate"
+      }
+    ],
+    "Genesis 1:2": [
+      {
+        "original": "רוּחַ",
+        "transliteration": "ruach",
+        "strong": "H7307",
+        "glossZh": "灵、风、气息",
+        "glossEn": "spirit / wind / breath",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Genesis 2:7": [
+      {
+        "original": "נִשְׁמַת",
+        "transliteration": "nishmat",
+        "strong": "H5397",
+        "glossZh": "气息",
+        "glossEn": "breath",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      },
+      {
+        "original": "חַיִּים",
+        "transliteration": "chayyim",
+        "strong": "H2416",
+        "glossZh": "生命",
+        "glossEn": "life",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Exodus 20:2": [
+      {
+        "original": "אָנֹכִי",
+        "transliteration": "anokhi",
+        "strong": "H595",
+        "glossZh": "我",
+        "glossEn": "I",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Psalm 46:1": [
+      {
+        "original": "מַחֲסֶה",
+        "transliteration": "machaseh",
+        "strong": "H4268",
+        "glossZh": "避难所",
+        "glossEn": "refuge",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Psalm 51:10": [
+      {
+        "original": "לֵב",
+        "transliteration": "lev",
+        "strong": "H3820",
+        "glossZh": "心",
+        "glossEn": "heart",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Isaiah 9:6": [
+      {
+        "original": "שָׁלוֹם",
+        "transliteration": "shalom",
+        "strong": "H7965",
+        "glossZh": "平安",
+        "glossEn": "peace",
+        "language": "Hebrew",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Matthew 6:9": [
+      {
+        "original": "πατήρ",
+        "transliteration": "patēr",
+        "strong": "G3962",
+        "glossZh": "父",
+        "glossEn": "father",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Mark 1:15": [
+      {
+        "original": "μετανοεῖτε",
+        "transliteration": "metanoeite",
+        "strong": "G3340",
+        "glossZh": "悔改",
+        "glossEn": "repent",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "John 14:6": [
+      {
+        "original": "ἀλήθεια",
+        "transliteration": "alētheia",
+        "strong": "G225",
+        "glossZh": "真理",
+        "glossEn": "truth",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      },
+      {
+        "original": "ζωή",
+        "transliteration": "zōē",
+        "strong": "G2222",
+        "glossZh": "生命",
+        "glossEn": "life",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Acts 1:8": [
+      {
+        "original": "δύναμιν",
+        "transliteration": "dynamin",
+        "strong": "G1411",
+        "glossZh": "能力",
+        "glossEn": "power",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "Romans 5:1": [
+      {
+        "original": "εἰρήνην",
+        "transliteration": "eirēnēn",
+        "strong": "G1515",
+        "glossZh": "平安",
+        "glossEn": "peace",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "2 Timothy 3:16": [
+      {
+        "original": "θεόπνευστος",
+        "transliteration": "theopneustos",
+        "strong": "G2315",
+        "glossZh": "神所默示的",
+        "glossEn": "God-breathed",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
+      }
+    ],
+    "1 John 4:8": [
+      {
+        "original": "ἀγάπη",
+        "transliteration": "agapē",
+        "strong": "G26",
+        "glossZh": "爱",
+        "glossEn": "love",
+        "language": "Greek",
+        "source": "STEPBible lexical index · attribution required",
+        "verification": "review-required"
       }
     ]
   },
