@@ -79,5 +79,17 @@ assert.ok(read('auth.js').includes("if(recoveryMode)"),'Recovery callback must p
 assert.ok(read('auth.js').includes("cleanRecoveryLink();"),'Successful reset must clear recovery URL');
 assert.ok(read('app.js').includes("clean===target||refTouchesSelection(clean)"),'Cross reference list excludes self links');
 assert.ok(read('app.js').includes("Array.isArray(targets)?targets:[]"),'Cross references tolerate malformed index entries');
+const referenceIndex=study.crossReferences||{};
+const invalidReferences=[];
+for(const [source,targets] of Object.entries(referenceIndex)){
+  if(!Array.isArray(targets)){invalidReferences.push(source+': not an array');continue;}
+  if(new Set(targets).size!==targets.length)invalidReferences.push(source+': duplicates');
+  for(const target of targets){
+    if(typeof target!=='string'||!target.trim())invalidReferences.push(source+': blank target');
+    if(target===source)invalidReferences.push(source+': self reference');
+  }
+}
+assert.deepEqual(invalidReferences,[],'Curated cross-reference index must have no duplicates or self links');
+console.log('PASS cross-reference source integrity: '+Object.keys(referenceIndex).length+' source groups');
 console.log('PASS chronology syntax, source links, arithmetic, relationships, ages, provenance, People integration');
 console.log(JSON.stringify({plotted:people.size, other:other.size, explorer:study.people.length, family:data.family.length, direct:data.undatedPeople.reduce((n,p)=>n+(p.directEvents||[]).length,0)}));
