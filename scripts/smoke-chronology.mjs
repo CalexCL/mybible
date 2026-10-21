@@ -202,6 +202,17 @@ try {
   assert.ok(await page.locator('#mobileAudioVolume').isVisible(),'Mobile volume visible after Hide Menus');
   await page.locator('#mobileAudioVolume').selectOption('2');
   assert.equal(await page.evaluate(()=>localStorage.getItem('csb.originalAudioVolume')),'2','Collapsed menu volume works');
+  // Volume toolbar must never intercept mobile navigation or Hide Menus taps.
+  const navButton=page.locator('#backNavigationBtn');
+  const audioDock=page.locator('.mobile-audio-dock');
+  const navBox=await navButton.boundingBox();
+  const dockBox=await audioDock.boundingBox();
+  assert.ok(navBox&&dockBox,'Mobile navigation and volume toolbar must both have visible bounds');
+  const overlap=(a,b)=>a.x<b.x+b.width&&a.x+a.width>b.x&&a.y<b.y+b.height&&a.y+a.height>b.y;
+  assert.equal(overlap(navBox,dockBox),false,'Audio dock must not overlap Back button');
+  const menuBox=await page.locator('#mobileReaderToggle').boundingBox();
+  assert.ok(menuBox,'Hide Menus button must have a visible bounding box');
+  assert.equal(overlap(menuBox,dockBox),false,'Audio dock must not overlap Hide Menus');
   await page.setViewportSize({width:1280,height:900});
   assert.ok(await page.locator('#globalAudioVolume').isVisible(),'Desktop audio control should be visible');
   assert.equal(await page.locator('#globalAudioVolume').inputValue(),'2','Desktop and smartphone selectors stay synchronized');
