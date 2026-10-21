@@ -619,9 +619,10 @@ assert.ok(appSource.includes('data-volume="2"'),'Recorded audio boost control ex
 const indexSource=read('index.html');
 assert.ok(indexSource.includes('id="globalAudioVolume"'),'Desktop audio selector must be present');
 assert.ok(indexSource.includes('id="mobileAudioVolume"'),'Mobile audio selector must be present outside the header');
+assert.ok(indexSource.indexOf('class="mobile-audio-dock"')<indexSource.indexOf('<div class="layout">'),'Volume toolbar should precede main layout, not float over controls');
 assert.ok(appSource.includes("globalAudioVolume.addEventListener('change'"),'Global desktop/mobile volume selector must be interactive');
 assert.ok(read('styles.css').includes('.global-audio-volume'),'Desktop volume requires styling');
-assert.ok(read('styles.css').includes('.mobile-audio-dock{display:flex;position:fixed'),'Mobile volume dock must be fixed and visible');
+assert.ok(read('styles.css').includes('.mobile-audio-dock{display:flex;position:sticky'),'Mobile volume dock must be fixed and visible');
 assert.ok(appSource.includes("mobileAudioVolume.addEventListener('change'"),'Mobile volume control must have a change handler');
 console.log('PASS targeted OT to NT Scripture quotation checks');
 console.log('PASS Batch 3 more direct Scripture links');

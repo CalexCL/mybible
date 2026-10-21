@@ -406,10 +406,10 @@ a{color:var(--blue)}
 .global-audio-volume select{max-width:78px;border:1px solid var(--border);border-radius:6px;padding:5px 2px;color:var(--text);background:var(--surface)}
 @media(max-width:700px){.top-actions .global-audio-volume{padding:3px 4px;gap:3px}.global-audio-volume span{display:none}.global-audio-volume select{max-width:65px;font-size:12px}.top-actions{gap:3px}}
 
-/* Dedicated smartphone audio dock: outside the crowded header and always visible */
+/* Mobile audio toolbar occupies its own row below the header, never overlays navigation. */
 .mobile-audio-dock{display:none}
 @media(max-width:850px){
-  .top-actions .global-audio-volume{display:none!important}
-  .mobile-audio-dock{display:flex;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:180;align-items:center;gap:7px;padding:9px 11px;background:var(--surface);color:var(--text);border:2px solid var(--accent);border-radius:999px;box-shadow:0 5px 20px rgba(0,0,0,.24);font-size:13px;font-weight:700}
-  .mobile-audio-dock select{min-height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:14px;padding:3px 7px}
+ .top-actions .global-audio-volume{display:none!important}
+ .mobile-audio-dock{display:flex;position:sticky;top:64px;z-index:40;align-items:center;justify-content:flex-end;gap:8px;width:100%;box-sizing:border-box;padding:5px 14px;background:var(--surface);color:var(--text);border-bottom:1px solid var(--border);box-shadow:0 2px 7px rgba(0,0,0,.08);font-size:13px;font-weight:700}
+ .mobile-audio-dock select{min-height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:14px;padding:3px 8px}
 }
